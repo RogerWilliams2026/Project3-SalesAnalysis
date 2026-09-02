@@ -9,6 +9,9 @@ import plotly.express as px
 import nbformat as nbf
 import modGlobal
 
+#handles reading Windows formatted csv files
+from charset_normalizer import from_path
+
 # Modified 18/07/2026 By Roger Williams
 #
 # ETL library for extracting, transforming, and loading data from pandas supported file formats
@@ -206,6 +209,9 @@ def funcCreateDirectories():
     if not os.path.exists(os.getcwd() + modGlobal.CNST_STR_DATA_ROOTPATH):
         os.mkdir(os.getcwd() + modGlobal.CNST_STR_DATA_ROOTPATH)
     
+    if not os.path.exists(os.getcwd() + modGlobal.CNST_STR_DATA_DATAPATH):
+        os.mkdir(os.getcwd() + modGlobal.CNST_STR_DATA_DATAPATH)
+
     #create ExtractedFiles folder if it does not exist
     if not os.path.exists(os.getcwd() + modGlobal.CNST_STR_DATA_EXTRACTEDPATH):
         os.mkdir(os.getcwd() + modGlobal.CNST_STR_DATA_EXTRACTEDPATH)
@@ -467,6 +473,11 @@ def funcReadVisualisationFilesReturnDictionary():
     
 def funcReadFileReturnDataFrame(strFileName : str):
     """
+    Modified 02/09/2026 By Roger Williams
+    
+    Added code to auto detect the file encoding type as standard pandas won't read files
+    created in Windows!
+    
     Created 20/07/2026 By Roger Williams
     
     Reads csv file passed then returns a DataFrame of the data
@@ -485,10 +496,14 @@ def funcReadFileReturnDataFrame(strFileName : str):
     
     """
     dfTemp = None
-   
+    objEncoding = None
        
     #routine check see if necessary folders exist for data storage
     funcCreateDirectories()
+
+    #get file encoding type
+    objEncoding= from_path(strFileName).best()
+    
 
     #check if file exists
     if not os.path.exists(strFileName):
@@ -496,7 +511,13 @@ def funcReadFileReturnDataFrame(strFileName : str):
        raise FileNotFoundError(f"The CSV File {strFileName} Does Not Exist In csv Folder!")
     else:
        #read csv into dataframe
-       dfTemp = pd.read_csv(strFileName)
+       
+       try:
+           dfTemp = pd.read_csv(strFileName, encoding=objEncoding.encoding)
+       except Exception as e:
+           print(f"Error reading {strFileName}: {e}")
+           return None
+
        #name DataFrame
        dfTemp.attrs["name"] = strFileName[: strFileName.index(".")]
        
@@ -734,7 +755,7 @@ def funcGetCategoricalValueDistribution(dfWhat : pd.DataFrame):
     
     #print header
     print("DataFrame Categorical Value Distribution:")
-    print("=" * 40)
+    print("=" * len("DataFrame Categorical Value Distribution:"))
     
     for colColumn in dfWhat.select_dtypes(include=["str","category","object"]).columns:
         print( f"[{colColumn}] Value Distribution:")
@@ -767,19 +788,19 @@ def funcGetStatistics(dfWhat : pd.DataFrame):
     
     #print header
     print("DataFrame Statistics:")
-    print("=" * 22)
+    print("=" * len("DataFrame Statistics:"))
     #print describe
     print(dfWhat.describe())    
     print("\n")
     #print schema shape header
     print("DataFrame Shape:")
-    print("=" * 20)
+    print("=" * len("DataFrame Shape:"))
     #print schema shape    
     print( f"Rows: {dfWhat.shape[0]}, Columns: {dfWhat.shape[1]}\n" )     
     
     #print missing values header
     print("\nMissing Values Per Column:")
-    print("=" * 30)
+    print("=" * len("Missing Values Per Column:"))
     
     for colColumn in dfWhat.columns:
         #get total number of missing values per column
@@ -795,7 +816,7 @@ def funcGetStatistics(dfWhat : pd.DataFrame):
     print()       
     #print duplicate values header
     print("\nDuplicate Value Count Per Column:")
-    print("=" * 30)
+    print("=" * len("Duplicate Value Count Per Column:"))
     
     for colColumn in dfWhat.columns:
         #get total number of duplicate values per column
@@ -836,7 +857,7 @@ def funcGetUniqueValuesCount(dfWhat : pd.DataFrame):
     #print header
     print("DataFrame Unique Values Per Column:")
     #underline
-    print("=" * 35)
+    print("=" * len("DataFrame Unique Values Per Column:"))
 
     for colColumn in dfWhat.columns:
         #put number of spaces to make column name 20 characters long
@@ -920,7 +941,7 @@ def funcGetColumnSkew(dfWhat : pd.DataFrame):
     #print header
     print("DataFrame Skew Values Per Column:")
     #underline
-    print("=" * 33)
+    print("=" * len("DataFrame Skew Values Per Column:"))
     
     for colColumn, objValue in dfWhat.items():
         #ignore categorical values
@@ -978,7 +999,7 @@ def funcGetColumnSkew(dfWhat : pd.DataFrame):
               strTemp = funcGetSpaces(20, f"{colColumn}2")
               #print column data
               print(f"Q-Q Plot For Column: {colColumn}2")
-              print("=" * 30)
+              print("=" * len(f"Q-Q Plot For Column: {colColumn}2"))
               stats.probplot(dfTemp[f"{colColumn}2"], dist="norm", plot=plt)
               plt.title(f"Q-Q Plot For Column: {colColumn}2", fontweight="bold")
               axis.set_xlabel(f"Q-Q Plot For Column: {colColumn}2")
@@ -995,7 +1016,7 @@ def funcGetColumnSkew(dfWhat : pd.DataFrame):
               strTemp = funcGetSpaces(20, colColumn)
               #print column data
               print(f"Q-Q Plot For Column: {colColumn}")
-              print("=" * 30)
+              print("=" * len(f"Q-Q Plot For Column: {colColumn}"))
               stats.probplot(dfWhat[colColumn], dist="norm", plot=plt)
               plt.title(f"Q-Q Plot For Column: {colColumn}", fontweight="bold")
               axis.set_xlabel(f"Q-Q Plot For Column: {colColumn}")
