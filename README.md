@@ -2,6 +2,8 @@
 
 Project is a data analysis project that sales data to answer business questions and validate hypotheses. The project involves data cleaning, transformation, and visualisation using Python and various libraries.
 
+
+
 # ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
 
 ## Dataset Content
@@ -9,6 +11,10 @@ Project is a data analysis project that sales data to answer business questions 
 Dataset package given by customer contains 3 related raw CSV files:
 
 - Sales_InvoiceData.csv
+
+
+
+
 
 **Project Folder Structure:**
 
@@ -40,6 +46,7 @@ streamlit <- contains files needed for Heroku to show streamlit dashboard
 
 ETL/EDA etc are purposely put into separate Jupyter notebooks for ease of use and debugging!
 
+
 **Notebook Files:**
 
 - Notebook_EDA_Sales_DataSet.ipynb <- EDA for Sales_Combined_Dataset_Visualization.csv
@@ -66,17 +73,23 @@ Outlines the dashboard design ethos.
 
 **KANBAN**
 
-In GitHub there is a KANBAN project, that was used for project management.
+In GitHub there is a KANBAN project, that was used for project management, used the road map feature to show required completion dates
+for various aspects e.g. ETL.
 
 **Dashboard**
 
 The dashboard is available via Heroku at this URL:
+
+  
 
 **GitHub**
 
 Project GitHub URL is:
 
 https://github.com/RogerWilliams2026/Project3-SalesAnalysis.git
+
+
+
 
 ### Using The Notebooks
 
@@ -90,19 +103,63 @@ In order to create the combined csv file and see the plots these notebooks need 
 
 ## Business Requirements
 
-The customer requires insights into the performance of the business in key areas, i
+A requirement for a wider view of sales performance in the business in key areas, including sales by territories and product families.
 
-The business hopes this information will help it plan its store growth and marketing strategies to maximise profits in the areas that are shown to be profitable, but also focus on improvement for the stores that are not performing well.
+Special interest was shown in sales by territory and I got the feeling they are keen to identify profitable and less profitable customer
+by sales territory, as well as the amount of credits given to each customer and other analysis around it.
+
+The customer hopes this information will help it plan its store growth and marketing strategies to maximise profits in the areas that are shown to be profitable, but also focus on improvement for the stores that are not performing well.
+
+## Ethics and GDPR
+
+The dataset contains a filed of contact names and a field of customer names. based on the premise this data is going to be 
+available via a public dashboard will see if possible to create a login system so guest users will only see customer ID
+and authorised users will be able to see the customer names.
+
 
 ## Hypothesis and How To Validate?
 
-- Are sales increased if weather is hotter or colder in the last 12 months?
-  Validation: Test with a suitable plot to show temperature and sales correlation.
+- What were the highest sales per territory for last year?
+  Validation: Test with a suitable plot to show correlation between invoice amount sum and territory filtered for highest value
+
+- *Who were the top 20 customer by sales for last year?
+  Validation: Test with a suitable plot to show customer ID/name 
+
+- Who were the bottom 20 customer by sales for last year?
+  Validation: Test with a suitable plot to show customer ID/name 
+
+- What was the sales by product family for last the two years?
+  Validation: Will show with a comparison plot with each year in a different colour, will divide into months for a more meaningful visualisation
+
+- What was the total amount of credits against normal invoices for last year?
+  Validation: Will show on same plot if possible, will divide into months for a more meaningful visualisation
+
+- What was the percentage of ship methods used last year?
+  Validation: Thinking of a simple pie plot as percentages used, might not sum to 100% though, will test and see
+
+- *What were the sales per customer per territory for last year?
+  Validation: Will show plot grouped by territory, then customer ID/name then month 
+
+- *What was the total credits per customer for last year by month?
+  Validation: Thinking about a potential sunburst plot, so customer can drill down from customer ID/name to month values
+
+
 
 Machine Learning Predictions:
 
-- What are the predicted sales for stores by month for next year?
+- What are the predicted sales per territory for next year?
   Validation: Test with linear regression and random forest to determine best model for hypothesis
+
+- *What are the predicted sales per customer for next year?
+  Validation: Test with linear regression and random forest to determine best model for hypothesis
+
+
+
+* As data contains customer name as well as customer ID will see if can restrict dashboard for only authorised users can see the
+  customer names
+
+
+
 
 ## Project Plan
 
@@ -121,22 +178,27 @@ Machine Learning Predictions:
 _Hypothesis 1: Are sales increased if weather is hotter or colder in the last 12 months?_
 Chose scatter plot to show the correlation between temperature and sales. Due to the large amount of data, a scatter plot is the best way to visualise the data and show the correlation.
 
+
+
+
+
 ## Analysis techniques used
 
-From the csv file 4 more are created 3 via ETL and 1 via merging the 3 cleaned csv files all with
-an applied naming convention:
+From the initial csv file 3 more are created 4 via ETL as it goes through the ETL stages all end with an applied naming convention:
 
-- Sales_Stores_DataSet_Cleaned.csv
-- Sales_DataSet_Cleaned.csv
-- Sales_DataSet_Cleaned.csv
-- Sales_Combined.csv
+
+- Sales_InvoiceData_Cleaned.csv
+- Sales_InvoiceData_Working.csv
+- Sales_InvoiceData_Visualisation.csv
 
 For machine learning 4 pipelines are created:
 
-- forest_regression_hypothesis12_pipeline.pkl
+
 - forest_regression_hypothesis12_test_pipeline.pkl
 - linear_regression_hypothesis12_pipeline.pkl
+- forest_regression_hypothesis12_pipeline.pkl
 - linear_regression_hypothesis12_test_pipeline.pkl
+
 
 Files with _test_ in the name are used to run test "prediction" by getting machine learning processes
 to "predict" values for an existing year. This is used to compare with the previous year via a plot

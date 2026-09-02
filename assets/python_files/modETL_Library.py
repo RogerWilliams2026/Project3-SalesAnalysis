@@ -945,13 +945,13 @@ def funcGetColumnSkew(dfWhat : pd.DataFrame):
     
     for colColumn, objValue in dfWhat.items():
         #ignore categorical values
-        if not objValue.dtype.name == "str":
+        if not objValue.dtype.name == "str" and not objValue.dtype.name == "object":
            if "datetime64" in objValue.dtype.name: 
               dfTemp = dfWhat.copy()
               #solution provided by ChatGPT heavily modified
               dfTemp[colColumn] = pd.to_datetime(dfTemp[colColumn], format="%d/%m/%Y")
               objTemp = (dfTemp[colColumn] - dfTemp[colColumn].min()).dt.total_seconds()
-              #sprinkle soe Feature Engineering so the Q-Q plot will work
+              #sprinkle some Feature Engineering so the Q-Q plot will work
               dfTemp[f"{colColumn}2"] = (dfTemp[colColumn] - dfTemp[colColumn].min()).dt.total_seconds()
               #put number of spaces to make column name 20 characters long
               strTemp = funcGetSpaces(20, colColumn)
@@ -991,18 +991,18 @@ def funcGetColumnSkew(dfWhat : pd.DataFrame):
     #show Q-Q plot for each column
     for colColumn, objValue in dfWhat.items():           
         #ignore categorical values
-        if not objValue.dtype.name == "str":
+        if not objValue.dtype.name == "str" and not objValue.dtype.name == "object":
            if "datetime64" in objValue.dtype.name: 
               #configure plot
               fig, axis = plt.subplots(figsize=(12, 6))
               #put number of spaces to make column name 20 characters long
-              strTemp = funcGetSpaces(20, f"{colColumn}2")
+              strTemp = funcGetSpaces(20, f"{colColumn}")
               #print column data
-              print(f"Q-Q Plot For Column: {colColumn}2")
-              print("=" * len(f"Q-Q Plot For Column: {colColumn}2"))
+              print(f"Q-Q Plot For Column: {colColumn}")
+              print("=" * len(f"Q-Q Plot For Column: {colColumn}"))
               stats.probplot(dfTemp[f"{colColumn}2"], dist="norm", plot=plt)
-              plt.title(f"Q-Q Plot For Column: {colColumn}2", fontweight="bold")
-              axis.set_xlabel(f"Q-Q Plot For Column: {colColumn}2")
+              plt.title(f"Q-Q Plot For Column: {colColumn}", fontweight="bold")
+              axis.set_xlabel(f"Q-Q Plot For Column: {colColumn}")
               axis.set_ylabel("Theoretical Quantiles")
 
               plt.tight_layout()

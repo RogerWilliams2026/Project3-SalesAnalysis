@@ -130,7 +130,7 @@ dfStores = pd.DataFrame()
 
 #DataFrames vars
 dfSales_Combined_DataSet = pd.DataFrame()
-dfSales_Combined_DataSet_Work = pd.DataFrame()
+dfSales_DataSet_Work = pd.DataFrame()
 dfSales_Combined_DataSet_StoreType = pd.DataFrame()
 dfSales_Combined_DataSet_SubSet = pd.DataFrame()
 dfSales_Combined_DataSet_Final = pd.DataFrame()
@@ -262,17 +262,17 @@ match radRadioButtons:
         conSection1Title.info("Are Sales Increased If Weather Is Hotter Or Colder In The Last 12 Months?")
 
         #load into DataFrame copy for working with   
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
 
 
         #get year from last date in DataFrame
-        intYear = dfSales_Combined_DataSet_Work['Date'].dt.year.max() -1
+        intYear = dfSales_DataSet_Work['Date'].dt.year.max() -1
 
         #filter DataFrame for last 12 months
-        dfSales_Combined_DataSet_Work= dfSales_Combined_DataSet_Work[dfSales_Combined_DataSet_Work['Date'] >= dteStartDate]
+        dfSales_DataSet_Work= dfSales_DataSet_Work[dfSales_DataSet_Work['Date'] >= dteStartDate]
 
         #set plot size
-        fig = px.scatter(dfSales_Combined_DataSet_Work , x="Temperature", y="Weekly_Sales",
+        fig = px.scatter(dfSales_DataSet_Work , x="Temperature", y="Weekly_Sales",
                  title="Sales vs Temperature Over Last 12 Months", color="Temperature", opacity=0.5)
 
         #code copied from chatGPT
@@ -309,7 +309,7 @@ match radRadioButtons:
 
         conSection1Tab.plotly_chart(fig, use_container_width=True, key="figTab1") 
         expExpander5 =  conSection1Tab.expander("Show Data Used For Plot", expanded=False, key="expExpander5")
-        expExpander5.dataframe(dfSales_Combined_DataSet_Work, use_container_width=True)
+        expExpander5.dataframe(dfSales_DataSet_Work, use_container_width=True)
         conSection1Tab.write("Note: in order for the 'ticks' to show on the axes Plotly needs to be version 5.8 or higher") 
    
         conSectionFooter1 = conSection1Tab.container(border=False, width="stretch", key="conSectionFooter1", height=400)
@@ -326,10 +326,10 @@ match radRadioButtons:
         conContainerTab2_Sub = tabTab2.container(border=True, width="stretch", key="conTab2Sub", height=780)
         conContainerTab2_Sub.info("Sales Differences Between Holiday and Non Holiday Weeks Per Store Over last 12 Months")
         #load into DataFrame copy for working with   
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
 
         #create plot
-        fig = px.box(dfSales_Combined_DataSet_Work,
+        fig = px.box(dfSales_DataSet_Work,
            x="Store",
            y="Weekly_Sales",
            color="IsHoliday",
@@ -350,7 +350,7 @@ match radRadioButtons:
                           paper_bgcolor ="#070707")        
         conContainerTab2_Sub.plotly_chart(fig, use_container_width=True, key="figTab2") 
         expExpander6 =  conContainerTab2_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander6")
-        expExpander6.dataframe(dfSales_Combined_DataSet_Work, use_container_width=True)         
+        expExpander6.dataframe(dfSales_DataSet_Work, use_container_width=True)         
   
         conSectionFooter2 = conContainerTab2_Sub.container(border=False, width="stretch", key="conSectionFooter2", height=400)
         conSectionFooter2.write("Due to the large amount of data I chose a boxplot style visualisation to show the distribution of sales" +
@@ -367,17 +367,17 @@ match radRadioButtons:
         conContainerTab3_Sub.info("What is Most Profitable Store Type Over The Last 12 Months?")
 
         #load into DataFrame copy for working with   
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
         
         #create plot#get year from last date in DataFrame
-        intYear = dfSales_Combined_DataSet_Work['Date'].dt.year.max() -1
+        intYear = dfSales_DataSet_Work['Date'].dt.year.max() -1
 
         #filter DataFrame for last 12 months
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet_Work[dfSales_Combined_DataSet_Work['Date'] >= dteStartDate]
+        dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'] >= dteStartDate]
 
         #filter data by doing simple grouby on store type and weekly sales
         #reset the index so that the store type is a column and not an index
-        dfSales_Combined_DataSet_StoreType = dfSales_Combined_DataSet_Work.groupby("Store_Type")["Weekly_Sales"].sum().reset_index()
+        dfSales_Combined_DataSet_StoreType = dfSales_DataSet_Work.groupby("Store_Type")["Weekly_Sales"].sum().reset_index()
 
         #splot chart
         fig = px.bar(dfSales_Combined_DataSet_StoreType,
@@ -438,13 +438,13 @@ match radRadioButtons:
         ]
         
         #load into DataFrame copy for working with   
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
         
         #get year from last date in DataFrame
-        intYear = dfSales_Combined_DataSet_Work['Date'].dt.year.max() -1
+        intYear = dfSales_DataSet_Work['Date'].dt.year.max() -1
 
         #filter DataFrame for last 12 months
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet_Work[dfSales_Combined_DataSet_Work['Date'] >= dteStartDate]
+        dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'] >= dteStartDate]
 
         #read through DataFrame see if store number is in range
         #Note: this is probably a mute step but is a a god way of validating the result BEFORE
@@ -453,8 +453,8 @@ match radRadioButtons:
         
         for objStores in lstStoreRanges:
            #add row to new DataFrame
-           dfSales_Combined_DataSet_SubSet = dfSales_Combined_DataSet_Work [
-              dfSales_Combined_DataSet_Work["Store"].isin(objStores)
+           dfSales_Combined_DataSet_SubSet = dfSales_DataSet_Work [
+              dfSales_DataSet_Work["Store"].isin(objStores)
            ]
 
            fig, ax = plt.subplots(figsize=(20, 6))
@@ -513,11 +513,11 @@ match radRadioButtons:
         #chatGPT generated code used as a base and heavily modified to suit my needs
         #added code comments
         #load into DataFrame copy for working with   
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
 
         # Aggregate data
         dfSunburst_DataSet = (
-           dfSales_Combined_DataSet_Work
+           dfSales_DataSet_Work
            .groupby(["Store_Type", "Store", "Dept"], as_index=False)
            ["Weekly_Sales"]
            .sum()
@@ -586,22 +586,22 @@ match radRadioButtons:
         lstMarkdownColumns = ['MarkDown1','MarkDown2','MarkDown3','MarkDown4','MarkDown5']
 
         #make copy of DataFrame
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
 
         #filter for JUST holidays
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet_Work[dfSales_Combined_DataSet_Work['IsHoliday'] == True]
+        dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work['IsHoliday'] == True]
 
         #make sure date formatted correctly
-        dfSales_Combined_DataSet_Work['Date'] = pd.to_datetime(
-           dfSales_Combined_DataSet_Work['Date'],
+        dfSales_DataSet_Work['Date'] = pd.to_datetime(
+           dfSales_DataSet_Work['Date'],
            dayfirst=True,
            errors='coerce'
         )
     
         #get last date in DataFrame
-        intYear = dfSales_Combined_DataSet_Work['Date'].max()
+        intYear = dfSales_DataSet_Work['Date'].max()
         #filter DataFrame for last 12 months from above value
-        dfSales_Combined_DataSet_GroupBy = dfSales_Combined_DataSet_Work[dfSales_Combined_DataSet_Work['Date'] >= intYear - pd.DateOffset(months=12)].copy()
+        dfSales_Combined_DataSet_GroupBy = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'] >= intYear - pd.DateOffset(months=12)].copy()
 
         # Aggregate
         dfSales_Combined_DataSet_Summary = (
@@ -670,14 +670,14 @@ match radRadioButtons:
         conContainerTab7_Sub.info("What Are The Most Profitable Departments Per Store In  The Last 12 Months?")
  
          #make copy of DataFrame
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
         
         #first filter by year 2012
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet_Work[dfSales_Combined_DataSet_Work['Date'].dt.year == 2012]
+        dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'].dt.year == 2012]
 
         #code created by chatGPT modified by me to suit naming conventions etc
         dfSales_Combined_DataSet_Profit= (
-           dfSales_Combined_DataSet_Work
+           dfSales_DataSet_Work
            .groupby(["Store", "Dept"])["Weekly_Sales"]
            .sum()
            .reset_index()
@@ -744,19 +744,19 @@ match radRadioButtons:
         conContainerTab8_Sub.info("What Are the Top 10 Stores In Terms of Profitability In The Last 12 Months?")
  
          #make copy of DataFrame
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
         
         #first filter by year 2012
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet_Work[dfSales_Combined_DataSet_Work['Date'].dt.year == 2012]
+        dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'].dt.year == 2012]
 
         #add slider so user can play with the report
         sdlSliderFrom = conContainerTab8_Sub.slider("Select Amount of Stores", min_value=10, 
-                                                    max_value=dfSales_Combined_DataSet_Work["Store"].nunique(), value=10, step=1, 
+                                                    max_value=dfSales_DataSet_Work["Store"].nunique(), value=10, step=1, 
                                                     key="sdlSliderFrom1")
 
         #group by Store and get sum of Weekly_Sales
-        dfSales_Combined_DataSet_Work = (
-           dfSales_Combined_DataSet_Work
+        dfSales_DataSet_Work = (
+           dfSales_DataSet_Work
            .groupby("Store")["Weekly_Sales"]
            .sum()
            .sort_values(ascending=False)
@@ -766,7 +766,7 @@ match radRadioButtons:
 
 
         #need to handle plot differntly as matplotlib does not work in streamlit like ploty express
-        ax = dfSales_Combined_DataSet_Work.plot(
+        ax = dfSales_DataSet_Work.plot(
            x="Store",
            y="Weekly_Sales",
            kind="barh",
@@ -776,7 +776,7 @@ match radRadioButtons:
         )
 
         #sort dataset
-        dfSales_Combined_DataSet_Work.sort_values("Weekly_Sales", ascending=False).head(sdlSliderFrom).plot(
+        dfSales_DataSet_Work.sort_values("Weekly_Sales", ascending=False).head(sdlSliderFrom).plot(
            x="Store",
            y="Weekly_Sales",
            kind="barh",
@@ -801,10 +801,10 @@ match radRadioButtons:
         
         conContainerTab8_Sub.pyplot(fig, use_container_width=True) 
         expExpander12 = conContainerTab8_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander12")
-        expExpander12.dataframe(dfSales_Combined_DataSet_Work, use_container_width=True)         
+        expExpander12.dataframe(dfSales_DataSet_Work, use_container_width=True)         
      
         #get top 3 stores to show in footer
-        lstTemp = dfSales_Combined_DataSet_Work.head(sdlSliderFrom)["Store"]
+        lstTemp = dfSales_DataSet_Work.head(sdlSliderFrom)["Store"]
 
         conSectionFooter8 = conContainerTab8_Sub.container(border=False, width="stretch", key="conSectionFooter8", height=400)
         conSectionFooter8.write(f"The plot shows the top {sdlSliderFrom} stores by total sales for the last 12 months")   
@@ -836,19 +836,19 @@ match radRadioButtons:
   
  
         #make copy of DataFrame
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
          
         #first filter by year 2012
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet_Work[dfSales_Combined_DataSet_Work['Date'].dt.year == 2012]
+        dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'].dt.year == 2012]
  
         #add slider so user can play with the report
-        sdlSliderFrom = conSection3Tab.slider("Select Amount of Stores", min_value=10, max_value=dfSales_Combined_DataSet_Work["Store"].nunique(), 
+        sdlSliderFrom = conSection3Tab.slider("Select Amount of Stores", min_value=10, max_value=dfSales_DataSet_Work["Store"].nunique(), 
                                               value=10, step=1, key="sdlSliderFrom2")
 
  
         #group by Store and get sum of Weekly_Sales
-        dfSales_Combined_DataSet_Work = (
-            dfSales_Combined_DataSet_Work
+        dfSales_DataSet_Work = (
+            dfSales_DataSet_Work
             .groupby("Store")["Weekly_Sales"]
             .sum()
             .sort_values(ascending=False)
@@ -857,7 +857,7 @@ match radRadioButtons:
         ) 
  
         #need to handle plot differntly as matplotlib does not work in streamlit like ploty express
-        ax = dfSales_Combined_DataSet_Work.plot(
+        ax = dfSales_DataSet_Work.plot(
            x="Store",
            y="Weekly_Sales",
            kind="barh",
@@ -867,7 +867,7 @@ match radRadioButtons:
         )
  
         #sort dataset
-        dfSales_Combined_DataSet_Work.sort_values("Weekly_Sales", ascending=False).head(sdlSliderFrom).plot(
+        dfSales_DataSet_Work.sort_values("Weekly_Sales", ascending=False).head(sdlSliderFrom).plot(
            x="Store",
            y="Weekly_Sales",
            kind="barh",
@@ -892,10 +892,10 @@ match radRadioButtons:
          
         conSection3Tab.pyplot(fig, use_container_width=True) 
         expExpander13 = conSection3Tab.expander("Show Data Used For Plot", expanded=False, key="expExpander13")
-        expExpander13.dataframe(dfSales_Combined_DataSet_Work, use_container_width=True)      
+        expExpander13.dataframe(dfSales_DataSet_Work, use_container_width=True)      
         
         #get top 3 stores to show in footer
-        lstTemp = dfSales_Combined_DataSet_Work.head(sdlSliderFrom)["Store"]
+        lstTemp = dfSales_DataSet_Work.head(sdlSliderFrom)["Store"]
       
         conSectionFooter9 = conSection3Tab.container(border=False, width="stretch", key="conSectionFooter9", height=400) 
         conSectionFooter9.write(f"The plot shows the bottom {sdlSliderFrom} stores by total sales for the last 12 months")   
@@ -915,15 +915,15 @@ match radRadioButtons:
         conContainerTab10_Sub.info("What Was The Unemployment Percentage Per Store By Month For Last Year")
  
          #make copy of DataFrame
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
 
         #filter by last 3 years data
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet_Work[dfSales_Combined_DataSet_Work["Date"].dt.year ==2012] 
-        dfSales_Combined_DataSet_Work["Month"] = (dfSales_Combined_DataSet_Work["Date"].dt.month)
+        dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work["Date"].dt.year ==2012] 
+        dfSales_DataSet_Work["Month"] = (dfSales_DataSet_Work["Date"].dt.month)
 
         #use mean for the aggreagtion as sum will produce wierd results!
-        dfSales_Combined_DataSet_Work = (
-           dfSales_Combined_DataSet_Work
+        dfSales_DataSet_Work = (
+           dfSales_DataSet_Work
            .groupby(["Store", "Month"], as_index=False)
            ["Unemployment"]
            .mean()
@@ -931,7 +931,7 @@ match radRadioButtons:
 
         #configure plot
         fig = px.line(
-           dfSales_Combined_DataSet_Work,
+           dfSales_DataSet_Work,
            x="Month",
            y="Unemployment",
            color="Store",
@@ -962,7 +962,7 @@ match radRadioButtons:
         
         conContainerTab10_Sub.plotly_chart(fig, use_container_width=True) 
         expExpander14 = conContainerTab10_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander14")
-        expExpander14.dataframe(dfSales_Combined_DataSet_Work, use_container_width=True)           
+        expExpander14.dataframe(dfSales_DataSet_Work, use_container_width=True)           
         conSectionFooter10 = conContainerTab10_Sub.container(border=False, width="stretch", key="conSectionFooter10", height=400)
         conSectionFooter10.write("Show an interesting trend that months 3, 6 and 8 (March, June and August) have a peak in unemployment rates")  
         conSectionFooter10.write("This is an interesting insight as it shows that there is a correlation between the months and the unemployment" +
@@ -978,18 +978,18 @@ match radRadioButtons:
         conContainerTab11_Sub.info("What Percentage of Customer Were Unemployed By Store Size Last Year?")
 
          #make copy of DataFrame
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
 
         #filter by last 3 years data
-        dfSales_Combined_DataSet_Work = dfSales_Combined_DataSet_Work[dfSales_Combined_DataSet_Work["Date"].dt.year ==2012] 
+        dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work["Date"].dt.year ==2012] 
 
         #sprinkle some feature engineering     
-        dfSales_Combined_DataSet_Work["Year"] = dfSales_Combined_DataSet_Work["Date"].dt.year.astype(int)
-        dfSales_Combined_DataSet_Work["month_label"] = dfSales_Combined_DataSet_Work["Date"].dt.strftime("%d") + " " + dfSales_Combined_DataSet_Work["Date"].dt.month_name() 
+        dfSales_DataSet_Work["Year"] = dfSales_DataSet_Work["Date"].dt.year.astype(int)
+        dfSales_DataSet_Work["month_label"] = dfSales_DataSet_Work["Date"].dt.strftime("%d") + " " + dfSales_DataSet_Work["Date"].dt.month_name() 
 
         #use mean rather than sum as the figures are not reliable if used!
-        dfSales_Combined_DataSet_Work = (
-           dfSales_Combined_DataSet_Work
+        dfSales_DataSet_Work = (
+           dfSales_DataSet_Work
            .groupby(["Store", "YearMonth","Store_Size"], as_index=False)
            ["Unemployment"]
            .mean()
@@ -997,7 +997,7 @@ match radRadioButtons:
 
         #configure the plot
         fig = px.scatter_3d(
-           dfSales_Combined_DataSet_Work,
+           dfSales_DataSet_Work,
            x="Unemployment",
            y="Store",
            z="Store_Size",
@@ -1027,7 +1027,7 @@ match radRadioButtons:
         #show plot       
         conContainerTab11_Sub.plotly_chart(fig, use_container_width=True) 
         expExpander15 = conContainerTab11_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander15")
-        expExpander15.dataframe(dfSales_Combined_DataSet_Work, use_container_width=True)           
+        expExpander15.dataframe(dfSales_DataSet_Work, use_container_width=True)           
         conSectionFooter11 = conContainerTab11_Sub.container(border=False, width="stretch", key="conSectionFooter11", height=400)
         conSectionFooter11.write("Shows an interesting trend that store size is not a factor in the amount of unemployed customers per store")
         conSectionFooter11.write("What makes this plot so cool, is you move it around and articulate the data points yourself exposing insights" + 
