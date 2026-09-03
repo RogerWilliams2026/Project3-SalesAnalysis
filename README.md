@@ -8,10 +8,16 @@ Project is a data analysis project that sales data to answer business questions 
 
 ## Dataset Content
 
-Dataset package given by customer contains 3 related raw CSV files:
+Dataset package given by customer contains 1 related raw CSV file:
 
 - Sales_InvoiceData.csv
 
+
+Custom created datasets:
+
+Sales_InvoiceData_GroupedByTerritory.csv - Used by machine learning contains data grouped by TerritoryCode and YearMonth with sum of InvoiceAmt
+
+Sales_InvoiceData_GroupedByCustomer.csv - Used by machine learning contains data grouped by CustomerID and YearMonth with sum of InvoiceAmt
 
 
 
@@ -122,7 +128,7 @@ and authorised users will be able to see the customer names.
 - What were the highest sales per territory for last year?
   Validation: Test with a suitable plot to show correlation between invoice amount sum and territory filtered for highest value
 
-- *Who were the top 20 customer by sales for last year?
+- *Who were the top 20 customers by sales for last year?
   Validation: Test with a suitable plot to show customer ID/name 
 
 - Who were the bottom 20 customer by sales for last year?
@@ -155,8 +161,7 @@ Machine Learning Predictions:
 
 
 
-* As data contains customer name as well as customer ID will see if can restrict dashboard for only authorised users can see the
-  customer names
+* As data contains customer name as well as customer ID use customer ID as data will be public server
 
 
 
