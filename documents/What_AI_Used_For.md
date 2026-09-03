@@ -14,11 +14,11 @@ and it suggests the next line of code. Usually that works fine.
 
 Pandas would not read the csv file as it was not in UTF-8 format!
 
-Gave Copilot this instruction:
+Gave chatGPT this instruction:
 
 Pandas error reading fle encoding not utf-8 how can i detect and use correct encoding?
 
-Copilot responded with:
+chatGPT responded with:
 
 _pip install charset-normalizer_
 _from charset_normalizer import from_path_
@@ -27,12 +27,24 @@ _df = pd.read_csv("your filename", encoding=objEncoding.encoding)_
 
 Adapted code and added to funcReadFileReturnDataFrame in my ETl library
 
-
 **Scenario Two:**
 
+Was stumped on how to run a Kruskal-Wallis test on the InvoiceAmt column by TerritoryCodes column
 
+Gave chatGPT this instruction:
 
-Copilot responded with:
+How do I run a Kruskal-Wallis test on the InvoiceAmt column by TerritoryCodes column in a pandas DataFrame?
 
+chatGPT responded with:
 
+_groups = [_
+_ group["InvoiceAmt"].dropna()_
+_ for _, group in dfSales*DataSet_Work.groupby("TerritoryCodes")*
+_]_
 
+_fltStat, fltPValue = kruskal(\*groups)_
+
+_print(f"Statistic: {fltStat:.3f}")_
+_print(f"p-value: {fltPValue:.5f}")_
+
+Does work so copied and amended as necessary
