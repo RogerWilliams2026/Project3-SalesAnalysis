@@ -134,10 +134,8 @@ and authorised users will be able to see the customer names.
 - Who were the bottom 20 customer by sales for last year?
   Validation: Test with a suitable plot to show customer ID/name 
 
-- What was the sales by product family for last the two years?
-  Validation: Will show with a comparison plot with each year in a different colour, will divide into months for a more meaningful visualisation
 
-- What was the total amount of credits against normal invoices for last year?
+- What was the total amount of credits issued for last year?
   Validation: Will show on same plot if possible, will divide into months for a more meaningful visualisation
 
 - What was the percentage of ship methods used last year?
@@ -146,9 +144,11 @@ and authorised users will be able to see the customer names.
 - *What were the sales per customer per territory for last year?
   Validation: Will show plot grouped by territory, then customer ID/name then month 
 
-- *What was the total credits per customer for last year by month?
+- *What was the total sales per customer for last year by month?
   Validation: Thinking about a potential sunburst plot, so customer can drill down from customer ID/name to month values
 
+- What was the sales by product family for last the two years?
+  Validation: Will show with a comparison plot with each year in a different colour, will divide into months for a more meaningful visualisation
 
 
 Machine Learning Predictions:

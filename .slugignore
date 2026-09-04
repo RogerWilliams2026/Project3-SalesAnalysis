@@ -2,3 +2,8 @@ jupyter_notebooks/*
 README.md
 .venv
 .gitignore
+assets/csv/Data/CleanedFiles/*
+assets/csv/Data/ExtractedFiles/*
+assets/csv/Data/OriginalFiles/*
+reports/*
+documents/*
