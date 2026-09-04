@@ -153,7 +153,7 @@ Machine Learning Predictions:
 - What are the predicted sales per month for next year?
   Validation: Test with linear regression and random forest to determine best model for hypothesis
 
-- *What are the predicted sales per customer for next year?
+- *What are the predicted sales per territory for next year?
   Validation: Test with linear regression and random forest to determine best model for hypothesis
 
 
