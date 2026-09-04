@@ -144,16 +144,13 @@ and authorised users will be able to see the customer names.
 - *What were the sales per customer per territory for last year?
   Validation: Will show plot grouped by territory, then customer ID/name then month 
 
-- *What was the total sales per customer for last year by month?
-  Validation: Thinking about a potential sunburst plot, so customer can drill down from customer ID/name to month values
-
 - What was the sales by product family for last the two years?
   Validation: Will show with a comparison plot with each year in a different colour, will divide into months for a more meaningful visualisation
 
 
 Machine Learning Predictions:
 
-- What are the predicted sales per territory for next year?
+- What are the predicted sales per month for next year?
   Validation: Test with linear regression and random forest to determine best model for hypothesis
 
 - *What are the predicted sales per customer for next year?
