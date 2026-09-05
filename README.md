@@ -118,9 +118,8 @@ The customer hopes this information will help it plan its store growth and marke
 
 ## Ethics and GDPR
 
-The dataset contains a filed of contact names and a field of customer names. based on the premise this data is going to be 
-available via a public dashboard will see if possible to create a login system so guest users will only see customer ID
-and authorised users will be able to see the customer names.
+The dataset contains a field of contact names and a field of customer names. based on the premise this data is going to be 
+available via a public dashboard made the decision to *withhold* the information from the public dataset. 
 
 
 ## Hypothesis and How To Validate?
@@ -128,12 +127,11 @@ and authorised users will be able to see the customer names.
 - What were the highest sales per territory for last year?
   Validation: Test with a suitable plot to show correlation between invoice amount sum and territory filtered for highest value
 
-- *Who were the top 20 customers by sales for last year?
+- Who were the top 20 customers by sales for last year?
   Validation: Test with a suitable plot to show customer ID/name 
 
 - Who were the bottom 20 customer by sales for last year?
   Validation: Test with a suitable plot to show customer ID/name 
-
 
 - What was the total amount of credits issued for last year?
   Validation: Will show on same plot if possible, will divide into months for a more meaningful visualisation
@@ -141,7 +139,7 @@ and authorised users will be able to see the customer names.
 - What was the percentage of ship methods used last year?
   Validation: Thinking of a simple pie plot as percentages used, might not sum to 100% though, will test and see
 
-- *What were the sales per customer per territory for last year?
+- What were the sales per customer per territory for last year?
   Validation: Will show plot grouped by territory, then customer ID/name then month 
 
 - What was the sales by product family for last the two years?
@@ -174,6 +172,7 @@ Machine Learning Predictions:
   the most appropriate visualisation for the hypothesis being validated
 - Use machine learning to predict sales for the next year and visualise the results
 - Create a report to present the findings to the customer
+- Create a streamlit dashboard to showcase the results
 
 ## The Rationale Used To Map The Business Requirements To The Data Visualisations
 
@@ -195,11 +194,18 @@ From the initial csv file 3 more are created 4 via ETL as it goes through the ET
 
 For machine learning 4 pipelines are created:
 
+- linear_regression_hypothesis9_test_pipeline.pkl
+- randomforest_hypothesis9_test_pipeline.pkl
 
-- forest_regression_hypothesis12_test_pipeline.pkl
-- linear_regression_hypothesis12_pipeline.pkl
-- forest_regression_hypothesis12_pipeline.pkl
-- linear_regression_hypothesis12_test_pipeline.pkl
+- linear_regression_hypothesis9_predictions_pipeline.pkl
+- randomforest_hypothesis9_predictions_pipeline.pkl
+
+- linear_regression_hypothesis10_test_pipeline.pkl
+- randomforest_hypothesis10_test_pipeline.pkl
+
+- randomforest_hypothesis10_predictions_pipeline.pkl
+- linear_regression_hypothesis10_predictions_pipeline.pkl
+ 
 
 
 Files with _test_ in the name are used to run test "prediction" by getting machine learning processes

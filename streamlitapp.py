@@ -10,11 +10,9 @@ from matplotlib.ticker import MultipleLocator
 import numpy as np
 import joblib
 #
-#  Created 28/07/2026 By Roger Williams
+#  Created 05/09/2026 By Roger Williams
 #  
-#  for temperature hypothesis
-#  
-#  uses global var dfTemperature for visualisations
+# dashboard for sales analysis project
 #  
 #
 
@@ -27,10 +25,9 @@ CNST_STR_FOREST_PIPELINE_HYPOTHESIS12_TEST_STREAMLIT_PATH = "assets/pipelines/ra
 CNST_STR_LINEAR_PIPELINE_HYPOTHESIS12_STREAMLIT_PATH =  "assets/pipelines/linear_regression_hypothesis12_pipeline.pkl"
 CNST_STR_FOREST_PIPELINE_HYPOTHESIS12_STREAMLIT_PATH =  "assets/pipelines/randomforest_hypothesis12_pipeline.pkl"
                                               
-CNST_STR_SALES_COMBINED_DATASET = "assets/csv/Data/VisualisationFiles/Sales_Combined_DataSet_Visualisation.csv"
-CNST_STR_FEATURES_DATASET = "assets/csv/Data/VisualisationFiles/Features_DataSet_Visualisation.csv"
-CNST_STR_SALES_DATASET = "assets/csv/Data/VisualisationFiles/Sales_DataSet_Visualisation.csv"
-CNST_STR_STORES_DATASET = "assets/csv/Data/VisualisationFiles/Stores_DataSet_Visualisation.csv"
+CNST_STR_SALES_DATASET = "assets/csv/Data/VisualisationFiles/Sales_InvoiceData_Visualisation.csv"
+CNST_STR_SALES_GROUPBY_CUSTOMER_DATASET = "assets/csv/Data/VisualisationFiles/Sales_InvoiceData_GroupedByCustomer_Visualisation.csv"
+CNST_STR_SALES_GROUPBY_TERRITORY_DATASET = "assets/csv/Data/VisualisationFiles/Sales_InvoiceData_GroupedByTerritory_Visualisation.csv"
 
 #sidebar radio button control
 radRadioButtons = None
@@ -39,8 +36,11 @@ conContainerMain = None
 conMainFooter1 = None
 conMainFooter2 = None
 
+conContainerEthicsMain = None
+conContainerEthicsSub = None
 conContainerTab2_Sub = None
-conContainerTab3_Sub = None
+conContainerTab3a_Sub = None
+conContainerTab3b_Sub = None
 conContainerTab4_Sub = None
 conContainerTab5_Sub = None
 conContainerTab6_Sub = None
@@ -62,6 +62,8 @@ conSection2Title = None
 conSection3Title = None
 conSection4Title = None
 
+conSectionEthicsTitle = None
+
 conSection1Tab = None
 conSection2Tab = None
 conSection3Tab = None
@@ -69,7 +71,8 @@ conSection4Tab = None
 
 conSectionFooter1 = None
 conSectionFooter2 = None
-conSectionFooter3 = None
+conSectionFooter3a = None
+conSectionFooter3b = None
 conSectionFooter4 = None
 conSectionFooter5 = None
 conSectionFooter6 = None
@@ -104,7 +107,8 @@ expExpander15 = None
 
 tabTab1 = None
 tabTab2 = None
-tabTab3 = None
+tabTab3a = None
+tabTab3b = None
 tabTab4 = None
 tabTab5 = None
 tabTab5 = None
@@ -124,37 +128,18 @@ sldSliderFrom1 = None
 sldSliderFrom2 = None
 
 #DataFrames vars for csv files for ML
-dfSales = pd.DataFrame()
-dfFeatures = pd.DataFrame()
-dfStores = pd.DataFrame()
+dfSales_InvoiceData_GroupByCustomer = pd.DataFrame()
+dfSales_InvoiceData_GroupByTerritory = pd.DataFrame()
 
 #DataFrames vars
-dfSales_Combined_DataSet = pd.DataFrame()
-dfSales_DataSet_Work = pd.DataFrame()
-dfSales_Combined_DataSet_StoreType = pd.DataFrame()
-dfSales_Combined_DataSet_SubSet = pd.DataFrame()
-dfSales_Combined_DataSet_Final = pd.DataFrame()
-dfSales_Combined_DataSet_Summary = pd.DataFrame()
-dfSunburst_DataSet = pd.DataFrame()
-dfSales_Combined_DataSet_Profit = pd.DataFrame()
-dfSales_Combined_DataSet_HighestProfit = pd.DataFrame()
-dfSalesDataML_Work = pd.DataFrame()
-dfPrevious = pd.DataFrame()
-dfPreviousSales = pd.DataFrame()
-dfActualSales = pd.DataFrame()
-dfPredictedSales = pd.DataFrame()
-dfPlot = pd.DataFrame()
-dfXTest = pd.DataFrame()
+dfSales_InvoiceData = pd.DataFrame()
+dfSales_InvoiceData_Temp = pd.DataFrame()
+dfSales_InvoiceData_Work = pd.DataFrame()
+dfSales_DataSet_Filtered = pd.DataFrame()
+
+
 
 #other vars
-lstStoreRanges  = list()
-lstMarkdownColumns = list()
-lstFeatures = list()
-lstTemp = list()
-
-intYear = 0
-intNum = 0
-dteStartDate = None
 objPipeline = None
 ax = None
 fig = None
@@ -168,17 +153,16 @@ def funcLoadCSS(fileName):
 
 #******** main code ********
 import os
+dfSales_InvoiceData = pd.read_csv(CNST_STR_SALES_DATASET)
+dfSales_InvoiceData_GroupByCustomer = pd.read_csv(CNST_STR_SALES_GROUPBY_CUSTOMER_DATASET)
+dfSales_InvoiceData_GroupByTerritory = pd.read_csv(CNST_STR_SALES_GROUPBY_TERRITORY_DATASET)
 #try and load csvs from assets folder
-dfSales_Combined_DataSet = pd.read_csv(CNST_STR_SALES_COMBINED_DATASET)
-dfFeatures = pd.read_csv(CNST_STR_FEATURES_DATASET)
-dfSales = pd.read_csv(CNST_STR_SALES_DATASET)
-dfStores = pd.read_csv(CNST_STR_STORES_DATASET)
 
-#convert Date to datetime
-dfSales_Combined_DataSet["Date"] = pd.to_datetime(dfSales_Combined_DataSet["Date"], format="%d/%m/%Y")
+#convert InvoiceDate to datetime
+dfSales_InvoiceData["InvoiceDate"] = pd.to_datetime(dfSales_InvoiceData["InvoiceDate"], format="%d/%m/%Y")
 
-#get 12 months from last date in DataFrame
-dteStartDate = dfSales_Combined_DataSet['Date'].max() - pd.DateOffset(months = 12)
+# #convert InvoiceID to string
+# dfSales_InvoiceData["InvoiceID"] = dfSales_InvoiceData["InvoiceID"].astype(str)
 
 
 #init streamlit dashboard 
@@ -214,9 +198,15 @@ conMainFooter2.write("Each Page With A Plot Has A Data Table and Description - U
 st.sidebar.title("Analysis Options",width="content",anchor="left")
 
 #add radio button group for options
-radRadioButtons = st.sidebar.radio("Select:", ["Overview", "Hypothesis 1 -4", "Hypothesis 5 - 8", "Hypothesis 9 - 11", "ML Test"], 
+radRadioButtons = st.sidebar.radio("Select:", ["Overview", "Hypothesis 1 -4", "Hypothesis 5 - 8", "Hypothesis 9 - 11", 
+                                               "ML Test", "Ethics & Data Privacy"], 
                                    index=0, key="radRadioButtons")
 
+if st.button("🔄 Reset UI"):
+    st.cache_data.clear()
+    st.cache_resource.clear()
+    st.rerun()
+    
 #populate container with page controls
 match radRadioButtons:
    case "Overview":
@@ -228,263 +218,285 @@ match radRadioButtons:
         conOverview.info("Overview")
         conOverview.markdown("### Purpose of The Analysis")
         conOverview.write("Provides insights into the performance of the business in key areas such as: " +
-                          "sales trends and the impact of various externalfactors on sales.")
+                          "sales trends and the impact of various external factors on sales.")
         conOverview.write("All analysis is done as requested based on the last 12 months of data")
         conOverview.write()
         conOverview.write("Analysis Produced:")
-        conOverview.write("- Are sales increased if weather is hotter or colder in the last 12 months?")
-        conOverview.write("- Sales differences between holiday and non-holiday weeks per store in the last 12 months")
-        conOverview.write("- What is most profitable store type in the last 12 months?")
-        conOverview.write("- Does store size affect profitability? If so, how much in the last 12 months?")
-        conOverview.write("- What are the Weekly Sales by Store, Store Type and Department Last 12 Months?")
-        conOverview.write("- What is the impact of markdowns on sales during holiday periods in the last 12 months by store?")
-        conOverview.write("- What are the most profitable departments per store in the last 12 months?")
-        conOverview.write("- What are the top 10 stores in terms of profitability in the last 12 months?")
-        conOverview.write("- What are the bottom 10 stores in terms of profitability in the last 12 months?")
-        conOverview.write("- What percentage of customers were unemployed per store by month for last year?")
-        conOverview.write("- What percentage of customer were unemployed by store size last year?")  
-        conOverview.write("- What are the predicted sales for stores by month for next year?")
+        conOverview.write("What were the highest sales per territory for last year?")
+        conOverview.write("Who were the top 20 customers by sales for last year?")
+        conOverview.write("Who were the bottom 20 customer by sales for last year?")
+        conOverview.write("What was the total amount of credits issued for last year?")
+        conOverview.write("What was the percentage of ship methods used last year?")
+        conOverview.write("*What were the sales per customer per territory for last year?")
+        conOverview.write("What was the sales by product family for last the two years?")
+        conOverview.write("What are the predicted sales per month for next year?")
+        conOverview.write("What are the predicted sales per territory for next year?")
    
         
    case "Hypothesis 1 -4": 
  #******tab 1*******  
         #plotly visualisation for hypothesis 1 - are sales increased if weather is hotter or colder in the last 12 months? 
         #Note: in order for the "ticks" to show on the axes Plotly needs to be version 5.8 or higher
-        conSection1 = conContainerMain.container(border=False, width="stretch", key="conSection1", height=860)
 
+        conSection1 = conContainerMain.container(border=False, width="stretch", key="conSection1", height=860)
         #create tab control which houses containers for the tab data (split into columns!)        
-        tabTab1, tabTab2, tabTab3, tabTab4 = conSection1.tabs([
-          "Hypothesis 1", "Hypothesis 2", "Hypothesis 3", "Hypothesis 4"
+        tabTab1, tabTab2, tabTab3a, tabTab3b, tabTab4 = conSection1.tabs([
+           "Hypothesis 1", "Hypothesis 2", "Hypothesis 3 - Part 1", "Hypothesis 3  -Part 2", "Hypothesis 4"
         ])   
    
-        conSection1Tab = tabTab1.container(border=True, width="stretch", height=780)
+        conSection1Tab = tabTab1.container(border=True, width="stretch", height=780)         
         conSection1Title = conSection1Tab.container(border=False, width="stretch", key="conSection1Title", height=40)
-        conSection1Title.info("Are Sales Increased If Weather Is Hotter Or Colder In The Last 12 Months?")
+        conSection1Title.info("What Were The Highest Sales Per Territory For Last Year?")
 
-        #load into DataFrame copy for working with   
-        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
+        #visualisation for hypothesis 1 - what were the highest sales per territory for last year?
 
-
-        #get year from last date in DataFrame
-        intYear = dfSales_DataSet_Work['Date'].dt.year.max() -1
+        #get 12 months from last date in DataFrame
+        dteStartDate = dfSales_InvoiceData["Year"].max() -1
 
         #filter DataFrame for last 12 months
-        dfSales_DataSet_Work= dfSales_DataSet_Work[dfSales_DataSet_Work['Date'] >= dteStartDate]
+        dfSales_DataSet_Filtered = dfSales_InvoiceData[dfSales_InvoiceData["Year"] == dfSales_InvoiceData["Year"].max() -1]
 
-        #set plot size
-        fig = px.scatter(dfSales_DataSet_Work , x="Temperature", y="Weekly_Sales",
-                 title="Sales vs Temperature Over Last 12 Months", color="Temperature", opacity=0.5)
+        #create new DataFrame with one TerritoryCodes entry per YearMonth with the MAX InvoiceAmt in it
+        dfSales_DataSet_Temp = dfSales_DataSet_Filtered.groupby(["TerritoryCodes"], as_index=False)["InvoiceAmt"].max()                                                                 
+         
+        fig = px.scatter(dfSales_DataSet_Temp,
+             x="TerritoryCodes",
+             y="InvoiceAmt",
+             title="Highest Sales Per Territory For Last Year Over Last 12 Months",
+             labels={
+               "TerritoryCodes": "Territory Codes",
+               "InvoiceAmt": "Invoice Amount"
+             },
+             #set plot size
+             height=500,
+             width=1050,
+         )
 
-        #code copied from chatGPT
-        fig.update_xaxes(
-           ticks="outside",
-           minor=dict(
-              ticks="outside",
-              ticklen=4,
-              showgrid=False
-           )
-        )
-
-        fig.update_yaxes(
-           ticks="outside",
-           minor=dict(
-              ticks="outside",
-              ticklen=4,
-              showgrid=False
-           )
-        )
-        
-        fig.update_layout(
-           xaxis_title="Temperature (Farenheit)",
-           yaxis_title="Weekly Sales (£)", 
-           title_x = 0.3, 
-           plot_bgcolor="#070707", 
-           paper_bgcolor ="#070707"
-        )
-                
-        #remove after testing
-        fig.update_xaxes(dtick=10)        # every 10 degrees
-        fig.update_yaxes(dtick=100000)    # every 100,000 sales
-        #end code copied from chatGPT
-
+        fig.update_layout(title_x = 0.35,             #make axis labels readable
+               xaxis=dict(tickangle=90),
+               xaxis_color="white",
+               yaxis_color="white", 
+               plot_bgcolor="#070707", 
+               paper_bgcolor ="#070707"
+             )
+        fig.update_yaxes(minor=dict(
+             ticks="outside",
+             ticklen=6,
+             dtick=2000
+             ))
+ 
         conSection1Tab.plotly_chart(fig, use_container_width=True, key="figTab1") 
-        expExpander5 =  conSection1Tab.expander("Show Data Used For Plot", expanded=False, key="expExpander5")
-        expExpander5.dataframe(dfSales_DataSet_Work, use_container_width=True)
+        
+        expExpander1 =  conSection1Tab.expander("Show Data Used For Plot", expanded=False, key="expExpander1")
+        expExpander1.dataframe(dfSales_DataSet_Temp, use_container_width=True)
         conSection1Tab.write("Note: in order for the 'ticks' to show on the axes Plotly needs to be version 5.8 or higher") 
    
         conSectionFooter1 = conSection1Tab.container(border=False, width="stretch", key="conSectionFooter1", height=400)
-        conSectionFooter1.write("As we can see from the above visualisation, there is a correlation between sales and weather.")
-        conSectionFooter1.write("There is a clear variance at extreme parts of the temperature range and during the centre range of " + 
-                                "temperature approximately 42-58 Fahrenheit. So clearly temperature is an effective factor in sales, " + 
-                                "_but_ other factors could be at play such as the environmental conditions a particular store is in.")
-        conSectionFooter1.write("Deeper analysis preferably by stores in a sales region would offer a better visualisation of the question. ")
+        conSectionFooter1.write("As we can see Non EU is the primary territory with Northwest and EU next closest in sales.")
+        conSectionFooter1.write("The rest of the territories hover around the 17-20K mark")
+        conSectionFooter1.write("Suggest a big marketing push to raise Midlands sales across the board")
          
  
  #******tab 2*******   
         #plotly visualisation for hypothesis 2 - Sales Differences Between holiday and Non Holiday Weeks per Store Over last 12 Months
         #Note: in order for the "ticks" to show on the axes Plotly needs to be version 5.8 or higher
         conContainerTab2_Sub = tabTab2.container(border=True, width="stretch", key="conTab2Sub", height=780)
-        conContainerTab2_Sub.info("Sales Differences Between Holiday and Non Holiday Weeks Per Store Over last 12 Months")
-        #load into DataFrame copy for working with   
-        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
+        conContainerTab2_Sub.info("Who Were The Top 20 Customers by Sales for Last Year?")
+ 
+        #first filter by last year (2016)
+        dfSales_DataSet_Filtered = dfSales_InvoiceData[dfSales_InvoiceData["Year"] == dfSales_InvoiceData["Year"].max() -1]
 
-        #create plot
-        fig = px.box(dfSales_DataSet_Work,
-           x="Store",
-           y="Weekly_Sales",
-           color="IsHoliday",
-           title="Sales Differences Between Holiday and Non-Holiday Weeks Per Store Last 12 Months",
-           labels={
-              "IsHoliday": "Holiday Status",
-              "Weekly_Sales": "Total Weekly Sales"
-           },
-           #set plot size
-           height=500,
-           width=1050
+        #to stop customer being shown who have NO sales delete all records where InvoiceAmt is 0
+        dfSales_DataSet_Filtered = dfSales_DataSet_Filtered[dfSales_DataSet_Filtered["InvoiceAmt"] > 0]
+
+        #group by CustomerID and get sum of InvoiceAmt
+        dfSales_DataSet_Filtered = (
+           dfSales_DataSet_Filtered
+           .groupby("CustomerID")["InvoiceAmt"]
+           .sum()
+           .sort_values(ascending=False)
+           .head(20)
+           .reset_index()
         )
 
-        fig.update_layout(title_x = 0.15, 
-                          xaxis_color="white",
-                          yaxis_color="white", 
-                          plot_bgcolor="#070707", 
-                          paper_bgcolor ="#070707")        
+        #sort data
+        dfSales_DataSet_Filtered.sort_values("InvoiceAmt", ascending=False)
+
+        fig = px.bar(
+           dfSales_DataSet_Filtered.head(20),
+           x="CustomerID",
+           y="InvoiceAmt",
+           color="InvoiceAmt",
+           color_continuous_scale="Solar",
+           title="Top 20 Customers By Sales For Last 12 Months"
+        )
+
+        fig.update_layout(
+            xaxis_title="Customer ID",
+            yaxis_title="Total Sales (£)",
+            coloraxis_colorbar=dict(title="Total Sales (£)"),
+            template="plotly_white",
+            title_x=0.3,
+            title_font=dict(size=20, family="Arial", color="white"),
+            xaxis_color="white",
+            yaxis_color="white", 
+            plot_bgcolor="#070707", 
+            paper_bgcolor ="#070707"            
+         )
+        
+        fig.update_yaxes(minor=dict(
+             ticks="outside",
+             ticklen=6,
+             dtick=20000
+             ))                      
+                        
         conContainerTab2_Sub.plotly_chart(fig, use_container_width=True, key="figTab2") 
-        expExpander6 =  conContainerTab2_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander6")
-        expExpander6.dataframe(dfSales_DataSet_Work, use_container_width=True)         
+        expExpander2 =  conContainerTab2_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander2")
+        expExpander2.dataframe(dfSales_DataSet_Filtered.head(20), use_container_width=True)         
   
         conSectionFooter2 = conContainerTab2_Sub.container(border=False, width="stretch", key="conSectionFooter2", height=400)
-        conSectionFooter2.write("Due to the large amount of data I chose a boxplot style visualisation to show the distribution of sales" +
-                                "by store type. Also it allows us to see the outliers in the data and the variance of sales by store, which" +
-                                "gives us a quick visual depiction of how holiday weeks affects sales directly.")
-        conSectionFooter2.write("We can deduce that holiday weeks have a positive effect on sales, and that the variance of sales is greater" +
-                                "during holiday weeks than non holiday weeks. Clearly store size also pays a relationship between holiday and" +
-                                "non holiday sales volumes, but we can see simply and clearly the effect a holiday week has on footfall and sales.")
+        conSectionFooter2.write("Custmers 628 and 1028 are the top 2 customer by a huge margin." +
+                                "The average sales amoungst the rests sits around 110-130K.")
+        conSectionFooter2.write("Customers with IDs starting with 'S' are not fairing as well as the other customers, " +
+                                "would be interesting to see what sales territories they are for, a marketing push perhaps?")
 
- #******tab 3*******  
+#******tab 3a*******  
         #plotly visualisation for hypothesis 3 - What is most profitable store type over the last 12 months?
         #Note: in order for the "ticks" to show on the axes Plotly needs to be version 5.8 or higher
-        conContainerTab3_Sub = tabTab3.container(border=True, width="stretch", key="conTab3Sub", height=780)
-        conContainerTab3_Sub.info("What is Most Profitable Store Type Over The Last 12 Months?")
+        conContainerTab3a_Sub = tabTab3a.container(border=True, width="stretch", key="conTab3aSub", height=780)
+        conContainerTab3a_Sub.info("Who Were The Bottom 20 Customer by Sales for Last Year?")
 
-        #load into DataFrame copy for working with   
-        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
-        
-        #create plot#get year from last date in DataFrame
-        intYear = dfSales_DataSet_Work['Date'].dt.year.max() -1
+       #first filter by last year (2016)
+        dfSales_DataSet_Filtered = dfSales_InvoiceData[dfSales_InvoiceData["Year"] == dfSales_InvoiceData["Year"].max() -1]
 
-        #filter DataFrame for last 12 months
-        dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'] >= dteStartDate]
+        #to stop customer being shown who have NO sales delete all records where InvoiceAmt is 0
+        dfSales_DataSet_Filtered = dfSales_DataSet_Filtered[dfSales_DataSet_Filtered["InvoiceAmt"] > 0]
 
-        #filter data by doing simple grouby on store type and weekly sales
-        #reset the index so that the store type is a column and not an index
-        dfSales_Combined_DataSet_StoreType = dfSales_DataSet_Work.groupby("Store_Type")["Weekly_Sales"].sum().reset_index()
-
-        #splot chart
-        fig = px.bar(dfSales_Combined_DataSet_StoreType,
-           x="Store_Type",
-           y="Weekly_Sales",
-           color="Weekly_Sales",
-           title="Most Profitable Store By Type Over Last 12 Months",
-           labels={
-              "IsHoliday": "Holiday Status",
-              "Weekly_Sales": "Total Weekly Sales"
-           },
-           #set plot size
-           height=400,
-           width=800
+        #group by CustomerID and get sum of InvoiceAmt
+        dfSales_DataSet_Filtered = (
+           dfSales_DataSet_Filtered
+           .groupby("CustomerID")["InvoiceAmt"]
+           .sum()
+           .sort_values(ascending=False)
+           .tail(20)
+           .reset_index()
         )
 
-        #by default plotly will show 1B, 2B in the y axis so change it to something more understandable
-        fig.update_yaxes(
-           tickprefix="£",
-           tickformat=","
-        )      
+        #sort data
+        dfSales_DataSet_Filtered.sort_values("InvoiceAmt", ascending=False)
+
+        fig = px.bar(
+           dfSales_DataSet_Filtered.tail(20),
+           x="CustomerID",
+           y="InvoiceAmt",
+           color="InvoiceAmt",
+           color_continuous_scale="Solar",
+           title="Bottom 20 Customers By Sales For Last 12 Months"
+        )
+
+        fig.update_layout(
+            xaxis_title="Customer ID",
+            yaxis_title="Total Sales (£)",
+            coloraxis_colorbar=dict(title="Total Sales (£)"),
+            template="plotly_white",
+            title_x=0.3,
+            title_font=dict(size=20, family="Arial", color="white"),
+            xaxis_color="white",
+            yaxis_color="white", 
+            plot_bgcolor="#070707", 
+            paper_bgcolor ="#070707"            
+         )
+        
+        fig.update_yaxes(minor=dict(
+             ticks="outside",
+             ticklen=6,
+             dtick=2
+             ))                      
+                          
+          
+        conContainerTab3a_Sub.plotly_chart(fig, use_container_width=True, key="figTab3") 
+        expExpander3a =  conContainerTab3a_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander3a")
+        expExpander3a.dataframe(dfSales_DataSet_Filtered.tail(20) , use_container_width=True)         
+        conSectionFooter3a = conContainerTab3a_Sub.container(border=False, width="stretch", key="conSectionFooter3a", height=400)   
+        conSectionFooter3a.write("This plot shows quite a significant resul, the plot sales here are not shown it 1,000s but £s!")
+        conSectionFooter3a.write("Questions This Data Poses:") 
+        conSectionFooter3a.write("- Is there a real business need to entertain sales of such low values")
+        conSectionFooter3a.write("- Are these customers viable to keep based on last years turnover from them?")
+                      
+            
+            
+#*****tab 3b*******
+        #special plot for *all* customers with sales *below* zero!
+        conContainerTab3b_Sub = tabTab3b.container(border=True, width="stretch", key="conTab3Sub", height=780)
+        conContainerTab3b_Sub.info("Who Were The Bottom 20 Customer by Sales for Last Year?")
+  
+        #first filter
+        # by last year (2016)
+        dfSales_DataSet_Filtered = dfSales_InvoiceData[dfSales_InvoiceData["Year"] == dfSales_InvoiceData["Year"].max() -1]
+        
+        #to stop customer being shown who have NO sales delete all records where InvoiceAmt is 0
+        dfSales_DataSet_Filtered = dfSales_DataSet_Filtered[dfSales_DataSet_Filtered["InvoiceAmt"] < 0]
+
+        #group by CustomerID and get sum of InvoiceAmt
+        dfSales_DataSet_Filtered = (
+            dfSales_DataSet_Filtered
+            .groupby("CustomerID")["InvoiceAmt"]
+            .sum()
+            .sort_values(ascending=False)
+         #  .tail(20)
+            .reset_index()
+        )
+
+        #sort data
+        dfSales_DataSet_Filtered.sort_values("InvoiceAmt", ascending=False)
+
+        fig = px.bar(
+            dfSales_DataSet_Filtered.head(20),
+            x="CustomerID",
+            y="InvoiceAmt",
+            color="InvoiceAmt",
+            color_continuous_scale="Solar",
+            title="All Customers With Negative Sales For Last 12 Months"
+        )
+
+        fig.update_layout(
+            xaxis_title="Customer ID",
+            yaxis_title="Total Sales (£)",
+            coloraxis_colorbar=dict(title="Total Sales (£)"),
+            template="plotly_white",
+            title_x=0.5,
+            title_font=dict(size=20, family="Arial", color="white"),
+            xaxis_color="white",
+            yaxis_color="white", 
+            plot_bgcolor="#070707", 
+            paper_bgcolor ="#070707" 
+        )
  
-        fig.update_layout(title_x = 0.3, 
-                          xaxis_color="white",
-                          yaxis_color="white", 
-                          plot_bgcolor="#070707", 
-                          paper_bgcolor ="#070707")          
-        conContainerTab3_Sub.plotly_chart(fig, use_container_width=True, key="figTab3") 
-        expExpander7 =  conContainerTab3_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander7")
-        expExpander7.dataframe(dfSales_Combined_DataSet_StoreType, use_container_width=True)         
-        conSectionFooter3 = conContainerTab3_Sub.container(border=False, width="stretch", key="conSectionFooter3", height=400)   
-        conSectionFooter3.write("This simple yet direct visualisation show the direct difference between the store _types_ and sales.") 
-        conSectionFooter3.write("It is clear that the type 1 store is the most profitable store type in the last 12 months, and that the" +
-                                "type 3 store is the least profitable store type in the last 12 months, but being a different type may by " +
-                                "nature have a smaller customer based, but does not imply that it is not a profitable one in comparision to" +
-                                "its market and customer base.")
+        conContainerTab3b_Sub.plotly_chart(fig, use_container_width=True) 
+        expExpander3b =  conContainerTab3b_Sub.expander("Show Data Used For Plot", expanded=False, key=f"expExpander3b")
+        expExpander3b.dataframe(dfSales_DataSet_Filtered.head(20), use_container_width=True)         
 
-   
- #******tab 4*******    
-        #SeaBorn visualisation for hypothesis 4 - Does store size affect profitability? If so, how much?
-        #over the last 12 months?
-        #Note: in order for the "ticks" to show on the axes Plotly needs to be version 5.8 or higher
+
+        conSectionFooter3b = conContainerTab3b_Sub.container(border=False, width="stretch", key="conSectionFooter3b", height=400)
+        conSectionFooter3b.write("An interesting visualisation that shows the correlation between store size and sales. It is clear that there" +
+                                "is a positive correlation between store size and sales, ")
+        conSectionFooter3b.write("but it is not a linear correlation, as we can see from the plot, and remember a smaller stores is not necessarily" +
+                                "a less profitable store, as it may have a ")
+        conSectionFooter3b.write("smaller customer base, but is still profitable in its own right _but_ suggest additional analysis regarding " +
+                                "store _type_ in correlation to size and sales would be a logical next step.")
+        conSectionFooter3b.write("In stores: 9, 19, 26, 37 all have high sales but store 26 is the highest. Further analysis of theses stores by" +
+                                "_type_ could yield some fascinating insights.")                      
+                                
+#******tab 4*******    
+
         conContainerTab4_Sub = tabTab4.container(border=True, width="stretch", key="conTab4Sub", height=780)
-        conContainerTab4_Sub.info("Does Store Size Affect Profitability? If So, How Much Over The Last 12 Months?")
+        conContainerTab4_Sub.info("Who Were The Bottom 20 Customer by Sales for Last Year?")
+  
+      #  conContainerTab4_Sub.pyplot(fig, use_container_width=True) 
+        expExpander4 =  conContainerTab4_Sub.expander("Show Data Used For Plot", expanded=False, key=f"expExpander4")
+        expExpander4.dataframe(dfSales_DataSet_Filtered.head(20), use_container_width=True)         
 
-        #create the plot
 
-        #define list of store numbers as a set of ranges
-        #there is probably some clever way of doing this dynamically but I don't know it!
-        #so went "old skool" and simply looked at the last store number in the csv file: stores data-set.csv
-        #obviously if more stores are added this isn't a good solution!
-        lstStoreRanges = [
-           range(1, 10),
-           range(10, 20),
-           range(20, 30),
-           range(30, 40),
-           range(40, 46)
-        ]
-        
-        #load into DataFrame copy for working with   
-        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
-        
-        #get year from last date in DataFrame
-        intYear = dfSales_DataSet_Work['Date'].dt.year.max() -1
-
-        #filter DataFrame for last 12 months
-        dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'] >= dteStartDate]
-
-        #read through DataFrame see if store number is in range
-        #Note: this is probably a mute step but is a a god way of validating the result BEFORE
-        #create plots
-        intNum = 8
-        
-        for objStores in lstStoreRanges:
-           #add row to new DataFrame
-           dfSales_Combined_DataSet_SubSet = dfSales_DataSet_Work [
-              dfSales_DataSet_Work["Store"].isin(objStores)
-           ]
-
-           fig, ax = plt.subplots(figsize=(20, 6))
-           #set colours
-           fig.set_facecolor("#070707")
-           ax.set_facecolor("#070707") 
-           ax.xaxis.label.set_color("white")
-           ax.yaxis.label.set_color("white")
-           ax.title.set_color("white")
-           ax.tick_params(axis='x', colors='white')
-           ax.tick_params(axis='y', colors='white')
-                    
-           #set subplots defaults
-           sns.barplot(data=dfSales_Combined_DataSet_SubSet, x="Store_Size", y="Weekly_Sales",
-                        hue="Store_Size")
-
-           #set tick params for x axis
-           plt.tick_params(axis='x', which='minor', length=4, width=1.2)
-           plt.tick_params(axis='x', which='major', length=8, width=0.8)
-
-               
-           #set title
-           plt.title(f"Most Profitable Store By Size Over Last 12 Months - Stores: {min(objStores)}-{max(objStores)}",
-                     fontsize=20)
-           #need to use pyplot for seaborn plots     
-           conContainerTab4_Sub.pyplot(fig, use_container_width=True) 
-           expExpander8 =  conContainerTab4_Sub.expander("Show Data Used For Plot", expanded=False, key=f"expExpander{intNum}")
-           expExpander8.dataframe(dfSales_Combined_DataSet_SubSet, use_container_width=True)         
-           intNum += 1
-       
         conSectionFooter4 = conContainerTab4_Sub.container(border=False, width="stretch", key="conSectionFooter4", height=400)
         conSectionFooter4.write("An interesting visualisation that shows the correlation between store size and sales. It is clear that there" +
                                 "is a positive correlation between store size and sales, ")
@@ -513,7 +525,7 @@ match radRadioButtons:
         #chatGPT generated code used as a base and heavily modified to suit my needs
         #added code comments
         #load into DataFrame copy for working with   
-        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_InvoiceData.copy()
 
         # Aggregate data
         dfSunburst_DataSet = (
@@ -563,8 +575,8 @@ match radRadioButtons:
            paper_bgcolor ="#070707")                       
  
         conSection2Tab.plotly_chart(fig, use_container_width=True, key="figTab5") 
-        expExpander9 =  conSection2Tab.expander("Show Data Used For Plot", expanded=False, key="expExpander9")
-        expExpander9.dataframe(dfSunburst_DataSet, use_container_width=True)         
+        expExpander5 =  conSection2Tab.expander("Show Data Used For Plot", expanded=False, key="expExpander5")
+        expExpander5.dataframe(dfSunburst_DataSet, use_container_width=True)         
         conSectionFooter5 = conSection2Tab.container(border=False, width="stretch", key="conSectionFooter5", height=400)
         conSectionFooter5.write("As you are aware this is more than a visualisation it is an interactive tools, whereby you can" +
                                 "\"drill down\" into the details and experience the data in a more dynamic way.")
@@ -586,7 +598,7 @@ match radRadioButtons:
         lstMarkdownColumns = ['MarkDown1','MarkDown2','MarkDown3','MarkDown4','MarkDown5']
 
         #make copy of DataFrame
-        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_InvoiceData.copy()
 
         #filter for JUST holidays
         dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work['IsHoliday'] == True]
@@ -601,17 +613,17 @@ match radRadioButtons:
         #get last date in DataFrame
         intYear = dfSales_DataSet_Work['Date'].max()
         #filter DataFrame for last 12 months from above value
-        dfSales_Combined_DataSet_GroupBy = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'] >= intYear - pd.DateOffset(months=12)].copy()
+        dfSales_InvoiceData_GroupBy = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'] >= intYear - pd.DateOffset(months=12)].copy()
 
         # Aggregate
-        dfSales_Combined_DataSet_Summary = (
-           dfSales_Combined_DataSet_GroupBy.groupby('Store')[['Weekly_Sales'] + lstMarkdownColumns]
+        dfSales_InvoiceData_Summary = (
+           dfSales_InvoiceData_GroupBy.groupby('Store')[['Weekly_Sales'] + lstMarkdownColumns]
            .sum()
            .reset_index()
         )
 
         # Convert markdown columns into rows
-        dfSales_Combined_DataSet_Final = dfSales_Combined_DataSet_Summary.melt(
+        dfSales_InvoiceData_Final = dfSales_InvoiceData_Summary.melt(
            id_vars=['Store', 'Weekly_Sales'],
            value_vars=lstMarkdownColumns,
            var_name='Markdown Type',
@@ -619,7 +631,7 @@ match radRadioButtons:
         )
 
         fig = px.sunburst(
-           dfSales_Combined_DataSet_Final,
+           dfSales_InvoiceData_Final,
            path=['Store', 'Markdown Type'],
            values='Markdown Value',
            color='Weekly_Sales',
@@ -648,8 +660,8 @@ match radRadioButtons:
            paper_bgcolor ="#070707")                       
  
         conContainerTab6_Sub.plotly_chart(fig, use_container_width=True, key="figTab6") 
-        expExpander10 = conContainerTab6_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander10")
-        expExpander10.dataframe(dfSales_Combined_DataSet_Final, use_container_width=True)         
+        expExpander6 = conContainerTab6_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander6")
+        expExpander6.dataframe(dfSales_InvoiceData_Final, use_container_width=True)         
         conSectionFooter6 = conContainerTab6_Sub.container(border=False, width="stretch", key="conSectionFooter6", height=400)
         conSectionFooter6.write("This is a nice detailed yet not too complex visualisation that just as you have discovered is the same methodology")
         conSectionFooter6.write("as the previous visualisation in that it is interactive, so we can \"drill down\" into finer detail.")
@@ -670,38 +682,38 @@ match radRadioButtons:
         conContainerTab7_Sub.info("What Are The Most Profitable Departments Per Store In  The Last 12 Months?")
  
          #make copy of DataFrame
-        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_InvoiceData.copy()
         
         #first filter by year 2012
         dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'].dt.year == 2012]
 
         #code created by chatGPT modified by me to suit naming conventions etc
-        dfSales_Combined_DataSet_Profit= (
+        dfSales_InvoiceData_Profit= (
            dfSales_DataSet_Work
            .groupby(["Store", "Dept"])["Weekly_Sales"]
            .sum()
            .reset_index()
         )
 
-        dfSales_Combined_DataSet_HighestProfit = (
-           dfSales_Combined_DataSet_Profit.loc[dfSales_Combined_DataSet_Profit.groupby("Store")["Weekly_Sales"].idxmax()]
+        dfSales_InvoiceData_HighestProfit = (
+           dfSales_InvoiceData_Profit.loc[dfSales_InvoiceData_Profit.groupby("Store")["Weekly_Sales"].idxmax()]
            .sort_values("Store")
         )
 
         #sort by Store added by me
-        dfSales_Combined_DataSet_HighestProfit.sort_values(by="Store", ascending=True, inplace=True)
+        dfSales_InvoiceData_HighestProfit.sort_values(by="Store", ascending=True, inplace=True)
 
         #show plot
         plt.figure(figsize=(12, 8))
 
-        dfSales_Combined_DataSet_HighestProfit["Store_Dept"] = (
-           "Store " + dfSales_Combined_DataSet_HighestProfit["Store"].astype(str) +
-           " - Dept " + dfSales_Combined_DataSet_HighestProfit["Dept"].astype(str)
+        dfSales_InvoiceData_HighestProfit["Store_Dept"] = (
+           "Store " + dfSales_InvoiceData_HighestProfit["Store"].astype(str) +
+           " - Dept " + dfSales_InvoiceData_HighestProfit["Dept"].astype(str)
         )
 
         #changed chatGPT seaborn plot to the much better looking plotly express one
         fig =px.bar(
-           dfSales_Combined_DataSet_HighestProfit,
+           dfSales_InvoiceData_HighestProfit,
            x="Weekly_Sales",
            y="Store_Dept",
            orientation="h",
@@ -727,8 +739,8 @@ match radRadioButtons:
 
 
         conContainerTab7_Sub.plotly_chart(fig, use_container_width=True, key="figTab7") 
-        expExpander11 = conContainerTab7_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander11")
-        expExpander11.dataframe(dfSales_Combined_DataSet_HighestProfit, use_container_width=True)         
+        expExpander7 = conContainerTab7_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander7")
+        expExpander7.dataframe(dfSales_InvoiceData_HighestProfit, use_container_width=True)         
         conSectionFooter7 = conContainerTab7_Sub.container(border=False, width="stretch", key="conSectionFooter7", height=400)
         conSectionFooter7.write("The plot shows the departments with the highest total sales for store during last 12 months")
         conSectionFooter7.write("We can see that stores 13, 14 and 19 have the highest earning departments  ")
@@ -744,7 +756,7 @@ match radRadioButtons:
         conContainerTab8_Sub.info("What Are the Top 10 Stores In Terms of Profitability In The Last 12 Months?")
  
          #make copy of DataFrame
-        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_InvoiceData.copy()
         
         #first filter by year 2012
         dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'].dt.year == 2012]
@@ -800,8 +812,8 @@ match radRadioButtons:
         plt.tight_layout()
         
         conContainerTab8_Sub.pyplot(fig, use_container_width=True) 
-        expExpander12 = conContainerTab8_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander12")
-        expExpander12.dataframe(dfSales_DataSet_Work, use_container_width=True)         
+        expExpander8 = conContainerTab8_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander8")
+        expExpander8.dataframe(dfSales_DataSet_Work, use_container_width=True)         
      
         #get top 3 stores to show in footer
         lstTemp = dfSales_DataSet_Work.head(sdlSliderFrom)["Store"]
@@ -819,7 +831,6 @@ match radRadioButtons:
 
    case "Hypothesis 9 - 11":     
 
-   
 #******tab 9*******  
         #plotly visualisation for hypothesis 9 - What are the bottom 10 stores in terms of profitability in the last 12 months?
         #Note: last year in data is: 2012
@@ -836,7 +847,7 @@ match radRadioButtons:
   
  
         #make copy of DataFrame
-        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_InvoiceData.copy()
          
         #first filter by year 2012
         dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'].dt.year == 2012]
@@ -891,8 +902,8 @@ match radRadioButtons:
         plt.tight_layout()     
          
         conSection3Tab.pyplot(fig, use_container_width=True) 
-        expExpander13 = conSection3Tab.expander("Show Data Used For Plot", expanded=False, key="expExpander13")
-        expExpander13.dataframe(dfSales_DataSet_Work, use_container_width=True)      
+        expExpander9 = conSection3Tab.expander("Show Data Used For Plot", expanded=False, key="expExpander9")
+        expExpander9.dataframe(dfSales_DataSet_Work, use_container_width=True)      
         
         #get top 3 stores to show in footer
         lstTemp = dfSales_DataSet_Work.head(sdlSliderFrom)["Store"]
@@ -915,7 +926,7 @@ match radRadioButtons:
         conContainerTab10_Sub.info("What Was The Unemployment Percentage Per Store By Month For Last Year")
  
          #make copy of DataFrame
-        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_InvoiceData.copy()
 
         #filter by last 3 years data
         dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work["Date"].dt.year ==2012] 
@@ -961,8 +972,8 @@ match radRadioButtons:
          #show plot
         
         conContainerTab10_Sub.plotly_chart(fig, use_container_width=True) 
-        expExpander14 = conContainerTab10_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander14")
-        expExpander14.dataframe(dfSales_DataSet_Work, use_container_width=True)           
+        expExpander10 = conContainerTab10_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander10")
+        expExpander10.dataframe(dfSales_DataSet_Work, use_container_width=True)           
         conSectionFooter10 = conContainerTab10_Sub.container(border=False, width="stretch", key="conSectionFooter10", height=400)
         conSectionFooter10.write("Show an interesting trend that months 3, 6 and 8 (March, June and August) have a peak in unemployment rates")  
         conSectionFooter10.write("This is an interesting insight as it shows that there is a correlation between the months and the unemployment" +
@@ -978,7 +989,7 @@ match radRadioButtons:
         conContainerTab11_Sub.info("What Percentage of Customer Were Unemployed By Store Size Last Year?")
 
          #make copy of DataFrame
-        dfSales_DataSet_Work = dfSales_Combined_DataSet.copy()
+        dfSales_DataSet_Work = dfSales_InvoiceData.copy()
 
         #filter by last 3 years data
         dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work["Date"].dt.year ==2012] 
@@ -1052,7 +1063,7 @@ match radRadioButtons:
   
         #now plot the results
 
-        dfSalesDataML_Work = dfSales_Combined_DataSet.copy() 
+        dfSalesDataML_Work = dfSales_InvoiceData.copy() 
         dfSalesDataML_Work = dfSalesDataML_Work.dropna(subset=["Date"])
 
         #sprinkle some feature engineering
@@ -1229,7 +1240,7 @@ match radRadioButtons:
         conContainerTab13_Sub = tabTab13.container(border=True, width="stretch", key="conTab13Sub", height=780)
    
         #now plot the results
-        dfSalesDataML_Work = dfSales_Combined_DataSet.copy() 
+        dfSalesDataML_Work = dfSales_InvoiceData.copy() 
         #random forest plot test compare last years sales with predicted values for same year
 
         dfSalesDataML_Work = dfSalesDataML_Work.dropna(subset=["Date"])
@@ -1981,3 +1992,11 @@ match radRadioButtons:
         conSectionFooter16.write("This a machine learning prediction, where using random forest it attempts to predict sales for 2013")
         conSectionFooter16.write("As we can see unlike the linear regression model this one better fits the existing data patterns.")
         conSectionFooter16.write("This is the model I present as the prediction for 2013 sales")
+
+   case "Ethics & Data Privacy":
+        conContainerEthicsMain = conContainerMain.container(border=False, width="stretch", key="conSectionEthics", height=860) 
+        conSectionEthicsTitle = conContainerEthicsMain.container(border=False, width="stretch", key="conSectionEthicsTitle", height=40)
+        conSectionEthicsTitle.info("Our Ethics & Data Privacy Considerations")
+      
+        conContainerEthicsMain.write("This section will cover the ethics and data privacy considerations for the sales analysis.")
+        conContainerEthicsMain.write("We are committed to ensuring the responsible use of data and protecting the privacy of our customers.")

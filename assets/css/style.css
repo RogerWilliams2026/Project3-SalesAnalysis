@@ -161,7 +161,7 @@ div[data-testid="stAlert"] > div {
 
 /* container - tab 3 */
 
-.st-key-conTab3Title {
+.st-key-conTab3aTitle {
   background-color: rgb(113, 154, 51);
 
   padding-top: 2px;
@@ -169,19 +169,44 @@ div[data-testid="stAlert"] > div {
   margin-top: 4px;
 }
 
-.st-key-conTab3Title p {
+.st-key-conTab3aTitle p {
   text-align: center;
   color: white;
   font-weight: 800;
   font-size: larger;
 }
 /* need slightly smaller h3 size in tab 3 */
-.st-key-conTab3 h3 {
+.st-key-conTab3a h3 {
   font-size: 1.5rem;
+}
+
+/* need slightly smaller h3 size in tab 3 */
+.st-key-conTab3b h3 {
+  font-size: 1.5rem;
+}
+
+.st-key-conTab3bTitle {
+  background-color: rgb(113, 154, 51);
+
+  padding-top: 2px;
+  padding-bottom: 4px;
+  margin-top: 4px;
+}
+
+.st-key-conTab3bTitle p {
+  text-align: center;
+  color: white;
+  font-weight: 800;
+  font-size: larger;
 }
 
 /* need slightly smaller h4 size in tab 3 */
 .st-key-conTab3 h4 {
+  font-size: 1.2rem;
+}
+
+/* need slightly smaller h4 size in tab 3 */
+.st-key-conTab3b h4 {
   font-size: 1.2rem;
 }
 
@@ -276,4 +301,12 @@ div[data-testid="stAlert"] > div {
 
 .simpletable p {
   color: rgb(255, 255, 255);
+}
+
+.st-key-conSectionEthicsTitle {
+  background-color: rgb(113, 154, 51);
+
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-top: 4px;
 }
