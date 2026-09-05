@@ -306,7 +306,27 @@ div[data-testid="stAlert"] > div {
 .st-key-conSectionEthicsTitle {
   background-color: rgb(113, 154, 51);
 
-  padding-top: 4px;
+  padding-top: 0px;
   padding-bottom: 4px;
   margin-top: 4px;
+}
+
+.st-key-conSectionEthicsTitle div {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.st-key-conSectionEthics {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.st-key-conSectionEthics p {
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }

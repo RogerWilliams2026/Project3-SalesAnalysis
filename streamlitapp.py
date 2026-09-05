@@ -586,45 +586,45 @@ match radRadioButtons:
         # Remove zero/negative amounts
         dfSales_DataSet_Filtered  = dfSales_DataSet_Filtered [dfSales_DataSet_Filtered ["InvoiceAmt"] > 0]
 
-      #   fig = px.sunburst(
-      #      dfSales_DataSet_Filtered,
-      #      path=[
-      #         "TerritoryCodes",
-      #         "CustomerID",
-      #         "Month",
-      #         "InvoiceID"
-      #      ],
-      #      values="InvoiceAmt",
-      #      color="InvoiceAmt",
-      #      color_continuous_scale="Solar",
-      #      title=f"Sales Per Customer Per Territory For {intStartYear}",
-      #      height=800,
-      #      width=800,
-      #      hover_data={
-      #         "InvoiceAmt": ":,.2f",
-      #         "TerritoryCodes": True,
-      #         "CustomerID": True,
-      #         "Month": True,
-      #      }
-      #   )
+        fig = px.sunburst(
+           dfSales_DataSet_Filtered,
+           path=[
+              "TerritoryCodes",
+              "CustomerID",
+              "Month",
+              "InvoiceID"
+           ],
+           values="InvoiceAmt",
+           color="InvoiceAmt",
+           color_continuous_scale="Solar",
+           title=f"Sales Per Customer Per Territory For {intStartYear}",
+           height=800,
+           width=800,
+           hover_data={
+              "InvoiceAmt": ":,.2f",
+              "TerritoryCodes": True,
+              "CustomerID": True,
+              "Month": True,
+           }
+        )
 
-      #   fig.update_layout(
-      #      title_x=0.5,
-      #      title_font=dict(
-      #         size=20,
-      #         family="Arial",
-      #         color="black"
-      #      )
-      #   )
+        fig.update_layout(
+           title_x=0.5,
+           title_font=dict(
+              size=20,
+              family="Arial",
+              color="black"
+           )
+        )
 
-      #   fig.update_traces(
-      #      hovertemplate=
-      #         "Invoice Amount: £%{customdata[0]:,.2f}<br>" +
-      #         "Territory: %{customdata[1]}<br>" +
-      #         "Customer: %{customdata[2]}<br>" +
-      #         "Month: %{customdata[3]}<br>" +
-      #         "<extra></extra>"
-      #   )
+        fig.update_traces(
+           hovertemplate=
+              "Invoice Amount: £%{customdata[0]:,.2f}<br>" +
+              "Territory: %{customdata[1]}<br>" +
+              "Customer: %{customdata[2]}<br>" +
+              "Month: %{customdata[3]}<br>" +
+              "<extra></extra>"
+        )
  
         conContainerTab6_Sub.plotly_chart(fig, use_container_width=True, key="figTab6") 
         expExpander6 = conContainerTab6_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander6")
@@ -1549,17 +1549,30 @@ match radRadioButtons:
         conContainerTab15_Sub.pyplot(fig, use_container_width=True) 
 
         conSectionFooter15 = conContainerTab15_Sub.container(border=False, width="stretch", key="conSectionFooter15", height=400) 
-        conSectionFooter15.write("Much closer to historic data, no geative value and strong in a lot of areas the actual data is.")  
+        conSectionFooter15.write("Much closer to historic data, no negative value and strong in a lot of areas the actual data is.")  
         conSectionFooter15.write("I would suggest using this model.")  
 
 
    case "Ethics & Data Privacy":
         conContainerEthicsMain = conContainerMain.container(border=False, width="stretch", key="conSectionEthics", height=860) 
         conSectionEthicsTitle = conContainerEthicsMain.container(border=False, width="stretch", key="conSectionEthicsTitle", height=40)
-        conSectionEthicsTitle.info("Our Ethics & Data Privacy Considerations")
-      
-        conContainerEthicsMain.write("This section will cover the ethics and data privacy considerations for the sales analysis.")
-        conContainerEthicsMain.write("We are committed to ensuring the responsible use of data and protecting the privacy of our customers.")
-
+        conSectionEthicsTitle.info("Ethical Considerations & Data Governance")
+        conContainerEthicsMain.write("")
+        conContainerEthicsMain.write("")               
+        conContainerEthicsMain.write("We are committed to ensuring the responsible use of data and protecting the privacy of our customers")
+        conContainerEthicsMain.write("and ensuring ethical and responsible use.")
+        conContainerEthicsMain.write("")
+        conContainerEthicsMain.write("Generative AI was used for machine learning of which any potential personal data or sensitive data")
+        conContainerEthicsMain.write("was anonymised beforehand to ensure customer privacy is maintained.")
+        conContainerEthicsMain.write("")
+        conContainerEthicsMain.write("No data on this dashboard contains any data that could be used to identify any individual or business.")
+        conContainerEthicsMain.write("We are committed to monitoring and improving our data privacy practices to ensure that we are always in ")
+        conContainerEthicsMain.write("compliance with relevant regulations and best practices.")
+        conContainerEthicsMain.write(" ")     
+        conContainerEthicsMain.write("No sensitive customer data is processed or stored on non local servers as per ISO270001")  
+        conContainerEthicsMain.write("No machine learning is performed on non local servers")
+        conContainerEthicsMain.write(" ")        
+        conContainerEthicsMain.write("We handle data provided to us from UK and European customers in line with GDPR and EU regulations")
+        
 
        
