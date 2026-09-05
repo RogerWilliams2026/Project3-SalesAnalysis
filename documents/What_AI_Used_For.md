@@ -103,3 +103,16 @@ _ categoryorder="category ascending"_
 _)_
 
 Works!
+
+**Scenario Five:**
+
+Had an issue with the machine learning hypothesis - What are the predicted sales per month for next year?
+
+Using a model I had from project 2, it worked, but not very well and the plots were clearly wrong, played around with it and it predicted the 2017 values more accurately, however the 2018 prediction I just could not get to work!
+
+Asked chatGPT this question:
+
+Doing a machine learning project where I need to predict sales per month for 2018 based on data from 2011-2017 this code does not work, can you suggest a better way to do this?
+(posted my original code)
+
+It replied with a lot of modified code which I used and modified to fit my requirements
