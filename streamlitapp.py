@@ -19,11 +19,17 @@ import joblib
 #VARS
 
 #file paths
-CNST_STR_LINEAR_PIPELINE_HYPOTHESIS12_TEST_STREAMLIT_PATH =  "assets/pipelines/linear_regression_hypothesis12_test_pipeline.pkl"
-CNST_STR_FOREST_PIPELINE_HYPOTHESIS12_TEST_STREAMLIT_PATH = "assets/pipelines/randomforest_hypothesis12_test_pipeline.pkl"
+CNST_STR_LINEAR_PIPELINE_HYPOTHESIS8_TEST_PATH =  "assets/pipelines/linear_regression_hypothesis8_test_pipeline.pkl"
+CNST_STR_FOREST_PIPELINE_HYPOTHESIS8_TEST_PATH = "assets/pipelines/randomforest_hypothesis8_test_pipeline.pkl"
 
-CNST_STR_LINEAR_PIPELINE_HYPOTHESIS12_STREAMLIT_PATH =  "assets/pipelines/linear_regression_hypothesis12_pipeline.pkl"
-CNST_STR_FOREST_PIPELINE_HYPOTHESIS12_STREAMLIT_PATH =  "assets/pipelines/randomforest_hypothesis12_pipeline.pkl"
+CNST_STR_LINEAR_PIPELINE_HYPOTHESIS8_PREDICTION_PATH =  "assets/pipelines/linear_regression_hypothesis8_predictions_pipeline.pkl"
+CNST_STR_FOREST_PIPELINE_HYPOTHESIS8_PREDICTION_PATH =  "assets/pipelines/randomforest_hypothesis8_predictions_pipeline.pkl"
+
+CNST_STR_LINEAR_PIPELINE_HYPOTHESIS9_TEST_PATH =  "assets/pipelines/linear_regression_hypothesis9_test_pipeline.pkl"
+CNST_STR_FOREST_PIPELINE_HYPOTHESIS9_TEST_PATH = "assets/pipelines/randomforest_hypothesis9_test_pipeline.pkl"
+
+CNST_STR_LINEAR_PIPELINE_HYPOTHESIS9_PREDICTION_PATH =  "assets/pipelines/linear_regression_hypothesis9_predictions_pipeline.pkl"
+CNST_STR_FOREST_PIPELINE_HYPOTHESIS9_PREDICTION_PATH =  "assets/pipelines/randomforest_hypothesis9_predictions_pipeline.pkl"
                                               
 CNST_STR_SALES_DATASET = "assets/csv/Data/VisualisationFiles/Sales_InvoiceData_Visualisation.csv"
 CNST_STR_SALES_GROUPBY_CUSTOMER_DATASET = "assets/csv/Data/VisualisationFiles/Sales_InvoiceData_GroupedByCustomer_Visualisation.csv"
@@ -39,8 +45,7 @@ conMainFooter2 = None
 conContainerEthicsMain = None
 conContainerEthicsSub = None
 conContainerTab2_Sub = None
-conContainerTab3a_Sub = None
-conContainerTab3b_Sub = None
+conContainerTab3_Sub = None
 conContainerTab4_Sub = None
 conContainerTab5_Sub = None
 conContainerTab6_Sub = None
@@ -51,16 +56,32 @@ conContainerTab10_Sub = None
 conContainerTab11_Sub = None
 conContainerTab12_Sub = None
 conContainerTab13_Sub = None
+conContainerTab14_Sub = None
+conContainerTab15_Sub = None
+conContainerTab16_Sub = None
+conContainerTab17_Sub = None
+conContainerTab18_Sub = None
+conContainerTab19_Sub = None
 
 conSection1 = None
 conSection2 = None
 conSection3 = None
 conSection4 = None
+conSection5 = None
+conSection6 = None
+conSection7 = None
+conSection8 = None
 
 conSection1Title = None
 conSection2Title = None
 conSection3Title = None
 conSection4Title = None
+conSection5Title = None
+conSection6Title = None
+conSection7Title = None
+conSection8Title = None
+conSection9Title = None
+conSection10Title = None
 
 conSectionEthicsTitle = None
 
@@ -68,11 +89,16 @@ conSection1Tab = None
 conSection2Tab = None
 conSection3Tab = None
 conSection4Tab = None
+conSection5Tab = None
+conSection6Tab = None
+conSection7Tab = None
+conSection8Tab = None
+conSection9Tab = None
+conSection10Tab = None 
 
 conSectionFooter1 = None
 conSectionFooter2 = None
-conSectionFooter3a = None
-conSectionFooter3b = None
+conSectionFooter3 = None
 conSectionFooter4 = None
 conSectionFooter5 = None
 conSectionFooter6 = None
@@ -107,8 +133,7 @@ expExpander15 = None
 
 tabTab1 = None
 tabTab2 = None
-tabTab3a = None
-tabTab3b = None
+tabTab3 = None
 tabTab4 = None
 tabTab5 = None
 tabTab5 = None
@@ -122,6 +147,11 @@ tabTab12 = None
 tabTab13 = None
 tabTab14 = None
 tabTab15 = None
+tabTab16 = None
+tabTab17 = None
+tabTab18 = None
+tabTab19 = None
+
 
 #sliders for user interaction
 sldSliderFrom1 = None
@@ -130,12 +160,14 @@ sldSliderFrom2 = None
 #DataFrames vars for csv files for ML
 dfSales_InvoiceData_GroupByCustomer = pd.DataFrame()
 dfSales_InvoiceData_GroupByTerritory = pd.DataFrame()
+dfSalesDataML_Temp = pd.DataFrame()
 
 #DataFrames vars
 dfSales_InvoiceData = pd.DataFrame()
 dfSales_InvoiceData_Temp = pd.DataFrame()
 dfSales_InvoiceData_Work = pd.DataFrame()
 dfSales_DataSet_Filtered = pd.DataFrame()
+dfSalesDataML_Work = pd.DataFrame()
 
 
 
@@ -198,8 +230,8 @@ conMainFooter2.write("Each Page With A Plot Has A Data Table and Description - U
 st.sidebar.title("Analysis Options",width="content",anchor="left")
 
 #add radio button group for options
-radRadioButtons = st.sidebar.radio("Select:", ["Overview", "Hypothesis 1 -4", "Hypothesis 5 - 8", "Hypothesis 9 - 11", 
-                                               "ML Test", "Ethics & Data Privacy"], 
+radRadioButtons = st.sidebar.radio("Select:", ["Overview", "Hypothesis 1 -4", "Hypothesis 5 - 7",  
+                                               "ML Hypothesis 8", "ML Hypothesis 9", "Ethics & Data Privacy"], 
                                    index=0, key="radRadioButtons")
 
 if st.button("🔄 Reset UI"):
@@ -240,8 +272,8 @@ match radRadioButtons:
 
         conSection1 = conContainerMain.container(border=False, width="stretch", key="conSection1", height=860)
         #create tab control which houses containers for the tab data (split into columns!)        
-        tabTab1, tabTab2, tabTab3a, tabTab3b, tabTab4 = conSection1.tabs([
-           "Hypothesis 1", "Hypothesis 2", "Hypothesis 3 - Part 1", "Hypothesis 3  -Part 2", "Hypothesis 4"
+        tabTab1, tabTab2, tabTab3, tabTab4 = conSection1.tabs([
+           "Hypothesis 1", "Hypothesis 2", "Hypothesis 3", "Hypothesis 4"
         ])   
    
         conSection1Tab = tabTab1.container(border=True, width="stretch", height=780)         
@@ -360,11 +392,11 @@ match radRadioButtons:
         conSectionFooter2.write("Customers with IDs starting with 'S' are not fairing as well as the other customers, " +
                                 "would be interesting to see what sales territories they are for, a marketing push perhaps?")
 
-#******tab 3a*******  
+#******tab 3a******  
         #plotly visualisation for hypothesis 3 - What is most profitable store type over the last 12 months?
         #Note: in order for the "ticks" to show on the axes Plotly needs to be version 5.8 or higher
-        conContainerTab3a_Sub = tabTab3a.container(border=True, width="stretch", key="conTab3aSub", height=780)
-        conContainerTab3a_Sub.info("Who Were The Bottom 20 Customer by Sales for Last Year?")
+        conContainerTab3_Sub = tabTab3.container(border=True, width="stretch", key="conTab3aSub", height=780)
+        conContainerTab3_Sub.info("Who Were The Bottom 20 Customer by Sales for Last Year?")
 
        #first filter by last year (2016)
         dfSales_DataSet_Filtered = dfSales_InvoiceData[dfSales_InvoiceData["Year"] == dfSales_InvoiceData["Year"].max() -1]
@@ -414,21 +446,21 @@ match radRadioButtons:
              ))                      
                           
           
-        conContainerTab3a_Sub.plotly_chart(fig, use_container_width=True, key="figTab3") 
-        expExpander3a =  conContainerTab3a_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander3a")
-        expExpander3a.dataframe(dfSales_DataSet_Filtered.tail(20) , use_container_width=True)         
-        conSectionFooter3a = conContainerTab3a_Sub.container(border=False, width="stretch", key="conSectionFooter3a", height=400)   
-        conSectionFooter3a.write("This plot shows quite a significant resul, the plot sales here are not shown it 1,000s but £s!")
-        conSectionFooter3a.write("Questions This Data Poses:") 
-        conSectionFooter3a.write("- Is there a real business need to entertain sales of such low values")
-        conSectionFooter3a.write("- Are these customers viable to keep based on last years turnover from them?")
+        conContainerTab3_Sub.plotly_chart(fig, use_container_width=True, key="figTab3") 
+        expExpander3 =  conContainerTab3_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander3")
+        expExpander3.dataframe(dfSales_DataSet_Filtered.tail(20) , use_container_width=True)         
+        conSectionFooter3 = conContainerTab3_Sub.container(border=False, width="stretch", key="conSectionFooter3", height=400)   
+        conSectionFooter3.write("This plot shows quite a significant result, the plot sales here are not shown it 1,000s but £s!")
+        conSectionFooter3.write("Questions This Data Poses:") 
+        conSectionFooter3.write("- Is there a real business need to entertain sales of such low values")
+        conSectionFooter3.write("- Are these customers viable to keep based on last years turnover from them?")
                       
             
             
-#*****tab 3b*******
+#*****tab 4*******
         #special plot for *all* customers with sales *below* zero!
-        conContainerTab3b_Sub = tabTab3b.container(border=True, width="stretch", key="conTab3Sub", height=780)
-        conContainerTab3b_Sub.info("Who Were The Bottom 20 Customer by Sales for Last Year?")
+        conContainerTab4_Sub = tabTab4.container(border=True, width="stretch", key="conTab4Sub", height=780)
+        conContainerTab4_Sub.info("Who Were The Bottom 20 Customer by Sales for Last Year?")
   
         #first filter
         # by last year (2016)
@@ -464,7 +496,7 @@ match radRadioButtons:
             yaxis_title="Total Sales (£)",
             coloraxis_colorbar=dict(title="Total Sales (£)"),
             template="plotly_white",
-            title_x=0.5,
+            title_x=0.3,
             title_font=dict(size=20, family="Arial", color="white"),
             xaxis_color="white",
             yaxis_color="white", 
@@ -472,196 +504,131 @@ match radRadioButtons:
             paper_bgcolor ="#070707" 
         )
  
-        conContainerTab3b_Sub.plotly_chart(fig, use_container_width=True) 
-        expExpander3b =  conContainerTab3b_Sub.expander("Show Data Used For Plot", expanded=False, key=f"expExpander3b")
-        expExpander3b.dataframe(dfSales_DataSet_Filtered.head(20), use_container_width=True)         
-
-
-        conSectionFooter3b = conContainerTab3b_Sub.container(border=False, width="stretch", key="conSectionFooter3b", height=400)
-        conSectionFooter3b.write("An interesting visualisation that shows the correlation between store size and sales. It is clear that there" +
-                                "is a positive correlation between store size and sales, ")
-        conSectionFooter3b.write("but it is not a linear correlation, as we can see from the plot, and remember a smaller stores is not necessarily" +
-                                "a less profitable store, as it may have a ")
-        conSectionFooter3b.write("smaller customer base, but is still profitable in its own right _but_ suggest additional analysis regarding " +
-                                "store _type_ in correlation to size and sales would be a logical next step.")
-        conSectionFooter3b.write("In stores: 9, 19, 26, 37 all have high sales but store 26 is the highest. Further analysis of theses stores by" +
-                                "_type_ could yield some fascinating insights.")                      
-                                
-#******tab 4*******    
-
-        conContainerTab4_Sub = tabTab4.container(border=True, width="stretch", key="conTab4Sub", height=780)
-        conContainerTab4_Sub.info("Who Were The Bottom 20 Customer by Sales for Last Year?")
-  
-      #  conContainerTab4_Sub.pyplot(fig, use_container_width=True) 
-        expExpander4 =  conContainerTab4_Sub.expander("Show Data Used For Plot", expanded=False, key=f"expExpander4")
+        conContainerTab4_Sub.plotly_chart(fig, use_container_width=True) 
+        expExpander4 = conContainerTab4_Sub.expander("Show Data Used For Plot", expanded=False, key=f"expExpander4")
         expExpander4.dataframe(dfSales_DataSet_Filtered.head(20), use_container_width=True)         
 
-
         conSectionFooter4 = conContainerTab4_Sub.container(border=False, width="stretch", key="conSectionFooter4", height=400)
-        conSectionFooter4.write("An interesting visualisation that shows the correlation between store size and sales. It is clear that there" +
-                                "is a positive correlation between store size and sales, ")
-        conSectionFooter4.write("but it is not a linear correlation, as we can see from the plot, and remember a smaller stores is not necessarily" +
-                                "a less profitable store, as it may have a ")
-        conSectionFooter4.write("smaller customer base, but is still profitable in its own right _but_ suggest additional analysis regarding " +
-                                "store _type_ in correlation to size and sales would be a logical next step.")
+        conSectionFooter4.write("An interesting visualisation as we can see customer with NEGATIVE sales values.")
+        conSectionFooter4.write("These are due to credit memos, what is good is that the amount of credit memos is signifiantly " +
+                                 "lower than mean sales which is a great metric.")
+        conSectionFooter4.write("In plain English it means you are not 'giving away' a large percentage of profit due to issues" + 
+                                 "requiring credit memo adjustments.")
         conSectionFooter4.write("In stores: 9, 19, 26, 37 all have high sales but store 26 is the highest. Further analysis of theses stores by" +
-                                "_type_ could yield some fascinating insights.")  
-
+                                "_type_ could yield some fascinating insights.")                      
+                                
          
-   case "Hypothesis 5 - 8":                
+   case "Hypothesis 5 - 7":                
   #******tab 5*******    
-        #plotly visualisation for hypothesis 5 - Weekly Sales by Store Type, Store and Department For Last 12 Months
+
+      
         conSection2 = conContainerMain.container(border=False, width="stretch", key="conSection2", height=860)
          
         #create tab control which houses containers for the tab data (split into columns!)        
-        tabTab5, tabTab6, tabTab7, tabTab8 = conSection2.tabs([
-          "Hypothesis 5", "Hypothesis 6", "Hypothesis 7", "Hypothesis 8"
+        tabTab5, tabTab6, tabTab7 = conSection2.tabs([
+          "Hypothesis 5", "Hypothesis 6", "Hypothesis 7"
         ])
      
         conSection2Tab = tabTab5.container(border=True, width="stretch", height=780)
         conSection2Title = conSection2Tab.container(border=False, width="stretch", key="conSection2Title", height=40)
-        conSection2Title.info("Weekly Sales by Store Type, Store and Department For Last 12 Months")
+        conSection2Title.info("What Was The Percentage of Ship Methods Used Last Year?")
  
-        #chatGPT generated code used as a base and heavily modified to suit my needs
-        #added code comments
-        #load into DataFrame copy for working with   
-        dfSales_DataSet_Work = dfSales_InvoiceData.copy()
-
-        # Aggregate data
-        dfSunburst_DataSet = (
-           dfSales_DataSet_Work
-           .groupby(["Store_Type", "Store", "Dept"], as_index=False)
-           ["Weekly_Sales"]
+        # by last year (2016)
+        dfSales_DataSet_Filtered = dfSales_InvoiceData[dfSales_InvoiceData["Year"] == dfSales_InvoiceData["Year"].max() -1]
+        
+        #create new DataFrame with one ShipMethod entry per YearMonth with the MAX InvoiceAmt in it
+        dfSales_DataSet_Temp = dfSales_DataSet_Filtered.groupby(["ShipMethod"], as_index=False)["InvoiceAmt"].max()      
+                                    
+        #group by ShipMethodand get sum of InvoiceAmt
+        dfSales_DataSet_Filtered = (
+           dfSales_DataSet_Filtered
+           .groupby("ShipMethod")["InvoiceAmt"]
            .sum()
-        )
-
-        # Remove negative and zero sales
-        dfSunburst_DataSet = dfSunburst_DataSet[
-           dfSunburst_DataSet["Weekly_Sales"] > 0
-        ]
-
-        # Convert hierarchy columns to strings
-        dfSunburst_DataSet["Store_Type"] = dfSunburst_DataSet["Store_Type"].astype(str)
-        dfSunburst_DataSet["Store"] = dfSunburst_DataSet["Store"].astype(str)
-        dfSunburst_DataSet["Dept"] = dfSunburst_DataSet["Dept"].astype(str)
-
-        #create sunburst plot
-        fig = px.sunburst(
-           dfSunburst_DataSet,
-           path=["Store_Type", "Store", "Dept"],
-           values="Weekly_Sales",
-           custom_data=["Store_Type", "Store", "Dept"],
-           title="Weekly Sales by Store Type, Store and Department Last 12 Months"
-        )
-
-        #update hover labels
-        fig.update_traces(
-           hovertemplate=
-              "<b>Store Type:</b> %{customdata[0]}<br>" +
-              "<b>Store Number:</b> %{customdata[1]}<br>" +
-              "<b>Department:</b> %{customdata[2]}<br>" +
-              "<b>Total Weekly Sales:</b> £%{value:,.0f}" +
-              "<extra></extra>"
-        )
-
-        #set plot size
-        fig.update_layout(
-           width=800,
-           height=600,
-           title_x = 0.3,
-           xaxis_color="white",
-           yaxis_color="white", 
-           plot_bgcolor="#070707", 
-           paper_bgcolor ="#070707")                       
- 
-        conSection2Tab.plotly_chart(fig, use_container_width=True, key="figTab5") 
-        expExpander5 =  conSection2Tab.expander("Show Data Used For Plot", expanded=False, key="expExpander5")
-        expExpander5.dataframe(dfSunburst_DataSet, use_container_width=True)         
-        conSectionFooter5 = conSection2Tab.container(border=False, width="stretch", key="conSectionFooter5", height=400)
-        conSectionFooter5.write("As you are aware this is more than a visualisation it is an interactive tools, whereby you can" +
-                                "\"drill down\" into the details and experience the data in a more dynamic way.")
-        conSectionFooter5.write("As we can see the visualisation is presented as a circular dial with the outer ring representing the" +
-                                "weekly sales, next ring inwards is the store number then finally the centre ring is the store type.")
-        conSectionFooter5.write("Hovering the mouse over any section exposes brief details")          
-        conSectionFooter5.write("Now we can see each departments sales performance within that store, and as we can see when we hover the mouse" +
-                                "over a department the information for that exact department.")
-        conSectionFooter5.write("Also take note in the previous image the centre ring clearly shows that store type 1 has the most profitable" +
-                                "stores, and that store type 3 has the least profitable stores, but as we have seen previously this does not" +
-                                "mean that they are not profitable in their own right. ") 
- 
- #******tab 6*******  
-        #plotly visualisation for hypothesis 6 - Impact of markdowns on sales during holiday periods in the last 12 months by store
-        #Note: in order for the "ticks" to show on the axes Plotly needs to be version 5.8 or higher
-        conContainerTab6_Sub = tabTab6.container(border=True, width="stretch", key="conTab6Sub", height=800)
-        conContainerTab6_Sub.info("What is Most Profitable Store Type Over The Last 12 Months?")
-
-        lstMarkdownColumns = ['MarkDown1','MarkDown2','MarkDown3','MarkDown4','MarkDown5']
-
-        #make copy of DataFrame
-        dfSales_DataSet_Work = dfSales_InvoiceData.copy()
-
-        #filter for JUST holidays
-        dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work['IsHoliday'] == True]
-
-        #make sure date formatted correctly
-        dfSales_DataSet_Work['Date'] = pd.to_datetime(
-           dfSales_DataSet_Work['Date'],
-           dayfirst=True,
-           errors='coerce'
-        )
-    
-        #get last date in DataFrame
-        intYear = dfSales_DataSet_Work['Date'].max()
-        #filter DataFrame for last 12 months from above value
-        dfSales_InvoiceData_GroupBy = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'] >= intYear - pd.DateOffset(months=12)].copy()
-
-        # Aggregate
-        dfSales_InvoiceData_Summary = (
-           dfSales_InvoiceData_GroupBy.groupby('Store')[['Weekly_Sales'] + lstMarkdownColumns]
-           .sum()
+           .sort_values(ascending=False)
            .reset_index()
         )
 
-        # Convert markdown columns into rows
-        dfSales_InvoiceData_Final = dfSales_InvoiceData_Summary.melt(
-           id_vars=['Store', 'Weekly_Sales'],
-           value_vars=lstMarkdownColumns,
-           var_name='Markdown Type',
-           value_name='Markdown Value'
-        )
-
-        fig = px.sunburst(
-           dfSales_InvoiceData_Final,
-           path=['Store', 'Markdown Type'],
-           values='Markdown Value',
-           color='Weekly_Sales',
-           color_continuous_scale='Viridis',
-           custom_data=['Weekly_Sales'],
-           title="Impact Of Markdowns On Sales By Store During Holiday Periods In The Last 12 Months By Store"
-        )
-
-        #update hover labels
-        fig.update_traces(
-           hovertemplate=
-              "<b>Store:</b> %{parent}<br>" +
-              "<b>Markdown Type:</b> %{label}<br>" +
-              "<b>Markdown Value:</b> $%{value:,.2f}<br>" +
-              "<b>Weekly Sales:</b> $%{customdata[0]:,.2f}" +
-              "<extra></extra>"
-        )
-
-        #set plot size
-        fig.update_layout(
+        fig = px.pie(
+           dfSales_DataSet_Filtered,
+           names="ShipMethod",
+           values="InvoiceAmt",
+           title="Percentage of Ship Methods Used Last Year",
+           color_discrete_sequence=px.colors.qualitative.Set3,
+           height=800,
            width=800,
-           height=600,
-           xaxis_color="white",
-           yaxis_color="white", 
-           plot_bgcolor="#070707", 
-           paper_bgcolor ="#070707")                       
+           )                       
+        
+        fig.update_layout(
+           title_x=0.3,
+           title_font=dict(size=20, family="Arial", color="White")
+        )
+   
+  
+        conSection2Tab.plotly_chart(fig, use_container_width=True, key="figTab5") 
+        expExpander5 =  conSection2Tab.expander("Show Data Used For Plot", expanded=False, key="expExpander5")
+        expExpander5.dataframe(dfSales_DataSet_Filtered, use_container_width=True)         
+        conSectionFooter5 = conSection2Tab.container(border=False, width="stretch", key="conSectionFooter5", height=400)
+        conSectionFooter5.write("We can see that export delivery is most popular followed by UK carrier.")
+        conSectionFooter5.write("Question is UK carrier an actual company or a generic placeholder?")
+        conSectionFooter5.write("If it is might be worth considering segregating the data so when a customer places an order " +
+                                "instead of recording 'UK carrier' record the ACTUAL carrier name.")
+ 
+ #******tab 6*******  
+        #What were the sales per customer per territory for last year?
+        #Note: in order for the "ticks" to show on the axes Plotly needs to be version 5.8 or higher
+        conContainerTab6_Sub = tabTab6.container(border=True, width="stretch", key="conTab6Sub", height=800)
+        conContainerTab6_Sub.info("What Were The Sales Per Customer Per Territory For Last Year?")
+
+        # by last year (2016)
+        dfSales_DataSet_Filtered = dfSales_InvoiceData[dfSales_InvoiceData["Year"] == dfSales_InvoiceData["Year"].max() -1]
+        intStartYear = dfSales_InvoiceData["Year"].max() -1
+
+        # Remove zero/negative amounts
+        dfSales_DataSet_Filtered  = dfSales_DataSet_Filtered [dfSales_DataSet_Filtered ["InvoiceAmt"] > 0]
+
+      #   fig = px.sunburst(
+      #      dfSales_DataSet_Filtered,
+      #      path=[
+      #         "TerritoryCodes",
+      #         "CustomerID",
+      #         "Month",
+      #         "InvoiceID"
+      #      ],
+      #      values="InvoiceAmt",
+      #      color="InvoiceAmt",
+      #      color_continuous_scale="Solar",
+      #      title=f"Sales Per Customer Per Territory For {intStartYear}",
+      #      height=800,
+      #      width=800,
+      #      hover_data={
+      #         "InvoiceAmt": ":,.2f",
+      #         "TerritoryCodes": True,
+      #         "CustomerID": True,
+      #         "Month": True,
+      #      }
+      #   )
+
+      #   fig.update_layout(
+      #      title_x=0.5,
+      #      title_font=dict(
+      #         size=20,
+      #         family="Arial",
+      #         color="black"
+      #      )
+      #   )
+
+      #   fig.update_traces(
+      #      hovertemplate=
+      #         "Invoice Amount: £%{customdata[0]:,.2f}<br>" +
+      #         "Territory: %{customdata[1]}<br>" +
+      #         "Customer: %{customdata[2]}<br>" +
+      #         "Month: %{customdata[3]}<br>" +
+      #         "<extra></extra>"
+      #   )
  
         conContainerTab6_Sub.plotly_chart(fig, use_container_width=True, key="figTab6") 
         expExpander6 = conContainerTab6_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander6")
-        expExpander6.dataframe(dfSales_InvoiceData_Final, use_container_width=True)         
+        expExpander6.dataframe(dfSales_DataSet_Filtered, use_container_width=True)         
         conSectionFooter6 = conContainerTab6_Sub.container(border=False, width="stretch", key="conSectionFooter6", height=400)
         conSectionFooter6.write("This is a nice detailed yet not too complex visualisation that just as you have discovered is the same methodology")
         conSectionFooter6.write("as the previous visualisation in that it is interactive, so we can \"drill down\" into finer detail.")
@@ -674,1324 +641,917 @@ match radRadioButtons:
      
  
  #******tab 7*******  
-        #plotly visualisation for hypothesis 7 - What are the most profitable departments per store in the last 12 months?
+        #What Was The Sales By Product Family For Last The Two Years?
         #Note: last year in data is: 2012
       
         #Note: in order for the "ticks" to show on the axes Plotly needs to be version 5.8 or higher
         conContainerTab7_Sub = tabTab7.container(border=True, width="stretch", key="conTab7Sub", height=780)
-        conContainerTab7_Sub.info("What Are The Most Profitable Departments Per Store In  The Last 12 Months?")
+        conContainerTab7_Sub.info("What Are The Most Profitable Departments Per Store In The Last 12 Months?")
  
-         #make copy of DataFrame
-        dfSales_DataSet_Work = dfSales_InvoiceData.copy()
+        # by last year (2016)
+        intStartYear = dfSales_InvoiceData["Year"].max() -1
+        intEndYear = dfSales_InvoiceData["Year"].max()
+        #filter DataFrame for last 12 months
+        dfSales_DataSet_Filtered = dfSales_InvoiceData[dfSales_InvoiceData["Year"] >= dfSales_InvoiceData["Year"].max() -1]
+
+        #remove zero/negative amounts
+        dfSales_DataSet_Filtered  = dfSales_DataSet_Filtered [dfSales_DataSet_Filtered ["InvoiceAmt"] > 0]
+
+        #sort by year
+        dfSales_DataSet_Filtered = dfSales_DataSet_Filtered.sort_values(by=["Year"], ascending=[True])
+
+        #group by CustomerID and get sum of InvoiceAmt
+        dfSales_DataSet_Filtered = (
+            dfSales_DataSet_Filtered
+            .groupby(["Year", "ProductFamily"])["InvoiceAmt"]
+            .sum()
+            .reset_index()
+        )
+
+        #print first 3 dataframes in each column 
+        dfSales_DataSet_Temp = dfSales_DataSet_Filtered.loc[ dfSales_DataSet_Filtered["Year"].isin([intStartYear, intEndYear]),
+                                             ["Year", "ProductFamily", "InvoiceAmt"] ]    
+        #convert year to string
+        dfSales_DataSet_Temp = dfSales_DataSet_Temp.astype({"Year": str})
         
-        #first filter by year 2012
-        dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'].dt.year == 2012]
+        #print first 3 dataframes in each column 
+        dfSales_DataSet_Temp = dfSales_DataSet_Filtered.loc[ dfSales_DataSet_Filtered["Year"].isin([intStartYear, intEndYear]),
+                                            ["Year", "ProductFamily", "InvoiceAmt"] ]    
+        #convert year to string
+        dfSales_DataSet_Temp = dfSales_DataSet_Temp.astype({"Year": str})
 
-        #code created by chatGPT modified by me to suit naming conventions etc
-        dfSales_InvoiceData_Profit= (
-           dfSales_DataSet_Work
-           .groupby(["Store", "Dept"])["Weekly_Sales"]
-           .sum()
-           .reset_index()
+               
+        fig = px.scatter(
+           dfSales_DataSet_Temp,
+           x="ProductFamily",
+           y="InvoiceAmt",
+           color="Year",
+           height=800,
+           width=1000,
+           title=f"Comparing Sales By Product Family For {intEndYear} Against {intStartYear}"
         )
 
-        dfSales_InvoiceData_HighestProfit = (
-           dfSales_InvoiceData_Profit.loc[dfSales_InvoiceData_Profit.groupby("Store")["Weekly_Sales"].idxmax()]
-           .sort_values("Store")
-        )
-
-        #sort by Store added by me
-        dfSales_InvoiceData_HighestProfit.sort_values(by="Store", ascending=True, inplace=True)
-
-        #show plot
-        plt.figure(figsize=(12, 8))
-
-        dfSales_InvoiceData_HighestProfit["Store_Dept"] = (
-           "Store " + dfSales_InvoiceData_HighestProfit["Store"].astype(str) +
-           " - Dept " + dfSales_InvoiceData_HighestProfit["Dept"].astype(str)
-        )
-
-        #changed chatGPT seaborn plot to the much better looking plotly express one
-        fig =px.bar(
-           dfSales_InvoiceData_HighestProfit,
-           x="Weekly_Sales",
-           y="Store_Dept",
-           orientation="h",
-           color="Weekly_Sales",
-           color_continuous_scale="Blues",
-           title="Highest Selling Department For Each Store For Last 12 Months",
-           #set plot size
-           height=1000,
-           width=1050
-        )
-
+        plt.style.use("dark_background")
+        #from chatGPT
+        fig.update_xaxes(type="category", categoryorder="category ascending")
+        #end from chatGPT
         fig.update_layout(
-           xaxis_title="Total Sales (£)",
-           yaxis_title="Store and Department",
-           yaxis=dict(autorange="reversed"),  # Reverse the y-axis to have the highest sales at the top
-           coloraxis_colorbar=dict(title="Total Sales (£)"),
-           title_x=0.3,  # Center the title
-           font=dict(size=12),  # Set font size for better readability
+           xaxis_title="Product Family", 
+           yaxis_title="Invoice Amount", 
+          # template="plotly_dark",          
+           title_x=0.3,
+           title_font=dict(size=20, family="Arial", color="white"),
            xaxis_color="white",
            yaxis_color="white", 
            plot_bgcolor="#070707", 
-           paper_bgcolor ="#070707")                       
+           paper_bgcolor ="#070707"
+        )
 
+        fig.update_yaxes(minor=dict(
+             ticks="outside",
+             ticklen=6,
+             dtick=2000
+             ))
+
+        #make so dots on plot are more readable
+        fig.update_traces(marker=dict(size=12, line=dict(width=2, color='DarkSlateGrey')), selector=dict(mode='markers'))
 
         conContainerTab7_Sub.plotly_chart(fig, use_container_width=True, key="figTab7") 
         expExpander7 = conContainerTab7_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander7")
-        expExpander7.dataframe(dfSales_InvoiceData_HighestProfit, use_container_width=True)         
+        expExpander7.dataframe(dfSales_DataSet_Temp , use_container_width=True)         
         conSectionFooter7 = conContainerTab7_Sub.container(border=False, width="stretch", key="conSectionFooter7", height=400)
-        conSectionFooter7.write("The plot shows the departments with the highest total sales for store during last 12 months")
-        conSectionFooter7.write("We can see that stores 13, 14 and 19 have the highest earning departments  ")
-        conSectionFooter7.write("Would be interesting to ask the question as to how big those stores are, is there a correlation?")
-              
+        conSectionFooter7.write("We can see consistently Electronic Components, Fire Products, Odet, Pescara and Arc are high sellers ")
+        conSectionFooter7.write("The overall trend is quite stable which is a good business sign, with some areas such as " +
+                                "Arrian, M-Range and Odet showing increased growth.")
         
- #******tab 8*******  
-        #plotly visualisation for hypothesis 8 - What are the top 10 stores in terms of profitability in the last 12 months?
-        #Note: last year in data is: 2012
-      
-        #Note: in order for the "ticks" to show on the axes Plotly needs to be version 5.8 or higher
-        conContainerTab8_Sub = tabTab8.container(border=True, width="stretch", key="conTab8Sub", height=780)
-        conContainerTab8_Sub.info("What Are the Top 10 Stores In Terms of Profitability In The Last 12 Months?")
- 
-         #make copy of DataFrame
-        dfSales_DataSet_Work = dfSales_InvoiceData.copy()
         
-        #first filter by year 2012
-        dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'].dt.year == 2012]
+
+   case "ML Hypothesis 8":     
 
         #add slider so user can play with the report
-        sdlSliderFrom = conContainerTab8_Sub.slider("Select Amount of Stores", min_value=10, 
-                                                    max_value=dfSales_DataSet_Work["Store"].nunique(), value=10, step=1, 
-                                                    key="sdlSliderFrom1")
+      #   sdlSliderFrom = conContainerTab8_Sub.slider("Select Amount of Stores", min_value=10, 
+      #                                               max_value=dfSales_DataSet_Work["Store"].nunique(), value=10, step=1, 
+      #                                               key="sdlSliderFrom1")
 
-        #group by Store and get sum of Weekly_Sales
-        dfSales_DataSet_Work = (
-           dfSales_DataSet_Work
-           .groupby("Store")["Weekly_Sales"]
-           .sum()
-           .sort_values(ascending=False)
-           .head(sdlSliderFrom)
-           .reset_index()
-        )
+      #   #group by Store and get sum of Weekly_Sales
+      #   dfSales_DataSet_Work = (
+      #      dfSales_DataSet_Work
+      #      .groupby("Store")["Weekly_Sales"]
+      #      .sum()
+      #      .sort_values(ascending=False)
+      #      .head(sdlSliderFrom)
+      #      .reset_index()
+      #   )
 
 
-        #need to handle plot differntly as matplotlib does not work in streamlit like ploty express
-        ax = dfSales_DataSet_Work.plot(
-           x="Store",
-           y="Weekly_Sales",
-           kind="barh",
-           color="steelblue",
-           figsize=(18, 6),
-           legend=False
-        )
-
-        #sort dataset
-        dfSales_DataSet_Work.sort_values("Weekly_Sales", ascending=False).head(sdlSliderFrom).plot(
-           x="Store",
-           y="Weekly_Sales",
-           kind="barh",
-           color="steelblue"   
-        )
-
-        #unique to matplotlib
-        ax.set_title(f"Top {sdlSliderFrom} Stores By Sales For Last 12 Months")
-        ax.set_xlabel("Total Sales (£)")
-        ax.set_ylabel("Store")
-        ax.set_facecolor("#1e1e1e")
-        ax.tick_params(colors="white")
-        ax.xaxis.label.set_color("white")
-        ax.yaxis.label.set_color("white")
-        ax.title.set_color("white")
-        #need to apply as close a colour as possible to plotly express plot colours
-        fig = ax.get_figure()
-        # Background of the entire figure
-        fig.set_facecolor("#070707")
-        
-        plt.tight_layout()
-        
-        conContainerTab8_Sub.pyplot(fig, use_container_width=True) 
-        expExpander8 = conContainerTab8_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander8")
-        expExpander8.dataframe(dfSales_DataSet_Work, use_container_width=True)         
-     
-        #get top 3 stores to show in footer
-        lstTemp = dfSales_DataSet_Work.head(sdlSliderFrom)["Store"]
-
-        conSectionFooter8 = conContainerTab8_Sub.container(border=False, width="stretch", key="conSectionFooter8", height=400)
-        conSectionFooter8.write(f"The plot shows the top {sdlSliderFrom} stores by total sales for the last 12 months")   
-        conSectionFooter8.write(f"We can see stores {lstTemp[0]}, {lstTemp[1]} and {lstTemp[2]} are the highest earners in this context ")  
-        conSectionFooter8.write("This is simple plot can cause a number of analytical questins to be asked:")  
-        conSectionFooter8.write("- What size are the stores?")  
-        conSectionFooter8.write("- Does store size pay a factor in sales?")  
-        conSectionFooter8.write("- What effect does the employent rate have on these stores?")  
-      
-
-       
-
-   case "Hypothesis 9 - 11":     
-
-#******tab 9*******  
-        #plotly visualisation for hypothesis 9 - What are the bottom 10 stores in terms of profitability in the last 12 months?
-        #Note: last year in data is: 2012
-        conSection3 = conContainerMain.container(border=False, width="stretch", key="conSection3", height=860)
-         
-        #create tab control which houses containers for the tab data (split into columns!)        
-        tabTab9, tabTab10, tabTab11 = conSection3.tabs([
-          "Hypothesis 9", "Hypothesis 10", "Hypothesis 11"
-        ])  
-
-        conSection3Tab = tabTab9.container(border=True, width="stretch", height=780)
-        conSection3Title = conSection3Tab.container(border=False, width="stretch", key="conSection3Title", height=40)      
-        conSection3Title.info("What Are The Bottom 10 Stores In Terms Of Profitability In The Last 12 Months?")
-  
- 
-        #make copy of DataFrame
-        dfSales_DataSet_Work = dfSales_InvoiceData.copy()
-         
-        #first filter by year 2012
-        dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work['Date'].dt.year == 2012]
- 
-        #add slider so user can play with the report
-        sdlSliderFrom = conSection3Tab.slider("Select Amount of Stores", min_value=10, max_value=dfSales_DataSet_Work["Store"].nunique(), 
-                                              value=10, step=1, key="sdlSliderFrom2")
-
- 
-        #group by Store and get sum of Weekly_Sales
-        dfSales_DataSet_Work = (
-            dfSales_DataSet_Work
-            .groupby("Store")["Weekly_Sales"]
-            .sum()
-            .sort_values(ascending=False)
-            .tail(sdlSliderFrom)
-            .reset_index()
-        ) 
- 
-        #need to handle plot differntly as matplotlib does not work in streamlit like ploty express
-        ax = dfSales_DataSet_Work.plot(
-           x="Store",
-           y="Weekly_Sales",
-           kind="barh",
-           color="steelblue",
-           figsize=(10, 3),
-           legend=False
-        )
- 
-        #sort dataset
-        dfSales_DataSet_Work.sort_values("Weekly_Sales", ascending=False).head(sdlSliderFrom).plot(
-           x="Store",
-           y="Weekly_Sales",
-           kind="barh",
-           color="steelblue"   
-        )
- 
-        #unique to matplotlib
-        ax.set_title(f"Bottom {sdlSliderFrom} Stores By Sales For Last 12 Months")
-        ax.set_xlabel("Total Sales (£)")
-        ax.set_ylabel("Store")
-        ax.set_facecolor("#1e1e1e")
-        ax.tick_params(colors="white")
-        ax.xaxis.label.set_color("white")
-        ax.yaxis.label.set_color("white")
-        ax.title.set_color("white")
-        #need to apply as close a colour as possible to plotly express plot colours
-        fig = ax.get_figure()
-        # Background of the entire figure
-        fig.set_facecolor("#070707")
-         
-        plt.tight_layout()     
-         
-        conSection3Tab.pyplot(fig, use_container_width=True) 
-        expExpander9 = conSection3Tab.expander("Show Data Used For Plot", expanded=False, key="expExpander9")
-        expExpander9.dataframe(dfSales_DataSet_Work, use_container_width=True)      
-        
-        #get top 3 stores to show in footer
-        lstTemp = dfSales_DataSet_Work.head(sdlSliderFrom)["Store"]
-      
-        conSectionFooter9 = conSection3Tab.container(border=False, width="stretch", key="conSectionFooter9", height=400) 
-        conSectionFooter9.write(f"The plot shows the bottom {sdlSliderFrom} stores by total sales for the last 12 months")   
-        conSectionFooter9.write(f"We can see stores {lstTemp[len(lstTemp)-1]}, {lstTemp[len(lstTemp)-2]} and {lstTemp[len(lstTemp)-3]} are the lowest earners in this context ")  
-        conSectionFooter9.write("This is simple plot can cause a number of analytical questins to be asked:")  
-        conSectionFooter9.write("- What size are the stores?")  
-        conSectionFooter9.write("- Does store size pay a factor in sales?")  
-        conSectionFooter9.write("- What effect does the employent rate have on these stores?")             
-   
- 
- #******tab 10*******  
-        #plotly visualisation for hypothesis 10 - What was the unemployment percentage per store by month for last year?
-        #Note: last year in data is: 2012
-      
-        #Note: in order for the "ticks" to show on the axes Plotly needs to be version 5.8 or higher
-        conContainerTab10_Sub = tabTab10.container(border=True, width="stretch", key="conTab10Sub", height=780)
-        conContainerTab10_Sub.info("What Was The Unemployment Percentage Per Store By Month For Last Year")
- 
-         #make copy of DataFrame
-        dfSales_DataSet_Work = dfSales_InvoiceData.copy()
-
-        #filter by last 3 years data
-        dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work["Date"].dt.year ==2012] 
-        dfSales_DataSet_Work["Month"] = (dfSales_DataSet_Work["Date"].dt.month)
-
-        #use mean for the aggreagtion as sum will produce wierd results!
-        dfSales_DataSet_Work = (
-           dfSales_DataSet_Work
-           .groupby(["Store", "Month"], as_index=False)
-           ["Unemployment"]
-           .mean()
-        )
-
-        #configure plot
-        fig = px.line(
-           dfSales_DataSet_Work,
-           x="Month",
-           y="Unemployment",
-           color="Store",
-           title="Percentage of Unemployed Customers Per Store By Month For Last Year",
-           markers=True,
-           height=500,
-           width=800
-        )
-
-        fig.update_layout(
-           xaxis_title="Month",
-           yaxis_title="Unemployment Rate (%)",
-           title_x=0.3,  # Centre the title
-                          xaxis_color="white",
-                          yaxis_color="white", 
-                          plot_bgcolor="#070707", 
-                          paper_bgcolor ="#070707")                       
-
-        fig.update_xaxes(
-           dtick="M1",  # Set tick interval to 1 month
-           tickformat="%Y-%m",  # Format ticks as Year-Month
-        )
-
-        fig.update_yaxes(
-           tickformat=".1f",  
-        )
-         #show plot
-        
-        conContainerTab10_Sub.plotly_chart(fig, use_container_width=True) 
-        expExpander10 = conContainerTab10_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander10")
-        expExpander10.dataframe(dfSales_DataSet_Work, use_container_width=True)           
-        conSectionFooter10 = conContainerTab10_Sub.container(border=False, width="stretch", key="conSectionFooter10", height=400)
-        conSectionFooter10.write("Show an interesting trend that months 3, 6 and 8 (March, June and August) have a peak in unemployment rates")  
-        conSectionFooter10.write("This is an interesting insight as it shows that there is a correlation between the months and the unemployment" +
-                                 "rates, across ALL stores. ")
-        
- 
- #******tab 11*******  
-        #plotly visualisation for hypothesis 11 - What Was The Unemployment Percentage Per Store By Store Size Last Year?
-        #Note: last year in data is: 2012
-      
-        #Note: in order for the "ticks" to show on the axes Plotly needs to be version 5.8 or higher
-        conContainerTab11_Sub = tabTab11.container(border=True, width="stretch", key="conTab11Sub", height=780)
-        conContainerTab11_Sub.info("What Percentage of Customer Were Unemployed By Store Size Last Year?")
-
-         #make copy of DataFrame
-        dfSales_DataSet_Work = dfSales_InvoiceData.copy()
-
-        #filter by last 3 years data
-        dfSales_DataSet_Work = dfSales_DataSet_Work[dfSales_DataSet_Work["Date"].dt.year ==2012] 
-
-        #sprinkle some feature engineering     
-        dfSales_DataSet_Work["Year"] = dfSales_DataSet_Work["Date"].dt.year.astype(int)
-        dfSales_DataSet_Work["month_label"] = dfSales_DataSet_Work["Date"].dt.strftime("%d") + " " + dfSales_DataSet_Work["Date"].dt.month_name() 
-
-        #use mean rather than sum as the figures are not reliable if used!
-        dfSales_DataSet_Work = (
-           dfSales_DataSet_Work
-           .groupby(["Store", "YearMonth","Store_Size"], as_index=False)
-           ["Unemployment"]
-           .mean()
-        )
-
-        #configure the plot
-        fig = px.scatter_3d(
-           dfSales_DataSet_Work,
-           x="Unemployment",
-           y="Store",
-           z="Store_Size",
-           color="Unemployment",
-           # markers=True,
-           height=700,
-           title="What Was The Unemployment Percentage Per Store By Store Size Last Year?" 
-        )
-
-        fig.update_xaxes(type="category")
-        #label axis
-        fig.update_layout(scene = dict(
-           xaxis_title="Unemployment %",
-           yaxis_title="Store",
-           zaxis_title="Store Size"
-           ),
-           title_x=0.2,  # Centre the title
-           #zoom in slightly to better fill the whitespace
-           scene_camera=dict(
-              eye=dict(x=1.4, y=1.4, z=1.4)  # closer / more zoomed in
-           ),
-           xaxis_color="white",
-           yaxis_color="white", 
-           plot_bgcolor="#070707", 
-           paper_bgcolor ="#070707")                       
-      
-        #show plot       
-        conContainerTab11_Sub.plotly_chart(fig, use_container_width=True) 
-        expExpander15 = conContainerTab11_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander15")
-        expExpander15.dataframe(dfSales_DataSet_Work, use_container_width=True)           
-        conSectionFooter11 = conContainerTab11_Sub.container(border=False, width="stretch", key="conSectionFooter11", height=400)
-        conSectionFooter11.write("Shows an interesting trend that store size is not a factor in the amount of unemployed customers per store")
-        conSectionFooter11.write("What makes this plot so cool, is you move it around and articulate the data points yourself exposing insights" + 
-                                 "that words could miss")
-   
-   case "ML Test":
-   
-#******tab 12*******
-        #tab 12 hypothesis 12 - ML prediction
+#******tab 8*******  
+        #plotly visualisation for hypothesis 8 - What are the predicted sales per month for next year?
         #Note: last year in data is: 2012
         conSection4 = conContainerMain.container(border=False, width="stretch", key="conSection4", height=860)
-        conSection4Title = conSection4.container(border=False, width="stretch", key="conSection4Title", height=40)
          
         #create tab control which houses containers for the tab data (split into columns!)        
-        tabTab12, tabTab13, tabTab14, tabTab15 = conSection4.tabs([
-          "Machine Learning Tests Linear Regression", "Machine Learning Tests Random Forest","Machine Learning Prediction - Linear Regression",
-          "Machine Learning Prediction - Random Forest"
+        tabTab8, tabTab9, tabTab10, tabTab11  = conSection4.tabs([
+          "Hypothesis 8 - Linear Regression", "Hypothesis 8 - Random Forest", "2018 Prediction - Linear Regression",
+          "2018 Prediction - Random Forest"
         ])  
 
-        conSection4Title.info("Can Machine Learning Predict Sales Values That Match The Last 12 Months?")
-        conSection4Tab = tabTab12.container(border=True, width="stretch", height=780)
+        conSection4Tab = tabTab8.container(border=True, width="stretch", height=780)
+        conSection4Title = conSection4Tab.container(border=False, width="stretch", key="conSection4Title", height=40)      
+        conSection4Title.info("What Are The Predicted Sales Per Month For Next Year?")
   
-        #now plot the results
+        objPipeline = joblib.load(CNST_STR_LINEAR_PIPELINE_HYPOTHESIS8_TEST_PATH)
+ 
+        #get above DataFrame and filter for JUST 2017
+        dfSalesDataML_Temp = dfSales_InvoiceData_GroupByTerritory[dfSales_InvoiceData_GroupByTerritory["Year"] == 2017].copy()
 
-        dfSalesDataML_Work = dfSales_InvoiceData.copy() 
-        dfSalesDataML_Work = dfSalesDataML_Work.dropna(subset=["Date"])
-
-        #sprinkle some feature engineering
-        dfSalesDataML_Work["Year"] = dfSalesDataML_Work["Date"].dt.year
-        dfSalesDataML_Work["Month"] = dfSalesDataML_Work["Date"].dt.month
-        dfSalesDataML_Work["Day"] = dfSalesDataML_Work["Date"].dt.day
-        dfSalesDataML_Work["DayOfWeek"] = dfSalesDataML_Work    ["Date"].dt.dayofweek
-        dfSalesDataML_Work["WeekOfYear"] = dfSalesDataML_Work["Date"].dt.isocalendar().week.astype(int)
-        dfSalesDataML_Work["Quarter"] = dfSalesDataML_Work["Date"].dt.quarter
-
-        #Thanks to StackOverflow user chimpsarehungry for the solution
-        dfSalesDataML_Work["MonthSin"] = np.sin(2 * np.pi * dfSalesDataML_Work["Month"] / 12)
-        dfSalesDataML_Work["MonthCos"] = np.cos(2 * np.pi * dfSalesDataML_Work["Month"] / 12)
-
-        dfSalesDataML_Work["IsHoliday"] = dfSalesDataML_Work["IsHoliday"].astype(int)
-
-        #load linear regression pipeline
-        objPipeline = joblib.load(CNST_STR_LINEAR_PIPELINE_HYPOTHESIS12_TEST_STREAMLIT_PATH)
-
-        #set year range
-        intYear= 2012
-        intPreviousYear = intYear - 1
-
-        dfTest = dfSalesDataML_Work.copy()
-        dfTest = dfTest[dfTest["Year"] == intYear]
-
-        dfPrevious = dfSalesDataML_Work.copy()
-        dfPrevious = dfPrevious[dfPrevious["Year"] == intPreviousYear]
-
-        #configure features
-        lstFeatures = [
-           "Store",
-           "Dept",
-           "IsHoliday",
-           "Year",
-           "Month",
-           "Day",
-           "DayOfWeek",
-           "WeekOfYear",
-           "Quarter",
-           "MonthSin",
-           "MonthCos"
-        ]
-
-        #create model prediction
-        dfXTest = dfTest[lstFeatures]
-        dfTest["Predicted_Sales"] = objPipeline.predict(dfXTest)
-
-
-        #get actual sales to compare
-        dfActualSales = (
-           dfTest
-           .groupby(
-              ["Date", "WeekOfYear"]
-           )["Weekly_Sales"]
-           .sum()
-           .reset_index()
-        )
-
-        #make sure we don't get a clash fof names in the plot!
-        dfActualSales = dfActualSales.rename(
-           columns={
-              "Weekly_Sales": "Actual_Sales"
-           }
-        )
-
-
-        #get predicted sales to compare
-        dfPredictedSales = (
-           dfTest
-           .groupby(
-              ["Date", "WeekOfYear"]
-           )["Predicted_Sales"]
-           .sum()
-           .reset_index()
-        )
-
-
-        #get previous sales by week to compare
-        dfPreviousSales = (
-           dfPrevious
-           .groupby(
-              "WeekOfYear"
-           )["Weekly_Sales"]
-           .sum()
-           .reset_index()
-        )
-
-        #make sure we don't get a clash of names in the plot!
-        dfPreviousSales = dfPreviousSales.rename(
-           columns={
-              "Weekly_Sales": "Previous_Year_Sales"
-           }
-        )
-
-
-        #merge plots
-        dfPlot = dfActualSales.merge(
-           dfPredictedSales,
-           on=["Date", "WeekOfYear"],
-           how="left"
-        )
-
-        #merge previous year
-        dfPlot = dfPlot.merge(
-           dfPreviousSales,
-           on="WeekOfYear",
-           how="left"
-        )
-
-        #sort by Date
-        dfPlot = dfPlot.sort_values("Date")
-
-        #check for missing previous year values
-        dfMissingPrevious = dfPlot["Previous_Year_Sales"].isna().sum()
-
-        #create plot
-        fig, ax = plt.subplots(figsize=(18, 7))
-
-        # Set background colours
-        fig.set_facecolor("#070707")
-        ax.set_facecolor("#070707")         
+        #use special csv file grouped by territory and yearmonth
+        dfSalesDataML_Work = dfSales_InvoiceData_GroupByTerritory.copy() 
         
-        #plot actual sales
+        #sort by yearmonth
+        dfSalesDataML_Temp.sort_values(by=["YearMonth"], inplace=True)
 
-        #plot predictions
-        ax.plot(
-           dfPlot["Date"],
-           dfPlot["Predicted_Sales"],
-           label="Linear Regression Prediction",
-           color="red",
-           linewidth=2
+        dfSalesDataML_Work["Month"] = (
+             dfSalesDataML_Work["YearMonth"] % 100
         )
 
-        #plot previous year sales as comparison
-        ax.plot(
-           dfPlot["Date"],
-           dfPlot["Previous_Year_Sales"],
-           label="Previous Year Sales",
-           color="blue",
-           linestyle="--",
-           linewidth=2
+        #filter for year 2017 only
+        dfSalesDataML_Temp = dfSalesDataML_Work[ dfSalesDataML_Work["Year"] == 2017].copy()
+ 
+        lstFeatures = [
+            "TerritoryCodes",
+            "Year",
+            "Month"
+        ]
+ 
+        dfSalesDataML_Temp["Predicted_InvoiceAmt"] = objPipeline.predict(dfSalesDataML_Temp[lstFeatures]) 
+ 
+ 
+        dfPlot = (
+           dfSalesDataML_Temp
+            .groupby("YearMonth")[
+               ["InvoiceAmt", "Predicted_InvoiceAmt"]
+            ]
+           .sum()
+           .reset_index()
         )
+
+
+        fig, ax = plt.subplots(figsize=(14, 7))
 
         #configure plot
-        ax.set_title(
-           "Sales - Linear Regression vs Previous Year",
-           fontsize=16,
-           color="white"
+        ax.plot(
+            dfPlot["YearMonth"].astype(str),
+            dfPlot["InvoiceAmt"],
+            marker="o",
+            linewidth=2,
+            label="Actual"
         )
 
-        ax.set_xlabel("Date", fontsize=12)
-        ax.set_ylabel("Weekly Sales", fontsize=12)
+        ax.plot(
+            dfPlot["YearMonth"].astype(str),
+            dfPlot["Predicted_InvoiceAmt"],
+            marker="o",
+            linestyle="--",
+            linewidth=2,
+            label="Predicted"
+        )
 
-        ax.legend(loc="best")
+        ax.set_title("2017 Actual vs Predicted Invoice Amount -  Linear Regression")
+        ax.set_xlabel("Month")
+        ax.set_ylabel("Invoice Amount")
+        #make x-axis labels more readable
+        ax.set_xticklabels(dfPlot["YearMonth"].astype(str), rotation=45)
+        #show legend and grid
+        ax.legend()
         ax.grid(True, alpha=0.3)
-        plt.xticks(rotation=45, color="white")
-        plt.yticks(color="white")
+                                 
+        conSection4Tab.pyplot(fig, use_container_width=True) 
+        expExpander8 = conSection4Tab.expander("Show Data Used For Plot", expanded=False, key="expExpander8")
+        expExpander8.dataframe(dfPlot, use_container_width=True)      
 
-        plt.tight_layout()
+        conSectionFooter8 = conSection4Tab.container(border=False, width="stretch", key="conSectionFooter8", height=400) 
+        conSectionFooter8.write("As we can see the predicted values start off reasonably close but veer off dramatically quite" +
+                                "quickly and ends in a surprising downward motion.")  
+        conSectionFooter8.write("I would not recommend using this model, it is here for contrast only!")  
+        
+#****tab 9*****
+        #plotly visualisation for hypothesis8 - What are the predicted sales per month for next year?
+        #Note: last year in data is: 2012
+        conContainerTab9_Sub = tabTab9.container(border=True, width="stretch", key="conTab9Sub", height=780)
+        conContainerTab9_Sub.info("What Are The Predicted Sales Per Month For Next Year?")
 
-        #show plot in Streamlit
-        conSection4Tab.pyplot(fig, use_container_width=True)
-        expExpander1 = conSection4Tab.expander("Show Data Used For Plot", expanded=False, key="expExpander1")
-        expExpander1.dataframe(dfPlot, use_container_width=True)
-        conSectionFooter12 = conSection4Tab.container(border=False, width="stretch", key="conSectionFooter12", height=400)
-        conSectionFooter12.write("This a machine learning prediction, where using linear regression it attempts to predict last years sales")
-        conSectionFooter12.write("As we can see its does follow the mean after a fashion and the nature of the model is evens out the values")
-        conSectionFooter12.write("Hence no sudden spikes")
-  
-#******tab 13*******
-        #tab 13 hypothesis 13 - ML prediction
-        #Note: last year in data is: 2012  
-        conContainerTab13_Sub = tabTab13.container(border=True, width="stretch", key="conTab13Sub", height=780)
+        objPipeline = joblib.load(CNST_STR_FOREST_PIPELINE_HYPOTHESIS8_TEST_PATH)
+ 
+        #get above DataFrame and filter for JUST 2017
+        dfSalesDataML_Temp = dfSales_InvoiceData_GroupByTerritory[dfSales_InvoiceData_GroupByTerritory["Year"] == 2017].copy()
+
+        #use special csv file grouped by territory and yearmonth
+        dfSalesDataML_Work = dfSales_InvoiceData_GroupByTerritory.copy() 
+        
+        #sort by yearmonth
+        dfSalesDataML_Temp.sort_values(by=["YearMonth"], inplace=True)
+
+        dfSalesDataML_Work["Month"] = (
+             dfSalesDataML_Work["YearMonth"] % 100
+        )
+
+        #filter for year 2017 only
+        dfSalesDataML_Temp = dfSalesDataML_Work[ dfSalesDataML_Work["Year"] == 2017].copy()
+ 
+        lstFeatures = [
+            "TerritoryCodes",
+            "Year",
+            "Month"
+        ]
+ 
+        dfSalesDataML_Temp["Predicted_InvoiceAmt"] = objPipeline.predict(dfSalesDataML_Temp[lstFeatures]) 
+ 
+ 
+        dfPlot = (
+           dfSalesDataML_Temp
+            .groupby("YearMonth")[
+               ["InvoiceAmt", "Predicted_InvoiceAmt"]
+            ]
+           .sum()
+           .reset_index()
+        )
+
+
+        fig, ax = plt.subplots(figsize=(14, 7))
+
+        #configure plot
+        ax.plot(
+            dfPlot["YearMonth"].astype(str),
+            dfPlot["InvoiceAmt"],
+            marker="o",
+            linewidth=2,
+            label="Actual"
+        )
+
+        ax.plot(
+            dfPlot["YearMonth"].astype(str),
+            dfPlot["Predicted_InvoiceAmt"],
+            marker="o",
+            linestyle="--",
+            linewidth=2,
+            label="Predicted"
+        )
+
+        ax.set_title("2017 Actual vs Predicted Invoice Amount -  Random Forest")
+        ax.set_xlabel("Month")
+        ax.set_ylabel("Invoice Amount")
+        #make x-axis labels more readable
+        ax.set_xticklabels(dfPlot["YearMonth"].astype(str), rotation=45)
+        #show legend and grid
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+                                 
+        conContainerTab9_Sub.pyplot(fig, use_container_width=True) 
+        expExpander9 = conContainerTab9_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander9")
+        expExpander9.dataframe(dfPlot, use_container_width=True)      
+        conSectionFooter9 = conContainerTab9_Sub.container(border=False, width="stretch", key="conSectionFooter9", height=400) 
+        conSectionFooter9.write("This modles results are a lot more stable than the previous shows a more refined curve that matches " + 
+                                "the actual values more closely.")  
+        conSectionFooter9.write("This is the model I recommend using for prediction of next years sales.")  
+
+#****tab 10*****
+        #2018 prediction - linear regression
+        #Note: last year in data is: 2012
+        conContainerTab10_Sub = tabTab10.container(border=True, width="stretch", key="conTab10Sub", height=780)
+        conContainerTab10_Sub.info("What Are The Predicted Sales Per Month For Next Year?")
+
+        objPipeline = joblib.load(CNST_STR_LINEAR_PIPELINE_HYPOTHESIS8_PREDICTION_PATH)
    
-        #now plot the results
-        dfSalesDataML_Work = dfSales_InvoiceData.copy() 
-        #random forest plot test compare last years sales with predicted values for same year
+        #use special csv file grouped by territory and yearmonth
+        dfSalesDataML_Work = dfSales_InvoiceData_GroupByTerritory.copy() 
+          
+        #create special Month column (which incidentally overwrites the existing one!)
+        dfSalesDataML_Work["Month"] = (dfSalesDataML_Work["YearMonth"] % 100).astype(int)
 
-        dfSalesDataML_Work = dfSalesDataML_Work.dropna(subset=["Date"])
-
-        #sprinkle some feature engineering
-        dfSalesDataML_Work["Year"] = dfSalesDataML_Work["Date"].dt.year
-        dfSalesDataML_Work["Month"] = dfSalesDataML_Work["Date"].dt.month
-        dfSalesDataML_Work["Day"] = dfSalesDataML_Work["Date"].dt.day
-        dfSalesDataML_Work["DayOfWeek"] = dfSalesDataML_Work["Date"].dt.dayofweek
-        dfSalesDataML_Work["WeekOfYear"] = dfSalesDataML_Work["Date"].dt.isocalendar().week.astype(int)
-        dfSalesDataML_Work["Quarter"] = dfSalesDataML_Work["Date"].dt.quarter
-
-        #cyclical month features thanks to StackOverflow user chimpsarehungry for the solution
+        #cyclic features - no idea what htis does but ML with dates seems to cause problems!
         dfSalesDataML_Work["MonthSin"] = np.sin(2 * np.pi * dfSalesDataML_Work["Month"] / 12)
         dfSalesDataML_Work["MonthCos"] = np.cos(2 * np.pi * dfSalesDataML_Work["Month"] / 12)
 
-        dfSalesDataML_Work["IsHoliday"] = dfSalesDataML_Work["IsHoliday"].astype(int)
-
-
-
-        #load pipeline for random forest
-        objPipeline = joblib.load(CNST_STR_FOREST_PIPELINE_HYPOTHESIS12_TEST_STREAMLIT_PATH)
-
-        #set year range
-        intYear= 2012
-        intPreviousYear = intYear - 1
-        dfTest = dfSalesDataML_Work.copy()
-        dfTest = dfTest[dfTest["Year"] == intYear]
-        dfPrevious = dfSalesDataML_Work.copy()
-        dfPrevious = dfPrevious[dfPrevious["Year"] == intPreviousYear].copy()
-
+ 
         #configure features
         lstFeatures = [
-           "Store",
-           "Dept",
-           "IsHoliday",
-           "Year",
-           "Month",
-           "Day",
-           "DayOfWeek",
-           "WeekOfYear",
-           "Quarter",
-           "MonthSin",
-           "MonthCos"
-        ]
-
-        #get predictions
-        dfXTest = dfTest[lstFeatures]
-        dfTest["Predicted_Sales"] = objPipeline.predict(dfXTest)
-
-        #get actual sales
-        dfActualSales = (
-           dfTest
-           .groupby(
-              ["Date", "WeekOfYear"]
-           )["Weekly_Sales"]
-           .sum()
-           .reset_index()
-        )
-
-        #make sure no name clashes in the plot!
-        dfActualSales = dfActualSales.rename(
-           columns={
-              "Weekly_Sales": "Actual_Sales"
-           }
-        )
-
-        #get predicted sales
-        dfPredictedSales = (
-           dfTest
-           .groupby(
-              ["Date", "WeekOfYear"]
-           )["Predicted_Sales"]
-           .sum()
-           .reset_index()
-        )
-
-        #get previous year sales
-        dfPreviousSales = (
-           dfPrevious
-           .groupby(
-              "WeekOfYear"
-           )["Weekly_Sales"]
-           .sum()
-           .reset_index()
-        )
-
-        #make sure no name clashes in the plot!
-        dfPreviousSales = dfPreviousSales.rename(
-           columns={
-              "Weekly_Sales": "Previous_Year_Sales"
-           }
-        )
-
-        #merge DataFrames
-        dfPlot = dfActualSales.merge(
-           dfPredictedSales,
-           on=["Date", "WeekOfYear"],
-           how="left"
-        )
-
-        #merge DataFrames
-        dfPlot = dfPlot.merge(
-           dfPreviousSales,
-           on="WeekOfYear",
-           how="left"
-        )
-
-        #Sort by date
-        dfPlot = dfPlot.sort_values("Date")
-
-        #check missing previous-year values
-        dfMissingPrevious = (
-           dfPlot["Previous_Year_Sales"]
-           .isna()
-           .sum()
-        )
-
-        #create plot
-        fig, ax = plt.subplots(figsize=(18, 7))
-        # Set background colours
-        fig.set_facecolor("#070707")
-        ax.set_facecolor("#070707")        
-
-        #plot predictions
-        plt.plot(
-           dfPlot["Date"],
-           dfPlot["Predicted_Sales"],
-           label="Random Forest Prediction",
-           color="red",
-           linewidth=2
-        )
-
-        #plot previous years sales
-        plt.plot(   
-           dfPlot["Date"],
-           dfPlot["Previous_Year_Sales"],
-           label="Previous Year Sales",
-           color="blue",
-           linestyle="--",
-           linewidth=2
-        )
-
-        #format plot
-        plt.title("Sales - Random Forest vs Previous Year", fontsize=16)
-        plt.xlabel("Date", fontsize=12)
-        plt.ylabel("Weekly Sales", fontsize=12)
-        #prefer best fit
-        plt.legend(loc="best")
-        plt.grid(True, alpha=0.3)
-        #make sure ticks are readable
-        plt.xticks(rotation=45, color="white")
-        plt.tight_layout()
-        plt.yticks(color="white")
-
-        ax.set_title(
-           "Sales - Random Forest vs Previous Year",
-           fontsize=16,
-           color="white"
-        )
-
-        ax.set_xlabel("Date", fontsize=12)
-        ax.set_ylabel("Weekly Sales", fontsize=12)
-        plt.xticks(rotation=45, color="white")
-        ax.legend(loc="best")
-        ax.grid(True, alpha=0.3)
-
-        # Show plot in Streamlit
-        conContainerTab13_Sub.pyplot(fig, use_container_width=True)
-
-        expExpander2 = conContainerTab13_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander2")
-        expExpander2.dataframe(dfPlot, use_container_width=True)
-        conSectionFooter14 = conContainerTab13_Sub.container(border=False, width="stretch", key="conSectionFooter14", height=400)
-        conSectionFooter14.write("This a machine learning prediction, where using random forest it attempts to predict last years sales")
-        conSectionFooter14.write("As we can see it follows the trend more closely then the linear regression model, but still smooths the values")
-        conSectionFooter14.write("It follows the evenly which is important when making decisions based on machine learning models.")
-        
-        
-   
-    
-#******tab 14*******
-        #tab 14 hypothesis 13 - ML prediction
-        #Note: last year in data is: 2012  
-        conContainerTab14_Sub = tabTab14.container(border=True, width="stretch", key="conTab14Sub", height=780)
-
-        #load csv files
-        dfFeatures = pd.read_csv(CNST_STR_FEATURES_DATASET)
-        dfSales = pd.read_csv(CNST_STR_SALES_DATASET)
-        dfStores = pd.read_csv(CNST_STR_STORES_DATASET)
-   
-        #convert Date to datetime
-        dfFeatures["Date"] = pd.to_datetime(
-           dfFeatures["Date"],
-           errors="coerce"
-        )
-
-        dfSales["Date"] = pd.to_datetime(
-           dfSales["Date"],
-           errors="coerce"
-        )
-
-
-        #remove invalid dates
-        dfFeatures = dfFeatures.dropna(
-           subset=["Date"]
-        )
-
-        dfSales = dfSales.dropna(
-           subset=["Date"]
-        )
-
-        #merge features and stores
-        dfFeaturesStores = dfFeatures.merge(
-           dfStores,
-           on="Store",
-           how="left"
-        )
-
-
-        #merge sales with features
-        dfTrain = dfSales.merge(
-           dfFeaturesStores,
-           on=[
-              "Store",
-              "Date",
-              "IsHoliday"
-           ],
-           how="left"
-        )
-
-        #create forecast datas
-        dfForecast = dfFeaturesStores.copy()
-        dfFeatures = dfFeatures[
-           dfFeatures["Date"] >
-           dfSales["Date"].max()
-        ]
-
-        #we need predictions for every Store/Department!
-        #get rid of duplicates
-        dfDepts = dfSales[ ["Store", "Dept"] ].drop_duplicates()
-
-        #merge forecast with departments 
-        dfForecast = dfForecast.merge(
-           dfDepts,
-           on="Store",
-           how="inner"
-        )
-
-        #sprinkle some feature engineering
-        #date features
-        dfTrain["Year"] = ( dfTrain["Date"].dt.year)
-        dfTrain["Month"] = ( dfTrain["Date"].dt.month)
-        dfTrain["Day"] = (dfTrain["Date"].dt.day)
-        dfTrain["DayOfWeek"] = (dfTrain["Date"].dt.dayofweek)
-        dfTrain["WeekOfYear"] = (dfTrain["Date"]
-           .dt.isocalendar()
-            .week
-            .astype(int)
-         )
-        dfTrain["Quarter"] = ( dfTrain["Date"].dt.quarter)
-        #cyclical features thanks to StackOverflow user chimpsarehungry for the solution
-        dfTrain["MonthSin"] = np.sin(2 * np.pi * dfTrain["Month"] / 12)
-        dfTrain["MonthCos"] = np.cos(2 * np.pi * dfTrain["Month"] / 12)
-        dfTrain["WeekSin"] = np.sin(2 * np.pi * dfTrain["WeekOfYear"] / 52)
-        dfTrain["WeekCos"] = np.cos(2 * np.pi * dfTrain["WeekOfYear"] / 52)
-
-        #holiday
-        dfTrain["IsHoliday"] = (dfTrain["IsHoliday"].astype(int))        
-        
-        
-        dfForecast["Year"] = ( dfForecast["Date"].dt.year)
-        dfForecast["Month"] = ( dfForecast["Date"].dt.month)
-        dfForecast["Day"] = (dfForecast["Date"].dt.day)
-        dfForecast["DayOfWeek"] = (dfForecast["Date"].dt.dayofweek)
-        dfForecast["WeekOfYear"] = (dfForecast["Date"]
-           .dt.isocalendar()
-            .week
-            .astype(int)
-         )
-        dfForecast["Quarter"] = ( dfForecast["Date"].dt.quarter)
-        #cyclical features thanks to StackOverflow user chimpsarehungry for the solution
-        dfForecast["MonthSin"] = np.sin(2 * np.pi * dfForecast["Month"] / 12)
-        dfForecast["MonthCos"] = np.cos(2 * np.pi * dfForecast["Month"] / 12)
-        dfForecast["WeekSin"] = np.sin(2 * np.pi * dfForecast["WeekOfYear"] / 52)
-        dfForecast["WeekCos"] = np.cos(2 * np.pi * dfForecast["WeekOfYear"] / 52)
-
-        #holiday
-        dfForecast["IsHoliday"] = (dfForecast["IsHoliday"].astype(int))    
-        
-        #define markdown columns
-        lstMarkdown = [
-           "MarkDown1",
-           "MarkDown2",
-           "MarkDown3",
-           "MarkDown4",
-           "MarkDown5"
-        ]
-
-
-        for column in lstMarkdown:
-           if column in dfTrain.columns:
-              dfTrain[column] = (
-                    dfTrain[column]
-                    .fillna(0)
-              )
-
-           if column in dfForecast.columns:
-              dfForecast[column] = (
-                    dfForecast[column]
-                    .fillna(0)
-              )
-
-
-        #define features
-        lstFeatures = [
-            # Store information
-            "Store",
-            "Dept",
-            "Store_Type",
-            "Size",
-
-            # Date information
+            "TerritoryCodes",
             "Year",
-            "Month",
-            "Day",
-            "DayOfWeek",
-            "WeekOfYear",
-            "Quarter",
-
-            # Cyclical features
             "MonthSin",
-            "MonthCos",
-            "WeekSin",
-            "WeekCos",
-
-            # Holiday
-            "IsHoliday",
-
-            # Walmart economic features
-            "Temperature",
-            "Unemployment",
-
-            # Markdown
-            "MarkDown1",
-            "MarkDown2",
-            "MarkDown3",
-            "MarkDown4",
-            "MarkDown5"
+            "MonthCos"
         ]
 
-        #load pipeline for random forest
-        objPipeline = joblib.load(CNST_STR_LINEAR_PIPELINE_HYPOTHESIS12_STREAMLIT_PATH)
-
-        dfXForecast = dfForecast[lstFeatures]
-        dfForecast["Predicted_Sales"] = (
-           objPipeline.predict(
-              dfXForecast
-           )
+ 
+        # Get all territories that existed in 2017
+        lstTerritories = sorted(
+            dfSalesDataML_Work[
+               dfSalesDataML_Work["Year"] == 2017
+            ]["TerritoryCodes"]
+            .dropna()
+            .unique()
         )
 
-        #select 2013 predictions"
-        dfTest = dfForecast.copy()
-        dfTest = dfTest[ dfTest["Date"].dt.year == 2013]
-
-        #aggregate prediction values
-        dfForecast = (
-           dfTest
-           .groupby(
-              ["Date", "WeekOfYear"]
-           )["Predicted_Sales"]
-           .sum()
-           .reset_index()
-        )
-
-
-        #get actual sales for 2012 to compare with 2013 predictions
-        dfActualSales = dfTrain[
-           dfTrain["Year"] == 2012
-        ].copy()
-
-        #aggregate actual sales for 2012
-        dfPrevious = (
-           dfActualSales
-           .groupby(
-              "WeekOfYear"
-           )["Weekly_Sales"]
-           .sum()
-           .reset_index()
-        )
-
-        #make sure we don't get a clash of names in the plot!
-        dfPrevious = dfPrevious.rename(
-           columns={
-              "Weekly_Sales":
-              "Previous_Year_Sales"
-           }
+        # Create 12 months for every territory
+        df2018Predict = pd.DataFrame(
+           [
+              {
+                     "TerritoryCodes": territory,
+                     "Year": 2018,
+                     "Month": month,
+                     "YearMonth": 201800 + month
+              }
+              for territory in lstTerritories
+              for month in range(1, 13)
+           ]
         )
 
 
-        #merge forecast with previous year sales for comparison
-        dfPlot= dfForecast.merge(
-           dfPrevious,
-           on="WeekOfYear",
-           how="left"
+        #add cyclic features
+        df2018Predict["MonthSin"] = np.sin(
+            2 * np.pi * df2018Predict["Month"] / 12
         )
 
-        #sort by Date
-        dfPlot = dfPlot.sort_values("Date")
-
-        #create plot
-        fig, ax = plt.subplots(figsize=(18, 7))
-        # Set background colours
-        fig.set_facecolor("#070707")
-        ax.set_facecolor("#070707") 
-
-        plt.plot(
-           dfPlot["Date"],
-           dfPlot["Predicted_Sales"],
-           color="red",
-           linewidth=2,
-           label="2013 Predicted Sales"
+        df2018Predict["MonthCos"] = np.cos(
+            2 * np.pi * df2018Predict["Month"] / 12
         )
 
-        plt.title(
-           "Linear Regression - 2013 Sales Forecast",
-           fontsize=16
-        )
-        
-        ax.set_title(
-           "Linear Regression - 2013 Sales Forecast",
-           fontsize=16,
-           color="white"
-        )
-
-        ax.set_xlabel("Date", fontsize=12, color="white")
-        ax.set_ylabel("Weekly Sales", fontsize=12, color="white")
-
-        ax.legend(loc="best")
-        ax.grid(True, alpha=0.3)
-        plt.xlabel("Date")
-        plt.ylabel("Weekly Sales")
-        plt.legend()
-        plt.grid(alpha=0.3)
-        plt.xticks(rotation=45, color="white")
-        plt.yticks(color="white")
-        plt.tight_layout()
-      
-  
-        # Show plot in Streamlit
-        conContainerTab14_Sub.pyplot(fig, use_container_width=True)
-
-        expExpander3 = conContainerTab14_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander3")
-        expExpander3.dataframe(dfPlot, use_container_width=True)
-        conSectionFooter15 = conContainerTab14_Sub.container(border=False, width="stretch", key="conSectionFooter15", height=400)
-        conSectionFooter15.write("This a machine learning prediction, where using linear regression it attempts to predict sales for 2013")
-        conSectionFooter15.write("As we can see it has some of spikes and troughs as the main data but seems a little erratic, which suggest" +
-                                 "this might not be the best model for this application!")
-        
-
-
-#******tab 15*******
-        #tab 15 hypothesis 12 - ML prediction
-        #Note: last year in data is: 2012  
-        #random forest predict next years sales
-        conContainerTab15_Sub = tabTab15.container(border=True, width="stretch", key="conTab15Sub", height=780)
-
-        #load csv files
-        dfFeatures = pd.read_csv(CNST_STR_FEATURES_DATASET)
-        dfSales = pd.read_csv(CNST_STR_SALES_DATASET)
-        dfStores = pd.read_csv(CNST_STR_STORES_DATASET)
-
-
-        #convert Date to datetime
-        dfFeatures["Date"] = pd.to_datetime(
-           dfFeatures["Date"],
-           errors="coerce"
-        )
-
-        dfSales["Date"] = pd.to_datetime(
-           dfSales["Date"],
-           errors="coerce"
-        )
-
-        #delete rows with invalid dates
-        dfFeatures = dfFeatures.dropna(
-           subset=["Date"]
-        )
-
-        dfSales = dfSales.dropna(
-           subset=["Date"]
-        )
-
-
-        #merge features and stores
-        dfFeaturesStores = dfFeatures.merge(
-           dfStores,
-           on="Store",
-           how="left"
-        )
-
-        #merge sales and featuresstores
-        dfTraining = dfSales.merge(
-           dfFeaturesStores,
-           on=[
-              "Store",
-              "Date",
-              "IsHoliday"
-           ],
-           how="left"
-        )
-
-
-        #get forecast data
-        dfForecast = dfFeaturesStores[
-           dfFeaturesStores["Date"] >
-           dfSales["Date"].max()
-        ].copy()
-
-
-        store_depts = dfSales[
-           ["Store", "Dept"]
-        ].drop_duplicates()
-
-
-        dfForecast = dfForecast.merge(
-           store_depts,
-           on="Store",
-           how="inner"
-        )
-
-        #sprinkle some feature engineering
-        #date features
-        dfTrain["Year"] = ( dfTrain["Date"].dt.year)
-        dfTrain["Month"] = ( dfTrain["Date"].dt.month)
-        dfTrain["Day"] = (dfTrain["Date"].dt.day)
-        dfTrain["DayOfWeek"] = (dfTrain["Date"].dt.dayofweek)
-        dfTrain["WeekOfYear"] = (dfTrain["Date"]
-           .dt.isocalendar()
-            .week
-            .astype(int)
-         )
-        dfTrain["Quarter"] = ( dfTrain["Date"].dt.quarter)
-        #cyclical features thanks to StackOverflow user chimpsarehungry for the solution
-        dfTrain["MonthSin"] = np.sin(2 * np.pi * dfTrain["Month"] / 12)
-        dfTrain["MonthCos"] = np.cos(2 * np.pi * dfTrain["Month"] / 12)
-        dfTrain["WeekSin"] = np.sin(2 * np.pi * dfTrain["WeekOfYear"] / 52)
-        dfTrain["WeekCos"] = np.cos(2 * np.pi * dfTrain["WeekOfYear"] / 52)
-
-        #holiday
-        dfTrain["IsHoliday"] = (dfTrain["IsHoliday"].astype(int))        
-        
-        
-        dfForecast["Year"] = ( dfForecast["Date"].dt.year)
-        dfForecast["Month"] = ( dfForecast["Date"].dt.month)
-        dfForecast["Day"] = (dfForecast["Date"].dt.day)
-        dfForecast["DayOfWeek"] = (dfForecast["Date"].dt.dayofweek)
-        dfForecast["WeekOfYear"] = (dfForecast["Date"]
-           .dt.isocalendar()
-            .week
-            .astype(int)
-         )
-        dfForecast["Quarter"] = ( dfForecast["Date"].dt.quarter)
-        #cyclical features thanks to StackOverflow user chimpsarehungry for the solution
-        dfForecast["MonthSin"] = np.sin(2 * np.pi * dfForecast["Month"] / 12)
-        dfForecast["MonthCos"] = np.cos(2 * np.pi * dfForecast["Month"] / 12)
-        dfForecast["WeekSin"] = np.sin(2 * np.pi * dfForecast["WeekOfYear"] / 52)
-        dfForecast["WeekCos"] = np.cos(2 * np.pi * dfForecast["WeekOfYear"] / 52)
-
-        #holiday
-        dfForecast["IsHoliday"] = (dfForecast["IsHoliday"].astype(int))    
-
-
-       #define markdown columns
-        markdown_columns = [
-           "MarkDown1",
-           "MarkDown2",
-           "MarkDown3",
-           "MarkDown4",
-           "MarkDown5"
+        #predict 2018
+        dfX2018 = df2018Predict[
+            lstFeatures
         ]
 
-
-        for column in markdown_columns:
-           if column in dfTraining.columns:
-              dfTraining[column] = (
-                    dfTraining[column]
-                     .fillna(0)
-              )
-
-           if column in dfForecast.columns:
-              dfForecast[column] = (
-                    dfForecast[column]
-                    .fillna(0)
-              )
-
-        #define features
-        lstFeatures = [
-            "Store",
-            "Dept",
-            "Store_Type",
-            "Size",
-
-            "Year",
-            "Month",
-            "Day",
-            "DayOfWeek",
-            "WeekOfYear",
-            "Quarter",
-
-            "MonthSin",
-            "MonthCos",
-            "WeekSin",
-            "WeekCos",
-
-            "IsHoliday",
-
-            "Temperature",
-            "Unemployment",
-
-            "MarkDown1",
-            "MarkDown2",
-            "MarkDown3",
-            "MarkDown4",
-            "MarkDown5"
-         ]
-
-
-        dfXtrain = dfTrain[
-           lstFeatures
-        ]
-
-        dfyTrain = dfTrain[
-           "Weekly_Sales"
-        ]
-
-        dfXForecast = dfForecast[
-           lstFeatures
-        ]
-
-        objPipeline = joblib.load(CNST_STR_FOREST_PIPELINE_HYPOTHESIS12_STREAMLIT_PATH)
-        #predict sales for 2013
-        dfForecast["Predicted_Sales"] = (
+        obj2018Predictions = (
             objPipeline.predict(
-               dfXForecast
+               dfX2018
             )
         )
 
+        # Add predictions
+        df2018Predict[
+            "Predicted_InvoiceAmt"
+        ] = obj2018Predictions
 
-        dfPredictedSales = dfForecast[
-           dfForecast["Date"].dt.year == 2013
-        ].copy()
-
-        #aggregate
-        dfForecastSales = (
-           dfPredictedSales
-            .groupby(
-               ["Date", "WeekOfYear"]
-            )["Predicted_Sales"]
+        df2018Monthly = (
+            df2018Predict
+            .groupby("YearMonth")[
+               "Predicted_InvoiceAmt"
+            ]
             .sum()
             .reset_index()
         )
 
+        fig, ax = plt.subplots(figsize=(14, 7))
 
-        #actual sales 2012
-        dfActualSales = dfTrain.copy() 
-        
-        dfActualSales = dfActualSales[
-            dfActualSales["Year"] == 2012
+        #configure plot
+        ax.plot(
+            df2018Monthly["YearMonth"].astype(str),
+            df2018Monthly["Predicted_InvoiceAmt"],
+            marker="o",
+            linestyle="--",
+            linewidth=2,
+            label="Predicted"
+        )
+
+        plt.title("2018 Predicted Invoice Amount - Linear Regression")
+        ax.set_xlabel("Month")
+        ax.set_ylabel("Predicted Invoice Amount (£)")
+        #make x-axis labels more readable
+        ax.set_xticklabels(df2018Monthly["YearMonth"].astype(str), rotation=45)
+        #show legend and grid
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+
+                                         
+        conContainerTab10_Sub.pyplot(fig, use_container_width=True) 
+
+        conSectionFooter10 = conContainerTab10_Sub.container(border=False, width="stretch", key="conSectionFooter10", height=400) 
+        conSectionFooter10.write("This model produces a plot more like a hill than the previous plots using actual data.")  
+        conSectionFooter10.write("Am not seeing a trend related to historic values, this model does not work!")  
+        conSectionFooter10.write("Included for comparison only.")  
+
+
+#****tab 11*****
+        #2018 prediction - random forest
+        conContainerTab11_Sub = tabTab11.container(border=True, width="stretch", key="conTab11Sub", height=780)
+        conContainerTab11_Sub.info("What Are The Predicted Sales Per Month For Next Year?")
+
+        objPipeline = joblib.load(CNST_STR_FOREST_PIPELINE_HYPOTHESIS8_PREDICTION_PATH)
+   
+        #use special csv file grouped by territory and yearmonth
+        dfSalesDataML_Work = dfSales_InvoiceData_GroupByTerritory.copy() 
+          
+        #create special Month column (which incidentally overwrites the existing one!)
+        dfSalesDataML_Work["Month"] = (dfSalesDataML_Work["YearMonth"] % 100).astype(int)
+
+        #cyclic features - no idea what htis does but ML with dates seems to cause problems!
+        dfSalesDataML_Work["MonthSin"] = np.sin(2 * np.pi * dfSalesDataML_Work["Month"] / 12)
+        dfSalesDataML_Work["MonthCos"] = np.cos(2 * np.pi * dfSalesDataML_Work["Month"] / 12)
+
+ 
+        #configure features
+        lstFeatures = [
+            "TerritoryCodes",
+            "Year",
+            "MonthSin",
+            "MonthCos"
         ]
 
+ 
+        # Get all territories that existed in 2017
+        lstTerritories = sorted(
+            dfSalesDataML_Work[
+               dfSalesDataML_Work["Year"] == 2017
+            ]["TerritoryCodes"]
+            .dropna()
+            .unique()
+        )
 
-        dfPreviousSales = (
-            dfActualSales
-            .groupby(
-               "WeekOfYear"
-            )["Weekly_Sales"]
+        # Create 12 months for every territory
+        df2018Predict = pd.DataFrame(
+           [
+              {
+                     "TerritoryCodes": territory,
+                     "Year": 2018,
+                     "Month": month,
+                     "YearMonth": 201800 + month
+              }
+              for territory in lstTerritories
+              for month in range(1, 13)
+           ]
+        )
+
+
+        #add cyclic features
+        df2018Predict["MonthSin"] = np.sin(
+            2 * np.pi * df2018Predict["Month"] / 12
+        )
+
+        df2018Predict["MonthCos"] = np.cos(
+            2 * np.pi * df2018Predict["Month"] / 12
+        )
+
+        #predict 2018
+        dfX2018 = df2018Predict[
+            lstFeatures
+        ]
+
+        obj2018Predictions = (
+            objPipeline.predict(
+               dfX2018
+            )
+        )
+
+        # Add predictions
+        df2018Predict[
+            "Predicted_InvoiceAmt"
+        ] = obj2018Predictions
+
+        df2018Monthly = (
+            df2018Predict
+            .groupby("YearMonth")[
+               "Predicted_InvoiceAmt"
+            ]
             .sum()
             .reset_index()
         )
 
+        fig, ax = plt.subplots(figsize=(14, 7))
 
-        dfPreviousSales = dfPreviousSales.rename(
-            columns={
-               "Weekly_Sales":
-               "Previous_Year_Sales"
-            }
+        #configure plot
+        ax.plot(
+            df2018Monthly["YearMonth"].astype(str),
+            df2018Monthly["Predicted_InvoiceAmt"],
+            marker="o",
+            linestyle="--",
+            linewidth=2,
+            label="Predicted"
         )
 
-
-        #merge forecastsales and previoussales
-        dfPlot = dfForecastSales.merge(
-            dfPreviousSales,
-            on="WeekOfYear",
-            how="left"
-        )
-
-        #sort by date
-        dfPlot = dfPlot.sort_values("Date")
-
-        #create plot
-        fig, ax = plt.subplots(figsize=(18, 7))
-        # Set background colours
-        fig.set_facecolor("#070707")
-        ax.set_facecolor("#070707") 
-
-        plt.plot(
-           dfPlot["Date"],
-           dfPlot["Predicted_Sales"],
-           color="red",
-           linewidth=2,
-           label="2013 Predicted Sales"
-        )
-
-        plt.title(
-           "Random Forest - 2013 Sales Forecast",
-           fontsize=16
-        )
-        
-        ax.set_title(
-           "Random Forest - 2013 Sales Forecast",
-           fontsize=16,
-           color="white"
-        )
-
-        ax.set_xlabel("Date", fontsize=12, color="white")
-        ax.set_ylabel("Weekly Sales", fontsize=12, color="white")
-
-        ax.legend(loc="best")
+        plt.title("2018 Predicted Invoice Amount - Random Forest")
+        ax.set_xlabel("Month")
+        ax.set_ylabel("Predicted Invoice Amount (£)")
+        #make x-axis labels more readable
+        ax.set_xticklabels(df2018Monthly["YearMonth"].astype(str), rotation=45)
+        #show legend and grid
+        ax.legend()
         ax.grid(True, alpha=0.3)
-        plt.xlabel("Date")
-        plt.ylabel("Weekly Sales")
-        plt.legend()
-        plt.grid(alpha=0.3)
-        plt.xticks(rotation=45, color="white")
-        plt.yticks(color="white")
-        plt.tight_layout()
-        plt.figure(
-            figsize=(15, 7)
+
+                                         
+        conContainerTab11_Sub.pyplot(fig, use_container_width=True) 
+
+        conSectionFooter11 = conContainerTab11_Sub.container(border=False, width="stretch", key="conSectionFooter11", height=400) 
+        conSectionFooter11.write("Much closer to historic data, has similar peaks and troughs and looks feasible as a prediction for 2018 sales.")  
+        conSectionFooter11.write("I would suggest using this model.")  
+
+
+#***hypothesis 9 ML****
+
+   case "ML Hypothesis 9":     
+
+
+#******tab 12*******  
+
+        #visualisation for hypothesis 9 - What are the predicted sales per territory for next year?
+        #Note: last year in data is: 2012
+        conSection5 = conContainerMain.container(border=False, width="stretch", key="conSection5", height=860)
+         
+        #create tab control which houses containers for the tab data (split into columns!)        
+        tabTab12, tabTab13, tabTab14, tabTab15  = conSection5.tabs([
+          "Hypothesis 9 - Linear Regression", "Hypothesis 9 - Random Forest", "2018 Prediction - Linear Regression",
+          "2018 Prediction - Random Forest"
+        ])  
+
+        conSection5Tab = tabTab12.container(border=True, width="stretch", height=780)
+        conSection5Title = conSection5Tab.container(border=False, width="stretch", key="conSection5Title", height=40)      
+        conSection5Title.info("What Are The Predicted Sales Per Territory For Next Year?")
+  
+        objPipeline = joblib.load(CNST_STR_LINEAR_PIPELINE_HYPOTHESIS9_TEST_PATH)
+ 
+        #get above DataFrame and filter for JUST 2017
+        dfSalesDataML_Temp = dfSales_InvoiceData_GroupByTerritory[dfSales_InvoiceData_GroupByTerritory["Year"] == 2017].copy()
+
+        #use special csv file grouped by territory and yearmonth
+        dfSalesDataML_Work = dfSales_InvoiceData_GroupByTerritory.copy()          
+ 
+        #sort by yearmonth
+        dfSalesDataML_Temp.sort_values(by=["YearMonth"], inplace=True)
+
+        dfSalesDataML_Work["Month"] = (
+            dfSalesDataML_Work["YearMonth"] % 100
         )
 
-        plt.tight_layout()
+        #filter for year 2017 only
+        dfSalesDataML_Temp = dfSalesDataML_Work[ dfSalesDataML_Work["Year"] == 2017].copy()
+ 
+        lstFeatures = [
+            "TerritoryCodes",
+            "Year",
+            "Month"
+        ]
+ 
+        dfSalesDataML_Temp["Predicted_InvoiceAmt"] = objPipeline.predict(dfSalesDataML_Temp[lstFeatures]) 
+ 
+        #for statistical comparison 
+        dfPlot = (
+            dfSalesDataML_Temp
+            .groupby(["YearMonth","TerritoryCodes"])[
+               ["InvoiceAmt", "Predicted_InvoiceAmt"]
+            ]
+            .sum()
+            .reset_index()
+        )
 
-       # Show plot in Streamlit
-        conContainerTab15_Sub.pyplot(fig, use_container_width=True)
+        dfPlot["Difference"] = (
+            dfPlot["InvoiceAmt"]
+            - dfPlot["Predicted_InvoiceAmt"]
+        )
 
-        expExpander4 = conContainerTab15_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander4")
-        expExpander4.dataframe(dfPlot, use_container_width=True)
-        conSectionFooter16 = conContainerTab15_Sub.container(border=False, width="stretch", key="conSectionFooter16", height=400)
-        conSectionFooter16.write("This a machine learning prediction, where using random forest it attempts to predict sales for 2013")
-        conSectionFooter16.write("As we can see unlike the linear regression model this one better fits the existing data patterns.")
-        conSectionFooter16.write("This is the model I present as the prediction for 2013 sales")
+        dfPlot["DifferencePercent"] = (
+            dfPlot["Difference"]
+            / dfPlot["InvoiceAmt"]
+        ) * 100
+
+
+
+        fig, ax = plt.subplots(figsize=(14, 7))
+        #configure plot
+        ax.bar(
+            dfPlot["TerritoryCodes"], 
+            dfPlot["InvoiceAmt"],
+            label="Actual"
+        )
+
+        ax.bar(
+            dfPlot["TerritoryCodes"],      
+            dfPlot["Predicted_InvoiceAmt"],
+            label="Predicted"
+        )
+
+        ax.set_title("2017 Actual vs Predicted Territory Sales - Linear Regression")
+        ax.set_xlabel("Territory")
+        ax.set_ylabel("Invoice Amount")
+        #make x-axis labels more readable
+        ax.set_xticklabels(dfPlot["TerritoryCodes"].astype(str), rotation=90)
+        #show legend and grid
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+
+                                 
+        conSection5Tab.pyplot(fig, use_container_width=True) 
+        expExpander12 = conSection5Tab.expander("Show Data Used For Plot", expanded=False, key="expExpander12")
+        expExpander12.dataframe(dfPlot, use_container_width=True)      
+
+        conSectionFooter12 = conSection5Tab.container(border=False, width="stretch", key="conSectionFooter12", height=400) 
+        conSectionFooter12.write("looks ok until we see it sis predicting NEGATIVE values against actial positive ones")  
+        conSectionFooter12.write("I would not recommend using this model, it is here for contrast only!")  
+        
+#****tab 13*****
+        #visualisation for hypothesis 9 - What are the predicted sales per territory for next year?
+        #Note: last year in data is: 2012
+        conContainerTab13_Sub = tabTab13.container(border=True, width="stretch", key="conTab13Sub", height=780)
+        conContainerTab13_Sub.info("What Are The Predicted Sales Per Month For Next Year?")
+
+        objPipeline = joblib.load(CNST_STR_FOREST_PIPELINE_HYPOTHESIS9_TEST_PATH)
+ 
+        #get above DataFrame and filter for JUST 2017
+        dfSalesDataML_Temp = dfSales_InvoiceData_GroupByTerritory[dfSales_InvoiceData_GroupByTerritory["Year"] == 2017].copy()
+ 
+        #use special csv file grouped by territory and yearmonth
+        dfSalesDataML_Work = dfSales_InvoiceData_GroupByTerritory.copy()          
+  
+        #sort by yearmonth
+        dfSalesDataML_Temp.sort_values(by=["YearMonth"], inplace=True)
+ 
+        dfSalesDataML_Work["Month"] = (
+             dfSalesDataML_Work["YearMonth"] % 100
+        )
+ 
+        #filter for year 2017 only
+        dfSalesDataML_Temp = dfSalesDataML_Work[ dfSalesDataML_Work["Year"] == 2017].copy()
+  
+        lstFeatures = [
+             "TerritoryCodes",
+             "Year",
+             "Month"
+        ]
+ 
+        dfSalesDataML_Temp["Predicted_InvoiceAmt"] = objPipeline.predict(dfSalesDataML_Temp[lstFeatures]) 
+  
+        #for statistical comparison 
+        dfPlot = (
+          dfSalesDataML_Temp
+            .groupby(["YearMonth","TerritoryCodes"])[
+               ["InvoiceAmt", "Predicted_InvoiceAmt"]
+            ]
+            .sum()
+            .reset_index()
+        )
+
+ 
+        dfPlot["Difference"] = (
+             dfPlot["InvoiceAmt"]
+             - dfPlot["Predicted_InvoiceAmt"]
+        )
+ 
+        dfPlot["DifferencePercent"] = (
+             dfPlot["Difference"]
+             / dfPlot["InvoiceAmt"]
+        ) * 100
+  
+ 
+        fig, ax = plt.subplots(figsize=(14, 7))
+         #configure plot
+        ax.bar(
+             dfPlot["TerritoryCodes"], 
+             dfPlot["InvoiceAmt"],
+             label="Actual"
+        )
+ 
+        ax.bar(
+             dfPlot["TerritoryCodes"],      
+             dfPlot["Predicted_InvoiceAmt"],
+             label="Predicted"
+        )
+ 
+        ax.set_title("2017 Actual vs Predicted Territory Sales - Linear Regression")
+        ax.set_xlabel("Territory")
+        ax.set_ylabel("Invoice Amount")
+        #make x-axis labels more readable
+        ax.set_xticklabels(dfPlot["TerritoryCodes"].astype(str), rotation=90)
+        #show legend and grid
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+                                
+        conContainerTab13_Sub.pyplot(fig, use_container_width=True) 
+        expExpander13 = conContainerTab13_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander13")
+        expExpander13.dataframe(dfPlot, use_container_width=True)      
+        conSectionFooter13 = conContainerTab13_Sub.container(border=False, width="stretch", key="conSectionFooter13", height=400) 
+        conSectionFooter13.write("This model results are a lot more stable than the previous no negative values and a close match to acutal values.")  
+        conSectionFooter13.write("This is the model I recommend using for prediction of next years sales.")  
+
+#****tab 14*****
+        #2018 prediction - linear regression
+
+        conContainerTab14_Sub = tabTab14.container(border=True, width="stretch", key="conTab14Sub", height=780)
+        conContainerTab14_Sub.info("What Are The Predicted Sales Per Month For Next Year?")
+
+        objPipeline = joblib.load(CNST_STR_LINEAR_PIPELINE_HYPOTHESIS9_PREDICTION_PATH)
+   
+        #use special csv file grouped by territory and yearmonth
+        dfSalesDataML_Work = dfSales_InvoiceData_GroupByTerritory.copy() 
+          
+        #create special Month column (which incidentally overwrites the existing one!)
+        dfSalesDataML_Work["Month"] = (dfSalesDataML_Work["YearMonth"] % 100).astype(int)
+
+        #cyclic features - no idea what htis does but ML with dates seems to cause problems!
+        dfSalesDataML_Work["MonthSin"] = np.sin(2 * np.pi * dfSalesDataML_Work["Month"] / 12)
+        dfSalesDataML_Work["MonthCos"] = np.cos(2 * np.pi * dfSalesDataML_Work["Month"] / 12)
+
+ 
+        #configure features
+        lstFeatures = [
+         "TerritoryCodes",
+         "Year",
+         "MonthSin",
+         "MonthCos"
+        ]
+
+ 
+        # Get all territories that existed in 2017
+        lstTerritories = sorted(
+            dfSalesDataML_Work[
+               dfSalesDataML_Work["Year"] == 2017
+            ]["TerritoryCodes"]
+            .dropna()
+            .unique()
+        )
+
+        # Create 12 months for every territory
+        df2018Predict = pd.DataFrame(
+           [
+              {
+                     "TerritoryCodes": territory,
+                     "Year": 2018,
+                     "Month": month,
+                     "YearMonth": 201800 + month
+              }
+              for territory in lstTerritories
+              for month in range(1, 13)
+           ]
+        )
+
+
+        #add cyclic features
+        df2018Predict["MonthSin"] = np.sin(
+            2 * np.pi * df2018Predict["Month"] / 12
+        )
+
+        df2018Predict["MonthCos"] = np.cos(
+            2 * np.pi * df2018Predict["Month"] / 12
+        )
+
+        #predict 2018
+        dfX2018 = df2018Predict[
+            lstFeatures
+        ]
+
+        obj2018Predictions = (
+            objPipeline.predict(
+               dfX2018
+            )
+        )
+
+        # Add predictions
+        df2018Predict[
+            "Predicted_InvoiceAmt"
+        ] = obj2018Predictions
+
+        df2018Territory = (
+          df2018Predict
+          .groupby("TerritoryCodes")[
+            "Predicted_InvoiceAmt"
+          ]
+          .sum()
+          .reset_index()
+       )
+
+        fig, ax = plt.subplots(figsize=(14, 7))
+
+        #configure plot
+        ax.bar(
+            df2018Territory["TerritoryCodes"].astype(str),
+            df2018Territory["Predicted_InvoiceAmt"],
+            label="Predicted"
+        )
+
+        plt.title("2018 Predicted Invoice Amount - Linear Regression")
+        ax.set_xlabel("TerritoryCodes")
+        ax.set_ylabel("Predicted Invoice Amount (£)")
+        #make x-axis labels more readable
+        ax.set_xticklabels(df2018Territory["TerritoryCodes"].astype(str), rotation=90)
+        #show legend and grid
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+
+                                         
+        conContainerTab14_Sub.pyplot(fig, use_container_width=True) 
+
+        conSectionFooter14 = conContainerTab14_Sub.container(border=False, width="stretch", key="conSectionFooter14", height=400) 
+        conSectionFooter14.write("This model produces NEGATIVE values for a prediction where the actual data is largely free of negative values" +
+                                 "this is not a good sign, and therefore not a goot moddel, but put here for comparison.") 
+
+
+#****tab 15*****
+        #2018 prediction - random forest
+        #Note: last year in data is: 2012
+        conContainerTab15_Sub = tabTab15.container(border=True, width="stretch", key="conTab15Sub", height=780)
+        conContainerTab15_Sub.info("What Are The Predicted Sales Per Month For Next Year?")
+
+
+        objPipeline = joblib.load(CNST_STR_FOREST_PIPELINE_HYPOTHESIS9_PREDICTION_PATH)
+   
+        #use special csv file grouped by territory and yearmonth
+        dfSalesDataML_Work = dfSales_InvoiceData_GroupByTerritory.copy() 
+          
+        #create special Month column (which incidentally overwrites the existing one!)
+        dfSalesDataML_Work["Month"] = (dfSalesDataML_Work["YearMonth"] % 100).astype(int)
+
+        #cyclic features - no idea what htis does but ML with dates seems to cause problems!
+        dfSalesDataML_Work["MonthSin"] = np.sin(2 * np.pi * dfSalesDataML_Work["Month"] / 12)
+        dfSalesDataML_Work["MonthCos"] = np.cos(2 * np.pi * dfSalesDataML_Work["Month"] / 12)
+
+ 
+        #configure features
+        lstFeatures = [
+         "TerritoryCodes",
+         "Year",
+         "MonthSin",
+         "MonthCos"
+        ]
+
+ 
+        # Get all territories that existed in 2017
+        lstTerritories = sorted(
+            dfSalesDataML_Work[
+               dfSalesDataML_Work["Year"] == 2017
+            ]["TerritoryCodes"]
+            .dropna()
+            .unique()
+        )
+
+        # Create 12 months for every territory
+        df2018Predict = pd.DataFrame(
+           [
+              {
+                     "TerritoryCodes": territory,
+                     "Year": 2018,
+                     "Month": month,
+                     "YearMonth": 201800 + month
+              }
+              for territory in lstTerritories
+              for month in range(1, 13)
+           ]
+        )
+
+
+        #add cyclic features
+        df2018Predict["MonthSin"] = np.sin(
+            2 * np.pi * df2018Predict["Month"] / 12
+        )
+
+        df2018Predict["MonthCos"] = np.cos(
+            2 * np.pi * df2018Predict["Month"] / 12
+        )
+
+        #predict 2018
+        dfX2018 = df2018Predict[
+            lstFeatures
+        ]
+
+        obj2018Predictions = (
+            objPipeline.predict(
+               dfX2018
+            )
+        )
+
+        # Add predictions
+        df2018Predict[
+            "Predicted_InvoiceAmt"
+        ] = obj2018Predictions
+
+        df2018Territory = (
+          df2018Predict
+          .groupby("TerritoryCodes")[
+            "Predicted_InvoiceAmt"
+          ]
+          .sum()
+          .reset_index()
+       )
+
+        fig, ax = plt.subplots(figsize=(14, 7))
+
+        #configure plot
+        ax.bar(
+            df2018Territory["TerritoryCodes"].astype(str),
+            df2018Territory["Predicted_InvoiceAmt"],
+            label="Predicted"
+        )
+
+        plt.title("2018 Predicted Invoice Amount - Linear Regression")
+        ax.set_xlabel("TerritoryCodes")
+        ax.set_ylabel("Predicted Invoice Amount (£)")
+        #make x-axis labels more readable
+        ax.set_xticklabels(df2018Territory["TerritoryCodes"].astype(str), rotation=90)
+        #show legend and grid
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+                                         
+        conContainerTab15_Sub.pyplot(fig, use_container_width=True) 
+
+        conSectionFooter15 = conContainerTab15_Sub.container(border=False, width="stretch", key="conSectionFooter15", height=400) 
+        conSectionFooter15.write("Much closer to historic data, no geative value and strong in a lot of areas the actual data is.")  
+        conSectionFooter15.write("I would suggest using this model.")  
+
 
    case "Ethics & Data Privacy":
         conContainerEthicsMain = conContainerMain.container(border=False, width="stretch", key="conSectionEthics", height=860) 
@@ -2000,3 +1560,6 @@ match radRadioButtons:
       
         conContainerEthicsMain.write("This section will cover the ethics and data privacy considerations for the sales analysis.")
         conContainerEthicsMain.write("We are committed to ensuring the responsible use of data and protecting the privacy of our customers.")
+
+
+       
