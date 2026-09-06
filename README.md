@@ -2,8 +2,6 @@
 
 Project is a data analysis project that sales data to answer business questions and validate hypotheses. The project involves data cleaning, transformation, and visualisation using Python and various libraries.
 
-
-
 # ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
 
 ## Dataset Content
@@ -12,15 +10,11 @@ Dataset package given by customer contains 1 related raw CSV file:
 
 - Sales_InvoiceData.csv
 
-
 Custom created datasets:
 
 Sales_InvoiceData_GroupedByTerritory.csv - Used by machine learning contains data grouped by TerritoryCode and YearMonth with sum of InvoiceAmt
 
 Sales_InvoiceData_GroupedByCustomer.csv - Used by machine learning contains data grouped by CustomerID and YearMonth with sum of InvoiceAmt
-
-
-
 
 **Project Folder Structure:**
 
@@ -51,7 +45,6 @@ streamlit <- contains files needed for Heroku to show streamlit dashboard
 **Jupyter_Notebooks:**
 
 ETL/EDA etc are purposely put into separate Jupyter notebooks for ease of use and debugging!
-
 
 **Notebook Files:**
 
@@ -86,16 +79,11 @@ for various aspects e.g. ETL.
 
 The dashboard is available via Heroku at this URL:
 
-  
-
 **GitHub**
 
 Project GitHub URL is:
 
 https://github.com/RogerWilliams2026/Project3-SalesAnalysis.git
-
-
-
 
 ### Using The Notebooks
 
@@ -105,22 +93,20 @@ In order to create the combined csv file and see the plots these notebooks need 
 - Notebook_EDA_Sales_DataSet.ipynb <- Contains the EDA for the combined csv file
 - Notebook_ML.ipynb <- Contains the machine learning model for experimentation has own visualisations
 - Notebook_Visualisations1.ipynb <- Contains the visualisations for the hypotheses
-- Notebook_Visualisations2.ipynb <- Contains the visualisations for the hypothesis for ML
 
 ## Business Requirements
 
 A requirement for a wider view of sales performance in the business in key areas, including sales by territories and product families.
 
-Special interest was shown in sales by territory and I got the feeling they are keen to identify profitable and less profitable customer
-by sales territory, as well as the amount of credits given to each customer and other analysis around it.
+Special interest was shown in sales by territory and I got the feeling they are keen to identify profitable and less profitable customer by sales territory, as well as the amount of credits given to customer.
 
-The customer hopes this information will help it plan its store growth and marketing strategies to maximise profits in the areas that are shown to be profitable, but also focus on improvement for the stores that are not performing well.
+The customer hopes this information will help it plan its growth and marketing strategies to maximise profits in the areas that are shown to be profitable, but also focus on improvement for the areas that are not performing well.
 
 ## Ethics and GDPR
 
-The dataset contains a field of contact names and a field of customer names. based on the premise this data is going to be 
-available via a public dashboard made the decision to *withhold* the information from the public dataset. 
+The dataset contains a field of contact names and a field of customer names. based on the premise this data is going to be available via a public dashboard made the decision to _withhold_ the information from the public dataset which complies with GDPR.
 
+There is a more indepth discussion in the dashboard.
 
 ## Hypothesis and How To Validate?
 
@@ -128,10 +114,10 @@ available via a public dashboard made the decision to *withhold* the information
   Validation: Test with a suitable plot to show correlation between invoice amount sum and territory filtered for highest value
 
 - Who were the top 20 customers by sales for last year?
-  Validation: Test with a suitable plot to show customer ID/name 
+  Validation: Test with a suitable plot to show customer ID
 
 - Who were the bottom 20 customer by sales for last year?
-  Validation: Test with a suitable plot to show customer ID/name 
+  Validation: Test with a suitable plot to show customer ID
 
 - What was the total amount of credits issued for last year?
   Validation: Will show on same plot if possible, will divide into months for a more meaningful visualisation
@@ -139,27 +125,19 @@ available via a public dashboard made the decision to *withhold* the information
 - What was the percentage of ship methods used last year?
   Validation: Thinking of a simple pie plot as percentages used, might not sum to 100% though, will test and see
 
-- What were the sales per customer per territory for last year?
-  Validation: Will show plot grouped by territory, then customer ID/name then month 
+- What were the total sales per customer per territory for last year?
+  Validation: Will show plot grouped by territory, then customer ID sunburst seems ideal for this due to number of customers
 
 - What was the sales by product family for last the two years?
   Validation: Will show with a comparison plot with each year in a different colour, will divide into months for a more meaningful visualisation
-
 
 Machine Learning Predictions:
 
 - What are the predicted sales per month for next year?
   Validation: Test with linear regression and random forest to determine best model for hypothesis
 
-- *What are the predicted sales per territory for next year?
+- What are the predicted sales per territory for next year?
   Validation: Test with linear regression and random forest to determine best model for hypothesis
-
-
-
-* As data contains customer name as well as customer ID use customer ID as data will be public server
-
-
-
 
 ## Project Plan
 
@@ -179,14 +157,9 @@ Machine Learning Predictions:
 _Hypothesis 1: Are sales increased if weather is hotter or colder in the last 12 months?_
 Chose scatter plot to show the correlation between temperature and sales. Due to the large amount of data, a scatter plot is the best way to visualise the data and show the correlation.
 
-
-
-
-
 ## Analysis techniques used
 
 From the initial csv file 3 more are created 4 via ETL as it goes through the ETL stages all end with an applied naming convention:
-
 
 - Sales_InvoiceData_Cleaned.csv
 - Sales_InvoiceData_Working.csv
@@ -205,8 +178,6 @@ For machine learning 4 pipelines are created:
 
 - randomforest_hypothesis10_predictions_pipeline.pkl
 - linear_regression_hypothesis10_predictions_pipeline.pkl
- 
-
 
 Files with _test_ in the name are used to run test "prediction" by getting machine learning processes
 to "predict" values for an existing year. This is used to compare with the previous year via a plot

@@ -156,6 +156,7 @@ tabTab19 = None
 #sliders for user interaction
 sldSliderFrom1 = None
 sldSliderFrom2 = None
+sldSliderFrom3 = None
 
 #DataFrames vars for csv files for ML
 dfSales_InvoiceData_GroupByCustomer = pd.DataFrame()
@@ -193,10 +194,6 @@ dfSales_InvoiceData_GroupByTerritory = pd.read_csv(CNST_STR_SALES_GROUPBY_TERRIT
 #convert InvoiceDate to datetime
 dfSales_InvoiceData["InvoiceDate"] = pd.to_datetime(dfSales_InvoiceData["InvoiceDate"], format="%d/%m/%Y")
 
-# #convert InvoiceID to string
-# dfSales_InvoiceData["InvoiceID"] = dfSales_InvoiceData["InvoiceID"].astype(str)
-
-
 #init streamlit dashboard 
 # Load the CSS file
 funcLoadCSS(pathlib.Path("assets/css/style.css") )
@@ -233,11 +230,6 @@ st.sidebar.title("Analysis Options",width="content",anchor="left")
 radRadioButtons = st.sidebar.radio("Select:", ["Overview", "Hypothesis 1 -4", "Hypothesis 5 - 7",  
                                                "ML Hypothesis 8", "ML Hypothesis 9", "Ethics & Data Privacy"], 
                                    index=0, key="radRadioButtons")
-
-if st.button("🔄 Reset UI"):
-    st.cache_data.clear()
-    st.cache_resource.clear()
-    st.rerun()
     
 #populate container with page controls
 match radRadioButtons:
@@ -254,15 +246,15 @@ match radRadioButtons:
         conOverview.write("All analysis is done as requested based on the last 12 months of data")
         conOverview.write()
         conOverview.write("Analysis Produced:")
-        conOverview.write("What were the highest sales per territory for last year?")
-        conOverview.write("Who were the top 20 customers by sales for last year?")
-        conOverview.write("Who were the bottom 20 customer by sales for last year?")
-        conOverview.write("What was the total amount of credits issued for last year?")
-        conOverview.write("What was the percentage of ship methods used last year?")
-        conOverview.write("*What were the sales per customer per territory for last year?")
-        conOverview.write("What was the sales by product family for last the two years?")
-        conOverview.write("What are the predicted sales per month for next year?")
-        conOverview.write("What are the predicted sales per territory for next year?")
+        conOverview.write("- What were the highest sales per territory for last year?")
+        conOverview.write("- Who were the top 20 customers by sales for last year?")
+        conOverview.write("- Who were the bottom 20 customer by sales for last year?")
+        conOverview.write("- What was the total amount of credits issued for last year?")
+        conOverview.write("- What was the percentage of ship methods used last year?")
+        conOverview.write("- What were the total sales per customer per territory for last year?")
+        conOverview.write("- What was the sales by product family for last the two years?")
+        conOverview.write("- What are the predicted sales per month for next year?")
+        conOverview.write("- What are the predicted sales per territory for next year?")
    
         
    case "Hypothesis 1 -4": 
@@ -341,13 +333,18 @@ match radRadioButtons:
         #to stop customer being shown who have NO sales delete all records where InvoiceAmt is 0
         dfSales_DataSet_Filtered = dfSales_DataSet_Filtered[dfSales_DataSet_Filtered["InvoiceAmt"] > 0]
 
+        #add slider so user can play with the report
+        sdlSliderFrom1 = conContainerTab2_Sub.slider("Select Amount of Customers", min_value=1, 
+                                                    max_value=dfSales_DataSet_Filtered["CustomerID"].nunique(), value=20, step=1, 
+                                                    key="sdlSliderFrom1")
+
         #group by CustomerID and get sum of InvoiceAmt
         dfSales_DataSet_Filtered = (
            dfSales_DataSet_Filtered
            .groupby("CustomerID")["InvoiceAmt"]
            .sum()
            .sort_values(ascending=False)
-           .head(20)
+           .head(sdlSliderFrom1)
            .reset_index()
         )
 
@@ -355,12 +352,12 @@ match radRadioButtons:
         dfSales_DataSet_Filtered.sort_values("InvoiceAmt", ascending=False)
 
         fig = px.bar(
-           dfSales_DataSet_Filtered.head(20),
+           dfSales_DataSet_Filtered.head(sdlSliderFrom1),
            x="CustomerID",
            y="InvoiceAmt",
            color="InvoiceAmt",
            color_continuous_scale="Solar",
-           title="Top 20 Customers By Sales For Last 12 Months"
+           title=f"Top {sdlSliderFrom1} Customers By Sales For Last 12 Months"
         )
 
         fig.update_layout(
@@ -387,8 +384,8 @@ match radRadioButtons:
         expExpander2.dataframe(dfSales_DataSet_Filtered.head(20), use_container_width=True)         
   
         conSectionFooter2 = conContainerTab2_Sub.container(border=False, width="stretch", key="conSectionFooter2", height=400)
-        conSectionFooter2.write("Custmers 628 and 1028 are the top 2 customer by a huge margin." +
-                                "The average sales amoungst the rests sits around 110-130K.")
+        conSectionFooter2.write("In the top 20 data customers 628 and 1028 are the top 2 customer by a huge margin." +
+                                "The average sales amongst the rests sits around 110-130K.")
         conSectionFooter2.write("Customers with IDs starting with 'S' are not fairing as well as the other customers, " +
                                 "would be interesting to see what sales territories they are for, a marketing push perhaps?")
 
@@ -404,13 +401,18 @@ match radRadioButtons:
         #to stop customer being shown who have NO sales delete all records where InvoiceAmt is 0
         dfSales_DataSet_Filtered = dfSales_DataSet_Filtered[dfSales_DataSet_Filtered["InvoiceAmt"] > 0]
 
+        #add slider so user can play with the report
+        sdlSliderFrom2 = conContainerTab3_Sub.slider("Select Amount of Customers", min_value=1, 
+                                                    max_value=dfSales_DataSet_Filtered["CustomerID"].nunique(), value=20, step=1, 
+                                                    key="sdlSliderFrom2")
+        
         #group by CustomerID and get sum of InvoiceAmt
         dfSales_DataSet_Filtered = (
            dfSales_DataSet_Filtered
            .groupby("CustomerID")["InvoiceAmt"]
            .sum()
            .sort_values(ascending=False)
-           .tail(20)
+           .tail(sdlSliderFrom2)
            .reset_index()
         )
 
@@ -418,12 +420,12 @@ match radRadioButtons:
         dfSales_DataSet_Filtered.sort_values("InvoiceAmt", ascending=False)
 
         fig = px.bar(
-           dfSales_DataSet_Filtered.tail(20),
+           dfSales_DataSet_Filtered.tail(sdlSliderFrom2),
            x="CustomerID",
            y="InvoiceAmt",
            color="InvoiceAmt",
            color_continuous_scale="Solar",
-           title="Bottom 20 Customers By Sales For Last 12 Months"
+           title=f"Bottom {sdlSliderFrom2} Customers By Sales For Last 12 Months"
         )
 
         fig.update_layout(
@@ -458,16 +460,22 @@ match radRadioButtons:
             
             
 #*****tab 4*******
-        #special plot for *all* customers with sales *below* zero!
+        #special plot for all customers with sales *below* zero!
         conContainerTab4_Sub = tabTab4.container(border=True, width="stretch", key="conTab4Sub", height=780)
         conContainerTab4_Sub.info("Who Were The Bottom 20 Customer by Sales for Last Year?")
-  
+
+        #add slider so user can play with the report
+        sdlSliderFrom3 = conContainerTab3_Sub.slider("Select Amount of Years", min_value=1, 
+                                                    max_value=dfSales_InvoiceData["Year"].nunique(), value=20, step=1, 
+                                                    key="sdlSliderFrom3")  
         #first filter
         # by last year (2016)
         dfSales_DataSet_Filtered = dfSales_InvoiceData[dfSales_InvoiceData["Year"] == dfSales_InvoiceData["Year"].max() -1]
         
         #to stop customer being shown who have NO sales delete all records where InvoiceAmt is 0
         dfSales_DataSet_Filtered = dfSales_DataSet_Filtered[dfSales_DataSet_Filtered["InvoiceAmt"] < 0]
+
+
 
         #group by CustomerID and get sum of InvoiceAmt
         dfSales_DataSet_Filtered = (
@@ -554,13 +562,15 @@ match radRadioButtons:
            values="InvoiceAmt",
            title="Percentage of Ship Methods Used Last Year",
            color_discrete_sequence=px.colors.qualitative.Set3,
-           height=800,
+           height=700,
            width=800,
            )                       
         
         fig.update_layout(
            title_x=0.3,
-           title_font=dict(size=20, family="Arial", color="White")
+           title_font=dict(size=20, family="Arial", color="White"),
+           plot_bgcolor="#070707", 
+           paper_bgcolor ="#070707"            
         )
    
   
@@ -585,47 +595,53 @@ match radRadioButtons:
 
         # Remove zero/negative amounts
         dfSales_DataSet_Filtered  = dfSales_DataSet_Filtered [dfSales_DataSet_Filtered ["InvoiceAmt"] > 0]
+   
+        #group by TerritoryCodes and CustomerID and get sum of InvoiceAmt
+        dfSales_DataSet_Filtered = (
+            dfSales_DataSet_Filtered
+            .groupby(["TerritoryCodes", "CustomerID"], as_index=False)["InvoiceAmt"]
+            .sum()
+            .sort_values("InvoiceAmt", ascending=False)
+        )
 
         fig = px.sunburst(
-           dfSales_DataSet_Filtered,
-           path=[
-              "TerritoryCodes",
-              "CustomerID",
-              "Month",
-              "InvoiceID"
-           ],
-           values="InvoiceAmt",
-           color="InvoiceAmt",
-           color_continuous_scale="Solar",
-           title=f"Sales Per Customer Per Territory For {intStartYear}",
-           height=800,
-           width=800,
-           hover_data={
-              "InvoiceAmt": ":,.2f",
-              "TerritoryCodes": True,
-              "CustomerID": True,
-              "Month": True,
-           }
+            dfSales_DataSet_Filtered,
+            path=[
+                "TerritoryCodes",
+                "CustomerID",
+            ],
+            values="InvoiceAmt",
+            color="InvoiceAmt",
+            color_continuous_scale="Solar",
+            title=f"Sales Per Customer Per Territory For {intStartYear}",
+            height=800,
+            width=800,
+            hover_data={
+                "InvoiceAmt": ":,.2f",
+                "TerritoryCodes": True,
+                "CustomerID": True,
+            }
         )
 
         fig.update_layout(
-           title_x=0.5,
-           title_font=dict(
-              size=20,
-              family="Arial",
-              color="black"
-           )
+            title_x=0.3,
+            title_font=dict(
+                size=20,
+                family="Arial",
+                color="white"               
+            ),
+            plot_bgcolor="#070707", 
+            paper_bgcolor ="#070707"  
         )
 
         fig.update_traces(
-           hovertemplate=
-              "Invoice Amount: £%{customdata[0]:,.2f}<br>" +
-              "Territory: %{customdata[1]}<br>" +
-              "Customer: %{customdata[2]}<br>" +
-              "Month: %{customdata[3]}<br>" +
-              "<extra></extra>"
+            hovertemplate=
+                "Invoice Amount: £%{customdata[0]:,.2f}<br>" +
+                "Territory: %{customdata[1]}<br>" +
+                "Customer: %{customdata[2]}<br>" +
+                "<extra></extra>"
         )
- 
+
         conContainerTab6_Sub.plotly_chart(fig, use_container_width=True, key="figTab6") 
         expExpander6 = conContainerTab6_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander6")
         expExpander6.dataframe(dfSales_DataSet_Filtered, use_container_width=True)         
@@ -638,11 +654,10 @@ match radRadioButtons:
         conSectionFooter6.write("Interactive insights are great when dealing (as we are) with a lot of data e,g. number of stores and their" +
                                 "departments, and act as a great presentation tool for internal Q&A session regarding store performance and" +
                                 "profitability.")   
-     
+        
  
  #******tab 7*******  
         #What Was The Sales By Product Family For Last The Two Years?
-        #Note: last year in data is: 2012
       
         #Note: in order for the "ticks" to show on the axes Plotly needs to be version 5.8 or higher
         conContainerTab7_Sub = tabTab7.container(border=True, width="stretch", key="conTab7Sub", height=780)
@@ -727,22 +742,6 @@ match radRadioButtons:
         
 
    case "ML Hypothesis 8":     
-
-        #add slider so user can play with the report
-      #   sdlSliderFrom = conContainerTab8_Sub.slider("Select Amount of Stores", min_value=10, 
-      #                                               max_value=dfSales_DataSet_Work["Store"].nunique(), value=10, step=1, 
-      #                                               key="sdlSliderFrom1")
-
-      #   #group by Store and get sum of Weekly_Sales
-      #   dfSales_DataSet_Work = (
-      #      dfSales_DataSet_Work
-      #      .groupby("Store")["Weekly_Sales"]
-      #      .sum()
-      #      .sort_values(ascending=False)
-      #      .head(sdlSliderFrom)
-      #      .reset_index()
-      #   )
-
 
 #******tab 8*******  
         #plotly visualisation for hypothesis 8 - What are the predicted sales per month for next year?
