@@ -161,7 +161,7 @@ div[data-testid="stAlert"] > div {
 
 /* container - tab 3 */
 
-.st-key-conTab3aTitle {
+.st-key-conTab3Title {
   background-color: rgb(113, 154, 51);
 
   padding-top: 2px;
@@ -169,44 +169,19 @@ div[data-testid="stAlert"] > div {
   margin-top: 4px;
 }
 
-.st-key-conTab3aTitle p {
+.st-key-conTab3Title p {
   text-align: center;
   color: white;
   font-weight: 800;
   font-size: larger;
 }
 /* need slightly smaller h3 size in tab 3 */
-.st-key-conTab3a h3 {
+.st-key-conTab3 h3 {
   font-size: 1.5rem;
-}
-
-/* need slightly smaller h3 size in tab 3 */
-.st-key-conTab3b h3 {
-  font-size: 1.5rem;
-}
-
-.st-key-conTab3bTitle {
-  background-color: rgb(113, 154, 51);
-
-  padding-top: 2px;
-  padding-bottom: 4px;
-  margin-top: 4px;
-}
-
-.st-key-conTab3bTitle p {
-  text-align: center;
-  color: white;
-  font-weight: 800;
-  font-size: larger;
 }
 
 /* need slightly smaller h4 size in tab 3 */
 .st-key-conTab3 h4 {
-  font-size: 1.2rem;
-}
-
-/* need slightly smaller h4 size in tab 3 */
-.st-key-conTab3b h4 {
   font-size: 1.2rem;
 }
 
@@ -254,21 +229,19 @@ div[data-testid="stAlert"] > div {
 }
 
 /* format expanders for tab 1 */
-.st-key-expExpander1,
-.st-key-expExpander2,
-.st-key-expExpander3,
-.st-key-expExpander4,
-.st-key-expExpander5,
-.st-key-expExpander6,
-.st-key-expExpander7,
-.st-key-expExpander8,
-.st-key-expExpander9,
-.st-key-expExpander10,
-.st-key-expExpander11,
-.st-key-expExpander12,
-.st-key-expExpander13,
-.st-key-expExpander14,
-.st-key-expExpander15 p {
+.st-key-expExpander1 p,
+.st-key-expExpander2 p,
+.st-key-expExpander3 p,
+.st-key-expExpander4 p,
+.st-key-expExpander5 p,
+.st-key-expExpander6 p,
+.st-key-expExpander7 p,
+.st-key-expExpander8 p,
+.st-key-expExpander9 p,
+.st-key-expExpander10 p,
+.st-key-expExpander11 p,
+.st-key-expExpander12 p,
+.st-key-expExpander13 p {
   padding-top: 0px;
   padding-bottom: 0px;
   margin-top: 0px;
@@ -329,4 +302,22 @@ div[data-testid="stAlert"] > div {
   padding-bottom: 0px;
   margin-top: 0px;
   margin-bottom: 0px;
+}
+
+.st-key-sdlSliderFrom1,
+.st-key-sdlSliderFrom2,
+.st-key-sdlSliderFrom3 {
+  background-color: rgb(62, 0, 116);
+
+  padding-top: 2px;
+  padding-bottom: 4px;
+  margin-top: 4px;
+}
+
+.st-key-sdlSliderFrom1 p,
+.st-key-sdlSliderFrom2 p,
+.st-key-sdlSliderFrom3 p {
+  color: rgb(254, 251, 31);
+  font-size: 16px;
+  padding-left: 4px;
 }

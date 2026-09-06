@@ -58,30 +58,19 @@ conContainerTab12_Sub = None
 conContainerTab13_Sub = None
 conContainerTab14_Sub = None
 conContainerTab15_Sub = None
-conContainerTab16_Sub = None
-conContainerTab17_Sub = None
-conContainerTab18_Sub = None
-conContainerTab19_Sub = None
 
 conSection1 = None
 conSection2 = None
 conSection3 = None
 conSection4 = None
 conSection5 = None
-conSection6 = None
-conSection7 = None
-conSection8 = None
+
 
 conSection1Title = None
 conSection2Title = None
 conSection3Title = None
 conSection4Title = None
 conSection5Title = None
-conSection6Title = None
-conSection7Title = None
-conSection8Title = None
-conSection9Title = None
-conSection10Title = None
 
 conSectionEthicsTitle = None
 
@@ -90,11 +79,7 @@ conSection2Tab = None
 conSection3Tab = None
 conSection4Tab = None
 conSection5Tab = None
-conSection6Tab = None
-conSection7Tab = None
-conSection8Tab = None
-conSection9Tab = None
-conSection10Tab = None 
+
 
 conSectionFooter1 = None
 conSectionFooter2 = None
@@ -111,7 +96,7 @@ conSectionFooter12 = None
 conSectionFooter13 = None
 conSectionFooter14 = None
 conSectionFooter15 = None
-conSectionFooter16 = None
+
 #tab 1
 conOverview = None
 
@@ -128,8 +113,6 @@ expExpander10 = None
 expExpander11 = None
 expExpander12 = None
 expExpander13 = None
-expExpander14 = None
-expExpander15 = None
 
 tabTab1 = None
 tabTab2 = None
@@ -147,10 +130,6 @@ tabTab12 = None
 tabTab13 = None
 tabTab14 = None
 tabTab15 = None
-tabTab16 = None
-tabTab17 = None
-tabTab18 = None
-tabTab19 = None
 
 
 #sliders for user interaction
@@ -159,13 +138,11 @@ sldSliderFrom2 = None
 sldSliderFrom3 = None
 
 #DataFrames vars for csv files for ML
-dfSales_InvoiceData_GroupByCustomer = pd.DataFrame()
 dfSales_InvoiceData_GroupByTerritory = pd.DataFrame()
 dfSalesDataML_Temp = pd.DataFrame()
 
 #DataFrames vars
 dfSales_InvoiceData = pd.DataFrame()
-dfSales_InvoiceData_Temp = pd.DataFrame()
 dfSales_InvoiceData_Work = pd.DataFrame()
 dfSales_DataSet_Filtered = pd.DataFrame()
 dfSalesDataML_Work = pd.DataFrame()
@@ -185,9 +162,8 @@ def funcLoadCSS(fileName):
 
 
 #******** main code ********
-import os
+
 dfSales_InvoiceData = pd.read_csv(CNST_STR_SALES_DATASET)
-dfSales_InvoiceData_GroupByCustomer = pd.read_csv(CNST_STR_SALES_GROUPBY_CUSTOMER_DATASET)
 dfSales_InvoiceData_GroupByTerritory = pd.read_csv(CNST_STR_SALES_GROUPBY_TERRITORY_DATASET)
 #try and load csvs from assets folder
 
@@ -243,13 +219,14 @@ match radRadioButtons:
         conOverview.markdown("### Purpose of The Analysis")
         conOverview.write("Provides insights into the performance of the business in key areas such as: " +
                           "sales trends and the impact of various external factors on sales.")
-        conOverview.write("All analysis is done as requested based on the last 12 months of data")
-        conOverview.write()
+        conOverview.write("All analysis is done as requested based on the last 12 months of data unless otherwise stated")
+        conOverview.write(" ")
+        conOverview.write(" ")
         conOverview.write("Analysis Produced:")
         conOverview.write("- What were the highest sales per territory for last year?")
         conOverview.write("- Who were the top 20 customers by sales for last year?")
         conOverview.write("- Who were the bottom 20 customer by sales for last year?")
-        conOverview.write("- What was the total amount of credits issued for last year?")
+        conOverview.write("- What was the total amount of credits issued for last year by customer?")
         conOverview.write("- What was the percentage of ship methods used last year?")
         conOverview.write("- What were the total sales per customer per territory for last year?")
         conOverview.write("- What was the sales by product family for last the two years?")
@@ -283,7 +260,7 @@ match radRadioButtons:
         #create new DataFrame with one TerritoryCodes entry per YearMonth with the MAX InvoiceAmt in it
         dfSales_DataSet_Temp = dfSales_DataSet_Filtered.groupby(["TerritoryCodes"], as_index=False)["InvoiceAmt"].max()                                                                 
          
-        fig = px.scatter(dfSales_DataSet_Temp,
+        fig = px.bar(dfSales_DataSet_Temp,
              x="TerritoryCodes",
              y="InvoiceAmt",
              title="Highest Sales Per Territory For Last Year Over Last 12 Months",
@@ -308,6 +285,8 @@ match radRadioButtons:
              ticklen=6,
              dtick=2000
              ))
+ 
+
  
         conSection1Tab.plotly_chart(fig, use_container_width=True, key="figTab1") 
         
@@ -389,10 +368,10 @@ match radRadioButtons:
         conSectionFooter2.write("Customers with IDs starting with 'S' are not fairing as well as the other customers, " +
                                 "would be interesting to see what sales territories they are for, a marketing push perhaps?")
 
-#******tab 3a******  
+#******tab 3******  
         #plotly visualisation for hypothesis 3 - What is most profitable store type over the last 12 months?
         #Note: in order for the "ticks" to show on the axes Plotly needs to be version 5.8 or higher
-        conContainerTab3_Sub = tabTab3.container(border=True, width="stretch", key="conTab3aSub", height=780)
+        conContainerTab3_Sub = tabTab3.container(border=True, width="stretch", key="conTab3Sub", height=780)
         conContainerTab3_Sub.info("Who Were The Bottom 20 Customer by Sales for Last Year?")
 
        #first filter by last year (2016)
@@ -405,7 +384,7 @@ match radRadioButtons:
         sdlSliderFrom2 = conContainerTab3_Sub.slider("Select Amount of Customers", min_value=1, 
                                                     max_value=dfSales_DataSet_Filtered["CustomerID"].nunique(), value=20, step=1, 
                                                     key="sdlSliderFrom2")
-        
+    
         #group by CustomerID and get sum of InvoiceAmt
         dfSales_DataSet_Filtered = (
            dfSales_DataSet_Filtered
@@ -462,15 +441,16 @@ match radRadioButtons:
 #*****tab 4*******
         #special plot for all customers with sales *below* zero!
         conContainerTab4_Sub = tabTab4.container(border=True, width="stretch", key="conTab4Sub", height=780)
-        conContainerTab4_Sub.info("Who Were The Bottom 20 Customer by Sales for Last Year?")
+        conContainerTab4_Sub.info("Total Amount of Credits Issued for Last Year By Customer")
 
         #add slider so user can play with the report
-        sdlSliderFrom3 = conContainerTab3_Sub.slider("Select Amount of Years", min_value=1, 
-                                                    max_value=dfSales_InvoiceData["Year"].nunique(), value=20, step=1, 
+        sdlSliderFrom3 = conContainerTab4_Sub.slider("Select Amount of Years From 2017 Backwards", min_value=0, 
+                                                    max_value=dfSales_InvoiceData["Year"].nunique(), value=1, step=1, 
                                                     key="sdlSliderFrom3")  
         #first filter
-        # by last year (2016)
-        dfSales_DataSet_Filtered = dfSales_InvoiceData[dfSales_InvoiceData["Year"] == dfSales_InvoiceData["Year"].max() -1]
+        # by last year (2017)
+        intStartYear = dfSales_InvoiceData["Year"].max() - sdlSliderFrom3
+        dfSales_DataSet_Filtered = dfSales_InvoiceData[dfSales_InvoiceData["Year"] >= intStartYear]
         
         #to stop customer being shown who have NO sales delete all records where InvoiceAmt is 0
         dfSales_DataSet_Filtered = dfSales_DataSet_Filtered[dfSales_DataSet_Filtered["InvoiceAmt"] < 0]
@@ -496,7 +476,7 @@ match radRadioButtons:
             y="InvoiceAmt",
             color="InvoiceAmt",
             color_continuous_scale="Solar",
-            title="All Customers With Negative Sales For Last 12 Months"
+            title=f"Total Amount of Credits Issued for Last {sldSliderFrom3} Year(s) By Customer"
         )
 
         fig.update_layout(
@@ -517,13 +497,11 @@ match radRadioButtons:
         expExpander4.dataframe(dfSales_DataSet_Filtered.head(20), use_container_width=True)         
 
         conSectionFooter4 = conContainerTab4_Sub.container(border=False, width="stretch", key="conSectionFooter4", height=400)
-        conSectionFooter4.write("An interesting visualisation as we can see customer with NEGATIVE sales values.")
-        conSectionFooter4.write("These are due to credit memos, what is good is that the amount of credit memos is signifiantly " +
-                                 "lower than mean sales which is a great metric.")
-        conSectionFooter4.write("In plain English it means you are not 'giving away' a large percentage of profit due to issues" + 
-                                 "requiring credit memo adjustments.")
-        conSectionFooter4.write("In stores: 9, 19, 26, 37 all have high sales but store 26 is the highest. Further analysis of theses stores by" +
-                                "_type_ could yield some fascinating insights.")                      
+        conSectionFooter4.write("An clear and consise visualisation answering the question.")
+        conSectionFooter4.write("What is good is that the amount of credit memos is issued is signifiantly lower than mean sales " +
+                                "which is a great metric to have.")
+        conSectionFooter4.write("In plain English it means you are not 'giving away' a large percentage of profit due to issuing " + 
+                                "with credit memos.")
                                 
          
    case "Hypothesis 5 - 7":                
@@ -646,15 +624,11 @@ match radRadioButtons:
         expExpander6 = conContainerTab6_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander6")
         expExpander6.dataframe(dfSales_DataSet_Filtered, use_container_width=True)         
         conSectionFooter6 = conContainerTab6_Sub.container(border=False, width="stretch", key="conSectionFooter6", height=400)
-        conSectionFooter6.write("This is a nice detailed yet not too complex visualisation that just as you have discovered is the same methodology")
-        conSectionFooter6.write("as the previous visualisation in that it is interactive, so we can \"drill down\" into finer detail.")
-        conSectionFooter6.write("As we can see when we hover the mouse over a markdown section we can see the store number, the markdown amount" +
-                                "and the sales for that store during the holiday period.")
-        conSectionFooter6.write("When we double click on a store number we can see detailed markdown information for the store:")
-        conSectionFooter6.write("Interactive insights are great when dealing (as we are) with a lot of data e,g. number of stores and their" +
-                                "departments, and act as a great presentation tool for internal Q&A session regarding store performance and" +
-                                "profitability.")   
-        
+        conSectionFooter6.write("This is a nice detailed yet not too complex visualisation that allows you to 'drill down' into the data")
+        conSectionFooter6.write("As we can see when we hover the mouse over a territory a box appears showing total invoices for that area.")
+        conSectionFooter6.write("If we hover over a customer ID we can see the total invoices for that customer in that territory.")
+        conSectionFooter6.write("Double click on the customer ID to see more details.")   
+        conSectionFooter6.write("Would have liked to have individual invoices but there was too much data to display it!")   
  
  #******tab 7*******  
         #What Was The Sales By Product Family For Last The Two Years?
@@ -745,7 +719,6 @@ match radRadioButtons:
 
 #******tab 8*******  
         #plotly visualisation for hypothesis 8 - What are the predicted sales per month for next year?
-        #Note: last year in data is: 2012
         conSection4 = conContainerMain.container(border=False, width="stretch", key="conSection4", height=860)
          
         #create tab control which houses containers for the tab data (split into columns!)        
@@ -829,13 +802,13 @@ match radRadioButtons:
         expExpander8.dataframe(dfPlot, use_container_width=True)      
 
         conSectionFooter8 = conSection4Tab.container(border=False, width="stretch", key="conSectionFooter8", height=400) 
-        conSectionFooter8.write("As we can see the predicted values start off reasonably close but veer off dramatically quite" +
+        conSectionFooter8.write("As we can see the predicted values start off reasonably close but veer off dramatically quite " +
                                 "quickly and ends in a surprising downward motion.")  
         conSectionFooter8.write("I would not recommend using this model, it is here for contrast only!")  
         
 #****tab 9*****
         #plotly visualisation for hypothesis8 - What are the predicted sales per month for next year?
-        #Note: last year in data is: 2012
+        #Note: last year in data is: 2017
         conContainerTab9_Sub = tabTab9.container(border=True, width="stretch", key="conTab9Sub", height=780)
         conContainerTab9_Sub.info("What Are The Predicted Sales Per Month For Next Year?")
 
@@ -896,7 +869,7 @@ match radRadioButtons:
             label="Predicted"
         )
 
-        ax.set_title("2017 Actual vs Predicted Invoice Amount -  Random Forest")
+        ax.set_title("2017 Actual vs Predicted Invoice Amount - Random Forest")
         ax.set_xlabel("Month")
         ax.set_ylabel("Invoice Amount")
         #make x-axis labels more readable
@@ -909,13 +882,13 @@ match radRadioButtons:
         expExpander9 = conContainerTab9_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander9")
         expExpander9.dataframe(dfPlot, use_container_width=True)      
         conSectionFooter9 = conContainerTab9_Sub.container(border=False, width="stretch", key="conSectionFooter9", height=400) 
-        conSectionFooter9.write("This modles results are a lot more stable than the previous shows a more refined curve that matches " + 
+        conSectionFooter9.write("This models results are a lot more stable than the previous shows a more refined curve that matches " + 
                                 "the actual values more closely.")  
         conSectionFooter9.write("This is the model I recommend using for prediction of next years sales.")  
 
 #****tab 10*****
         #2018 prediction - linear regression
-        #Note: last year in data is: 2012
+        #Note: last year in data is: 2017
         conContainerTab10_Sub = tabTab10.container(border=True, width="stretch", key="conTab10Sub", height=780)
         conContainerTab10_Sub.info("What Are The Predicted Sales Per Month For Next Year?")
 
@@ -1151,7 +1124,7 @@ match radRadioButtons:
 #******tab 12*******  
 
         #visualisation for hypothesis 9 - What are the predicted sales per territory for next year?
-        #Note: last year in data is: 2012
+        #Note: last year in data is: 2017
         conSection5 = conContainerMain.container(border=False, width="stretch", key="conSection5", height=860)
          
         #create tab control which houses containers for the tab data (split into columns!)        
@@ -1241,14 +1214,14 @@ match radRadioButtons:
         expExpander12.dataframe(dfPlot, use_container_width=True)      
 
         conSectionFooter12 = conSection5Tab.container(border=False, width="stretch", key="conSectionFooter12", height=400) 
-        conSectionFooter12.write("looks ok until we see it sis predicting NEGATIVE values against actial positive ones")  
+        conSectionFooter12.write("Looks ok until we see it is predicting NEGATIVE values against actual positive ones")  
         conSectionFooter12.write("I would not recommend using this model, it is here for contrast only!")  
         
 #****tab 13*****
         #visualisation for hypothesis 9 - What are the predicted sales per territory for next year?
-        #Note: last year in data is: 2012
+        #Note: last year in data is: 2017
         conContainerTab13_Sub = tabTab13.container(border=True, width="stretch", key="conTab13Sub", height=780)
-        conContainerTab13_Sub.info("What Are The Predicted Sales Per Month For Next Year?")
+        conContainerTab13_Sub.info("What Are The Predicted Sales Per Territory For Next Year?")
 
         objPipeline = joblib.load(CNST_STR_FOREST_PIPELINE_HYPOTHESIS9_TEST_PATH)
  
@@ -1325,14 +1298,14 @@ match radRadioButtons:
         expExpander13 = conContainerTab13_Sub.expander("Show Data Used For Plot", expanded=False, key="expExpander13")
         expExpander13.dataframe(dfPlot, use_container_width=True)      
         conSectionFooter13 = conContainerTab13_Sub.container(border=False, width="stretch", key="conSectionFooter13", height=400) 
-        conSectionFooter13.write("This model results are a lot more stable than the previous no negative values and a close match to acutal values.")  
+        conSectionFooter13.write("This model results are a lot more stable than the previous no negative values and a close match to actual values.")  
         conSectionFooter13.write("This is the model I recommend using for prediction of next years sales.")  
 
 #****tab 14*****
         #2018 prediction - linear regression
 
         conContainerTab14_Sub = tabTab14.container(border=True, width="stretch", key="conTab14Sub", height=780)
-        conContainerTab14_Sub.info("What Are The Predicted Sales Per Month For Next Year?")
+        conContainerTab14_Sub.info("What Are The Predicted Sales Per Territory For Next Year?")
 
         objPipeline = joblib.load(CNST_STR_LINEAR_PIPELINE_HYPOTHESIS9_PREDICTION_PATH)
    
@@ -1436,15 +1409,15 @@ match radRadioButtons:
         conContainerTab14_Sub.pyplot(fig, use_container_width=True) 
 
         conSectionFooter14 = conContainerTab14_Sub.container(border=False, width="stretch", key="conSectionFooter14", height=400) 
-        conSectionFooter14.write("This model produces NEGATIVE values for a prediction where the actual data is largely free of negative values" +
-                                 "this is not a good sign, and therefore not a goot moddel, but put here for comparison.") 
+        conSectionFooter14.write("This model produces NEGATIVE values for a prediction where the actual data is largely free of negative values " +
+                                 "this is not a good sign, and therefore not a good model, but put here for comparison.") 
 
 
 #****tab 15*****
         #2018 prediction - random forest
-        #Note: last year in data is: 2012
+        #Note: last year in data is: 2017
         conContainerTab15_Sub = tabTab15.container(border=True, width="stretch", key="conTab15Sub", height=780)
-        conContainerTab15_Sub.info("What Are The Predicted Sales Per Month For Next Year?")
+        conContainerTab15_Sub.info("What Are The Predicted Sales Per Territory For Next Year?")
 
 
         objPipeline = joblib.load(CNST_STR_FOREST_PIPELINE_HYPOTHESIS9_PREDICTION_PATH)

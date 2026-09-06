@@ -1,24 +1,22 @@
 # Analysis and Conclusion
 
-The customer requires insights into the performance of the business in key areas, including sales trends, store performance, and the impact of various factors on sales. The business is particularly interested in understanding how weather, holidays, store types, and store sizes affect sales and profitability.
+The customer required insights into key performance areas of the business, and this analysis provides a comprehensive look at the customers questions and visualises the answers in a clear and concise manner.
 
-Additionally, the business wants to explore the impact of markdowns on sales during holiday periods.
+This document provides insights into the performance of the business in key areas such as: sales trends and territory performance.
 
-It is a requirement that all analysis is done based on the last 12 months of data, and that the findings are presented in a clear and concise manner.
+All analysis is done as requested based on the last 12 months of data unless otherwise stated.
 
-Are sales increased if weather is hotter or colder in the last 12 months?
-Validation: Test with a suitable plot to show temperature and sales correlation.
-Sales differences between holiday and non-holiday weeks per store in the last 12 months
-Validation: Compare sales using statistical analysis and visualisation techniques.
-What is most profitable store type in the last 12 months?
-Validation: Compare store types with weekly sales.
+Analysis Produced:
 
-- Does store size affect profitability? If so, how much in the last 12 months?
-  Validation: Compare store size with weekly sales
-- Weekly Sales by Store, Store Type and Department Last 12 Months
-  Validation: Compare weekly sales by store and department using appropriate plot
-- Impact of markdowns on sales during holiday periods in the last 12 months by store
-  Validation: Accumulate and visualise markdown data per store during holiday periods
+- What were the highest sales per territory for last year?
+- Who were the top 20 customers by sales for last year?
+- Who were the bottom 20 customer by sales for last year?
+- What was the total amount of credits issued for last year by customer?
+- What was the percentage of ship methods used last year?
+- What were the total sales per customer per territory for last year?
+- What was the sales by product family for last the two years?
+- What are the predicted sales per month for next year?
+- What are the predicted sales per territory for next year?
 
 ## The Journey
 
@@ -26,260 +24,200 @@ The journey to create this data story has been an interesting one. Providing me 
 
 ## The Analysis
 
-**First Question Asked: Are sales increased if weather is hotter or colder in the last 12 months?**
+**First Question Asked: What Were The Highest Sales Per Territory For Last Year?**
 
 Let us look at the visualisation that answers that question:
 
 ![no image](/reports/Images/Hypothesis1_plotly.png)
 
-As we can see from the above visualisation, there is a correlation between sales and weather.
+Simple but effective reporting, clearly show the most lucrative territories, could be used for targeted marketing for those areas with low sales.
 
-There is a clear variance at extreme parts of the temperature range and during the centre range of temperature approximately 42-58 Fahrenheit. So clearly temperature is an effective factor in sales, _but_ other factors could be at play such as the environmental conditions a particular store is in.
+As we can see 'Non EU' is the primary territory with 'Northwest' and 'EU' next closest in sales. Where as territories 'none' and 'services' are quite low, do these territories _need_ to be in the data as they seem ambiguous names?
 
-Deeper analysis preferably by stores in a sales region would offer a better visualisation of the question.
+The rest of the territories hover around the 12-20K mark which show steady sales across the boarrd, which is a good sign for maintaining a healthy business, but perhaps a marketing push in the sub 12K areas could be beneficial to raise sales.
 
-**Second Question Asked: Sales differences Between Holiday and Non-Holiday Weeks Per Store In The Last 12 Months?**
+**Second Question Asked: Who Were The Top 20 Customers By Sales For Last Year?**
 
 Let us analyse the visualisation that answers that question:
 
 ![no image](/reports/Images/Hypothesis2_plotly.png)
 
-Due to the large amount of data I chose a boxplot style visualisation to show the distribution of sales by store type. Also it allows us to see the outliers in the data and the variance of sales by store, which gives us a quick visual depiction of how holiday weeks affects sales directly.
+Very clear plot, the simplicity of the visualisation allows us to grasp the gravity of the data shown.
 
-We can deduce that holiday weeks have a positive effect on sales, and that the variance of sales is greater during holiday weeks than non holiday weeks. Clearly store size also pays a relationship between holiday and non holiday sales volumes, but we can see simply and clearly the effect a holiday week has on footfall and sales.
+Customers 628 and 1028 are the top 2 customers by a huge margin, could be an interesting investigation to see what territories they are in, it does ponder some more questions for more insights:
 
-**Third Question Asked: What Is The Most Profitable Store Type In The Last 12 Months?**
+- Do they spread across multiple territories or are they concentrated in just one geo-location?
+- Are they a single business or a conglomerate of businesses?
+- Are they a head office of a larger business with multiple branches?
+
+The average sales amongst the rests sits around 120-130K which is healthy figure.
+
+Customers with IDs starting with 'S' are not fairing as well as the other customers, would be interesting to see what sales territories they are for, a marketing push is due perhaps?
+
+**Third Question Asked: Who Were The Bottom 20 Customers By Sales For Last Year?**
 
 Let us analyse the visualisation that answers that question:
 
 ![no image](/reports/Images/Hypothesis3_plotly.png)
 
-This simple yet direct visualisation show the direct difference between the store _types_ and sales.
+Answers the hypothesis, clean, simple, direct and potentially shocking!
 
-It is clear that the type 1 store is the most profitable store type in the last 12 months, and that the type 3 store is the least profitable store type in the last 12 months, but being a different type may by nature have a smaller customer based, but does not imply that it is not a profitable one in comparision to its market and customer base.
+This plot shows quite a significant result, the plot sales here are not shown it 1,000s but £s!
 
-**Fourth Question Asked: Does Store Size Affect Profitability? If So, How Much In The Last 12 Months?**
+Questions This Data Poses:
 
-This question requires a lot of visualisation to answer, simply due to the amount of stores to analyse, so let us look at groups of stores by size and their sales in the last 12 months.
+- Is there a real business need to entertain sales of such low sales values from customers?
+- Are these customers viable to keep based on last years turnover from them?
+- Why are there so many of them?
+- What practicies are in place to reduce such customers?
 
-These visualisations are split 5 visualisations for groups of stores i.e. 1-9 etc so bear with me!
+**Fourth Question Asked: What Was The Total Amount Of Credits Issued For Last Year By Customer?**
 
-![no image](/reports/Images/Hypothesis4_seaborn_1.png)
+Let us analyse the visualisation that answers that question:
 
-![no image](/reports/Images/Hypothesis4_seaborn_2.png)
+![no image](/reports/Images/Hypothesis4_plotly.png)
 
-![no image](/reports/Images/Hypothesis4_seaborn_3.png)
+Answers the hypothesis, nice and simple.
 
-![no image](/reports/Images/Hypothesis4_seaborn_4.png)
+What is good is that the amount of credit memos issued is _signifiantly_ lower than mean sales which is a great metric to have.
 
-![no image](/reports/Images/Hypothesis4_seaborn_5.png)
+In plain English it means you are not 'giving away' a large percentage of profit due to issues requiring credit memo adjustments which suggest strong business practicies in quality control and customer service.
 
-An interesting visualisation that shows the correlation between store size and sales. It is clear that there is a positive correlation between store size and sales, but it is not a linear correlation, as we can see from the plot, and remember a smaller stores is not necessarily a less profitable store, as it may have a smaller customer base, but is still profitable in its own right _but_ suggest additional analysis regarding store _type_ in correlation to size and sales would be a logical next step.
-
-In stores: 9, 19, 26, 37 all have high sales but store 26 is the highest. Further analysis of theses stores by _type_ could yield some fascinating insights.
-
-**Question Five Asked: Weekly Sales By Store, Store Type And Department Last 12 Months?**
+**Question Five Asked: What Was The Percentage Of Ship Methods Used Last Year?**
 
 Let us analyse the visualisation that answers that question:
 
 ![no image](/reports/Images/Hypothesis5_plotly.png)
 
-As you are aware this is more than a visualisation it is an interactive tools, whereby you can "drill down" into the details and experience the data in a more dynamic way.
+Nice plot, again easy to see,
 
-As we can see the visualisation is presented as a circular dial with the outer ring representing the weekly sales, next ring inwards is the store number then finally the centre ring is the store type.
+We can see that export delivery is most popular followed by UK carrier.
 
-Hovering the mouse over any section exposes brief details:
+Question is UK carrier an actual company or a generic placeholder?
 
-![no image](/reports/Images/Hypothesis5_plotly_1.png)
+If it is might be worth considering segregating the data so when a customer places an order instead of recording 'UK carrier' record the ACTUAL carrier name.
 
-Here we can see the mouse hovering over the outer ring shows store type, the store number, department and weekly sales yet we can go deeper:
+If you hover the muouse a section it will also show the total invoices for that ship method, which is a nice touch.
 
-![no image](/reports/Images/Hypothesis5_plotly_2.png)
+![no image](/reports/Images/Hypothesis5a_plotly.png)
 
-Here can see the mouse hovering over the first inner ring and can see the same information as the outer ring, but we can go deeper still double clicking on a store number drills into the data that creates the data box we have seen in the previous two images:
+**Question Six Asked: What Were The Total Sales Per Customer Per Territory For Last Year?**
 
-![no image](/reports/Images/Hypothesis5_plotly_3.png)
+Nice interactive plot:
 
-No we can see each departments sales performance within that store, and as we can see when we hover the mouse over a department the information for that exact department.
+![no image](/reports/Images/Hypothesis6a_plotly.png)
 
-Also take note in the previous image the centre ring clearly shows that store type 1 has the most profitable stores, and that store type 3 has the least profitable stores, but as we have seen previously this does not mean that they are not profitable in their own right.
+Non EU, house account and northwest are the biggest territories with customers 628, 1028 being the largest.
 
-**Question Six Asked: Impact Of Markdowns On Sales During Holiday Periods In The Last 12 Months By Store?**
+Hovering over a territory shows the total sales for that territory:
 
-This is a nice detailed yet not too complex visualisation that just as you have discovered is the same methodology as the previous visualisation in that it is interactive, so we can "drill down" into finer detail.
+![no image](/reports/Images/Hypothesis6b_plotly.png)
 
-As we cane see when we hover the mouse over a markdown section we can see the store number, the markdown amount and the sales for that store during the holiday period.
+Hovering over a customer shows the total sales for that customer:
 
-When we double click on a store number we can see detailed markdown information for the store:
+![no image](/reports/Images/Hypothesis6c_plotly.png)
 
-![no image](/reports/Images/Hypothesis6_plotly.png)
+Double clicking on a territory will zoom in on that territory, and double clicking again will zoom out:
 
-Futher clicking can drill-down even further:
+![no image](/reports/Images/Hypothesis6d_plotly.png)
 
-![no image](/reports/Images/Hypothesis6_plotly_1.png)
+This a great way to explore the data as there are so many customer invoices per month such as in Jaunary over 838 customers purchased items/services, too much to show in a normal chart but with this visualisation if becomes an easy task to find answers to the hypothesis asked.
 
-![no image](/reports/Images/Hypothesis6_plotly_2.png)
+**Question Seven Asked: What Were The Sales By Product Family For Last The Two Years?**
 
-Interactive insights are great when dealing (as we are) with a lot of data e,g. number of stores and their departments, and act as a great presentation tool for internal Q&A session regarding store performance and profitability.
-
-**Question Seven Asked: What Are The Most Profitable Departments Per Store In The Last 12 Months?**
-
-This is a great question for analysis. So many factors can contribute to this happening, let look at the chart:
+This is a great question for analysis, let look at the chart:
 
 ![no image](/reports/Images/Hypothesis7_plotly.png)
 
-As we can see department 92 is consistently the highest selling, followed by department 38.
-Key insights could be gained from these further questions:
+We can see consistently Electronic Components, Fire Products, Odet, Pescara and Arc are high sellers.
 
-- What do these departments sell?
-- What effect did MarkDowns have on these figures (if any)?
-- Is store size a contributing factor?
-- Is store location a contributing factor?
-- What are the _lowest_ selling departments per store?
+The overall trend is quite stable which is a good business sign, with some areas such as Arrian, M-Range and Odet showing increased growth compared to the previous year.
 
-This is the beauty of. visualising data, it creates insights and stimulates conversations about it, leading to
-deeper analysis and more concentrated robust insights.
+Might be worth looking at the sub 10K product families and checking with previous years to see if sales are consistently low or that they should be for some buiness reason, if not then perhaps a marketing push is required to increase sales in those product famiilies or even a cull of the least profitable ones.
 
-**Question Eight Asked: What Are The Top 10 Stores In Terms Of Profitability In The Last 12 Months?**
+**Question Eight Asked: What Are The Predicted Sales Per Month For Next Year?**
 
-A bread-and-butter question neatly displayed in this chart:
+We started to answer this question by using a machine learning model to predict next years sales based on the last 12 months of data, but first we needed to test models to see which was the best it, typically it is a choice between linear regression and random forest, we tested both.
 
-![no image](/reports/Images/Hypothesis8_matplotlib.png)
+First was to test the linear regression model by askig it to predict 2017s sales based on data from 2011-2016, the results are shown here:
 
-This is a nice and easy visualisation of the question, again this is a great starting point to delve deeper into  
-**why** these figures are the way they are, such as:
+![no image](/reports/Images/linear_regression_hypothesis8_test_forecast.png)
 
-- Were there any MarkDowns active at the time?
-- Is store size a factor?
+As we can see the predicted values start off reasonably close but veer off dramatically quite quickly and ends in a surprising downward motion.
 
-Using the dashboard you can adjust the amount of stores the plot looks at from the default of 10 to all of them.
-Note: If you have to many stores the plot will shrink, so be wary of trying to look at every store!
+I would not recommend using this model, it is here for contrast only!
 
-**Question Nine Asked: What Are The Bottom 10 Stores In Terms Of Profitability In The Last 12 Months?**
+Now let us see what the random forest model predicted:
 
-A bread-and-butter question, which needed to be asked to balance the previous one neatly displayed in this chart:
+![no image](/reports/Images/forest_regression_hypothesis8_test_forecast.png)
 
-![no image](/reports/Images/Hypothesis9_matplotlib.png)
+This models results are a lot more stable than the previous shows a more refined curve that matches the actual values more closely.
 
-A serious question when viewed in conjunction with the previous, and further insights could be gained by questions
-such as:
+Now lets us get to the exciting bit! Not let us see what linear regression predicted 2018 saves by month would be:
 
-- Are local unemployment rates a factor?
-- Is store location a factor?
-- Were MarkDowns a contributing factor?
+![no image](/reports/Images/linear_regression_hypothesis8_predictions_forecast.png)
 
-Using the dashboard you can adjust the amount of stores the plot looks at from the default of 10 to all of them.
-Note: If you have to many stores the plot will shrink, so be wary of trying to look at every store!
+This model produces a plot more like a hill than the previous plots using actual data, if this was true either the economy is suddenly going into a deep recession or the company is planning to close its doors permenently!
 
-**Question Ten Asked: What Percentage of Customers Were Unemployed Per Store By Month For Last Year?**
+Included for comparison only.
 
-In retail this can have a **big** effect on sales:
+Let us see what random forest predicted for 2018:
 
-![no image](/reports/Images/Hypothesis10_plotly.png)
+![no image](/reports/Images/forest_regression_hypothesis8_predictions_forecast.png)
 
-This plot visualises the rate of change quite well, we can see
-a pretty consistent trait across the majority of the stores with only 38, 4 and 40 being exceptions.
-Store 38 has the highest rate of unemployment by quite a margin early in the year, then it decreases quickly.
+Looks a lot closer to historical data, unlike the Linear Regression model. use this as a _suggested_ sales prediction for 2018, it is only a prediction and not cast iron fact.
 
-Overall we can see the unemployment rate drop fairly uniformly, which leads to these questions:
+**Question Nine Asked: What are the predicted sales per territory for next year?**
 
-- Did the stores contribute to the unemployment rate fall?
-- Is unemployment rate proportional to store size?
+We started to answer this question by using a machine learning model to predict next years sales based on the last 12 months of data, but first we needed to test models to see which was the best it, typically it is a choice between linear regression and random forest, we tested both.
 
-**Question Eleven Asked: What Percentage of Customers Were Unemployed By Store Size Last Year?**
+First was to test the linear regression model by askig it to predict 2017s sales based on data from 2011-2016, the results are shown here:
 
-This question tallies nicely with the previous:
+![no image](/reports/Images/linear_regression_hypothesis9_test_forecast.png)
 
-![no image](/reports/Images/Hypothesis11_plotly.png)
+The prediction model is close to the original but it also has NEGATIVE values not in the original data so I am urged to ignore this model.
 
-We can clearly see that store size is **not** a contributing factor to unemployment rates in the area.
-That is, store size is not affecting the unemployment rate in the areas they are in.
+Lets have a look at Random Forest and see if that is closer
 
-In the dashboard if you hover over a data point it will show more information:
+![no image](/reports/Images/forest_regression_hypothesis9_test_forecast.png)
 
-![no image](/reports/Images/Hypothesis11_plotly_1.png)
+This models results are a lot more stable than the previous models andshows no negative values.
 
-The user can also zoom in as well as rotate the chart, a useful tool.
+Now lets us get to the exciting bit! Not let us see what linear regression predicted 2018 saves by month would be:
 
-Questions that could be asked based on this plot:
+![no image](/reports/Images/linear_regression_hypothesis9_predictions_forecast.png)
 
-- **Why** are larger stores not having an impact on unemployment rates?
-- Are unemployment rates a key signifier in financial based store decisions?
-- Are there any initiatives or drives that be used as a marketing tool to "champion" a store as a key focuser
-  on local unemployment reduction? (Apprenticeships, job fairs etc)
+This model produces NEGATIVE values for a prediction where the actual data is largely free of negative values this is not a good sign, and therefore not a good model, but put here for comparison.
 
-**Question Twelve Asked: What Are The Predicted Sales for Stores by Month for Next Year?**
+Included for comparison only.
 
-In order to answer this question (as it is an overall trend across all stores) we need to turn to machine learning!
+Let us see what random forest predicted for 2018:
 
-First we train a learning model based on all sales till last year then ask it to predict last year sales.
-Why? Because we need to know if the model is returning accurate figures, the method used here is to compare
-two different model types:
+![no image](/reports/Images/forest_regression_hypothesis9_predictions_forecast.png)
 
-- Linear regression
-- Random forest
+Much closer to historic data, no negative values and strong in a lot of areas the actual data is.
 
-What these are is not important, what they produce is as we can see from the test plots predicting last years
-sales shown here:
-
-Linear Regression Test:
-
-![no image](/reports/Images/Hypothesis12_linearTest.png)
-
-The linear regression model has a prediction much higher in places than the actual data, this helps us eliminate
-this from our model choices.
-
-Now let us look at the plot for the random forest model:
-
-Random Forest Test:
-
-![no image](/reports/Images/Hypothesis12_forestTest.png)
-
-We can clearly see a much more accurate prediction as it sits nicely around the existing data so this a good fit
-for the hypothesis.
-
-Prediction:
-
-For science rand through the linear regression model.
-
-Linear Regression Model 2013 Prediction:
-
-![no image](/reports/Images/Hypothesis12_linearprediction.png)
-
-As before it is jagged and almost wild in its swings plus does not have the initial dip then firm rise between
-January and February the previous years data shows, so we shall ignore this model.
-
-Random Forest Model 2013 Prediction:
-
-![no image](/reports/Images/Hypothesis12_forestprediction.png)
-
-A lot better model, has the initial dip then rise, much more relatable in terms of existing data, this gives an
-insight into **possible** sales trend figures for all stores across 2013.
-
-However, this is not cast iron fact, only a prediction. Plus if the question was more specific i.e. What are the
-predicted sales _per_ store by month for next year? This would lead to a better, more explicit model which would
-help you with your financial planning much better.
+I would suggest using this model and remember it is only a prediction and not cast iron fact.
 
 ## Conclusion
 
-The brief was to perform analysis based on a 12 month dataset looking at many contributing factors that can affect business profitability such as temperature, holiday periods, store type, store size and the effect of markdowns on sales during holiday periods, as well as predicting next years global sales figures.
+The brief was to perform analysis based on a 12 month dataset looking at many contributing factors that can affect business profitability and performance such as drop in sales by large territory and amasing of credit memos over time, as well as predicting next years global sales figures by month and territory.
 
-This small glimpse into these factors yields interesting insights and starts conversations as to how and why and identifies operational factors that could be effecting or enhancing performance.
+This small glimpse into these factors yields interesting insights and starts conversations as to how and why and identifies operational factors that could be affecting or enhancing performance.
 
-Holiday periods consistently yielded higher weekly sales, confirming the importance of marketing focus during these periods to maximise sales and profitability, taking into account regional characteristics and local trading conditions also likely to influence customer behaviour.
+Questions are raised such as why are there only two large customers and what steps are made to ensure that smaller customers (sub 10K) are not being neglected and what steps are being taken to ensure that they are not lost to competitors?
 
-The effect store characteristics have has a significant effect on performance. The type 1 stores consistently accrued higher weekly sales, whilst type 3 achieved the lowest. However as stated before just because a store type is not meeting the weekly sales highs of a type 1 does not make it a loss-leader. As differences in market sector, customer base and even environmental factors can all affect sales performance beyond physical store size and it is important to consider these factors when evaluating store performance.
+Sales seem focused heavily in the non EU area, and to a lesser degree the UK market, with the obvious success in the non EU territories, is there a marketing opportunity to increase sales in the EU by perhaps using UK contacts/marketing insights to promote the brand more there?
 
-Interesting questions can be asked about the 10 top and bottom performing stores, which could give valuable insights into
-areas as diverse as local economy and store management efficiency, such question might also apply to departmental performance as well.
+Interesting questions can be asked about the 20 top and bottom performing customers, which could give valuable insights into how effective marketing is for certain customer types and how to improve sales performance, other factors such as local economic conditions which could effect customers buying habits and how are these metrics measured by the business?
 
-The interactive visualisations provide a powerful tool for exploring the data story and excruding insights from data provided. Allowing managers to identify trends, investigate individual stores, analysis as to the true effectiveness of certain store types, as well measure the actual effectiveness markdowns have on profit during holiday periods. These tools provide evidence based insights by taking complex data and presenting it in a clear concise manner.
+The interactive visualisations provide a powerful tool for exploring the data story and excruding insights from data provided. Allowing managers to identify trends, investigate individual customers, analysis as to the true effectiveness of certain product families, as well measure the actual effect crdit memos have on the bottom line. These tools provide evidence based insights by taking complex data and presenting it in a clear concise manner.
 
-While several meaningful insights have been attained it does not establish causality. Variables such as environment, competition, local economic conditions, and customer demographics were outside the scope of this project, and could also impact (if not actually) sales performance.
+While several meaningful insights have been attained it does not establish causality. Variables such as competition, local economic conditions, and customer demographics were outside the scope of this project, and could also impact (if not actually) sales performance.
 
-Future analysis incorporating these factors would provide a more comprehensive understanding of the drivers of profitability and valuable insights into their cause and effect.
+Future analysis incorporating these factors would provide a more comprehensive understanding of the drivers of profitability and valuable insights into their cause and effect. It would be also interesting to look more into the product side of the business and look at whether large volumes of more affordable products are via for sustained sales in comparison to more expensive products with lower volumes when seasonal trends occur.
 
-Overall the analysis provides clear evidence that holiday periods, store type, size and even temperature all contribute to variations in weekly sales performance.
+Overall the analysis provides clear evidence that product family popularity, customer demographics, and seasonal trends all contribute to variations in sales performance.
 
 These insights can be used for inventory planning, marketing strategies, and identify opportunities to improve the performance of individual stores and perhaps even regional expansion.
 

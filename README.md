@@ -2,11 +2,13 @@
 
 Project is a data analysis project that sales data to answer business questions and validate hypotheses. The project involves data cleaning, transformation, and visualisation using Python and various libraries.
 
+As well as machine learning!
+
 # ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
 
 ## Dataset Content
 
-Dataset package given by customer contains 1 related raw CSV file:
+Dataset package given by customer contains 1 raw CSV file:
 
 - Sales_InvoiceData.csv
 
@@ -25,7 +27,7 @@ assets:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CleanedFiles <- Contains cleaned data as csv files  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ExtractedFiles <- Contains files extracted from ZIP files  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OriginalFiles <- Contains the original data csv files  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VisualisationFiles <- Contains a combined csv file for visualisation  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VisualisationFiles <- Contains a csv file for visualisation  
 &nbsp;&nbsp;&nbsp;&nbsp;pipelines - machine learning pipelines  
 &nbsp;&nbsp;&nbsp;&nbsp;python_files  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contains my custom modules  
@@ -36,11 +38,7 @@ jupyter_notebooks <- Contains the Jupyter Notebooks used for ETL/EDA/ML and Visu
 reports<- Contains the report for the project  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Images <- Contains images used in the report  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contains file: AnalysisConclusion.mdwhich is the project report  
-streamlit <- contains files needed for Heroku to show streamlit dashboard  
-&nbsp;&nbsp;&nbsp;&nbsp;assets:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;css <- Contains file: style.css for streamlit  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;csv/Data <- Contains csv files for visualisation  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pipelines - machine learning pipelines (copy from main project folder)
+streamlitapp.py <- Contains the streamlit dashboard application
 
 **Jupyter_Notebooks:**
 
@@ -48,11 +46,10 @@ ETL/EDA etc are purposely put into separate Jupyter notebooks for ease of use an
 
 **Notebook Files:**
 
-- Notebook_EDA_Sales_DataSet.ipynb <- EDA for Sales_Combined_Dataset_Visualization.csv
+- Notebook_EDA_Sales_DataSet.ipynb <- EDA for Sales_InvoiceData_Visualization.csv
 - Notebook_Notebook_ETL_Sales_DataSet.ipynb <- ETL for Sales_InvoiceData.csv
 - Notebook_ML.ipynb <- Contains the machine learning model for experimentation has own visualisations
 - Notebook_Visualisations1.ipynb <- Contains the visualisations for the hypotheses
-- Notebook_Visualisations2.ipynb <- Contains the visualisations for the hypothesis for ML
 
 **Report File**
 
@@ -79,6 +76,8 @@ for various aspects e.g. ETL.
 
 The dashboard is available via Heroku at this URL:
 
+zubzub
+
 **GitHub**
 
 Project GitHub URL is:
@@ -87,10 +86,10 @@ https://github.com/RogerWilliams2026/Project3-SalesAnalysis.git
 
 ### Using The Notebooks
 
-In order to create the combined csv file and see the plots these notebooks need to be run in order from the Jupyter_notebooks folder:
+In order to see the plots these notebooks need to be run in order from the Jupyter_notebooks folder:
 
 - Notebook_ETL_Sales_DataSet.ipynb <- ETL for Sales_DataSet.csv
-- Notebook_EDA_Sales_DataSet.ipynb <- Contains the EDA for the combined csv file
+- Notebook_EDA_Sales_DataSet.ipynb <- Contains the EDA for the csv file
 - Notebook_ML.ipynb <- Contains the machine learning model for experimentation has own visualisations
 - Notebook_Visualisations1.ipynb <- Contains the visualisations for the hypotheses
 
@@ -106,7 +105,7 @@ The customer hopes this information will help it plan its growth and marketing s
 
 The dataset contains a field of contact names and a field of customer names. based on the premise this data is going to be available via a public dashboard made the decision to _withhold_ the information from the public dataset which complies with GDPR.
 
-There is a more indepth discussion in the dashboard.
+There is a more indepth discussion in the dashboard as to what the ethical considerations are.
 
 ## Hypothesis and How To Validate?
 
@@ -114,13 +113,13 @@ There is a more indepth discussion in the dashboard.
   Validation: Test with a suitable plot to show correlation between invoice amount sum and territory filtered for highest value
 
 - Who were the top 20 customers by sales for last year?
-  Validation: Test with a suitable plot to show customer ID
+  Validation: Test with a suitable plot to show customer ID and value
 
 - Who were the bottom 20 customer by sales for last year?
-  Validation: Test with a suitable plot to show customer ID
+  Validation: Test with a suitable plot to show customer ID and value
 
-- What was the total amount of credits issued for last year?
-  Validation: Will show on same plot if possible, will divide into months for a more meaningful visualisation
+- What was the total amount of credits issued for last year by customer?
+  Validation: Will group sales for a total for each customer then chose an appropriate plot
 
 - What was the percentage of ship methods used last year?
   Validation: Thinking of a simple pie plot as percentages used, might not sum to 100% though, will test and see
@@ -128,8 +127,8 @@ There is a more indepth discussion in the dashboard.
 - What were the total sales per customer per territory for last year?
   Validation: Will show plot grouped by territory, then customer ID sunburst seems ideal for this due to number of customers
 
-- What was the sales by product family for last the two years?
-  Validation: Will show with a comparison plot with each year in a different colour, will divide into months for a more meaningful visualisation
+- What were the sales by product family for last the two years?
+  Validation: Will show with a comparison plot with each year in a different colour
 
 Machine Learning Predictions:
 
@@ -143,7 +142,7 @@ Machine Learning Predictions:
 
 - Acquire raw data as csv files from the customer
 - Clean and transform the raw data into cleaned csv file
-- Perform EDA to see if there are any correlations between the data and the hypotheses
+- Perform EDA to see if there are any correlations between the data (and the hypotheses if possible)
 - Visualise the data to validate the hypotheses and answer the business questions
   using multiple visualisation libraries to find best fit for the customer requirements
   as well as the best looking visualisations for clear insights into the data and choosing
@@ -151,6 +150,7 @@ Machine Learning Predictions:
 - Use machine learning to predict sales for the next year and visualise the results
 - Create a report to present the findings to the customer
 - Create a streamlit dashboard to showcase the results
+  Note: Plots in the dashboard can be different to the ones done in the visualisation Jupyter notebook simply for asctetics
 
 ## The Rationale Used To Map The Business Requirements To The Data Visualisations
 
@@ -167,17 +167,17 @@ From the initial csv file 3 more are created 4 via ETL as it goes through the ET
 
 For machine learning 4 pipelines are created:
 
+- linear_regression_hypothesis8_test_pipeline.pkl
+- randomforest_hypothesis8_test_pipeline.pkl
+
+- linear_regression_hypothesis8_predictions_pipeline.pkl
+- randomforest_hypothesis8_predictions_pipeline.pkl
+
 - linear_regression_hypothesis9_test_pipeline.pkl
 - randomforest_hypothesis9_test_pipeline.pkl
 
-- linear_regression_hypothesis9_predictions_pipeline.pkl
 - randomforest_hypothesis9_predictions_pipeline.pkl
-
-- linear_regression_hypothesis10_test_pipeline.pkl
-- randomforest_hypothesis10_test_pipeline.pkl
-
-- randomforest_hypothesis10_predictions_pipeline.pkl
-- linear_regression_hypothesis10_predictions_pipeline.pkl
+- linear_regression_hypothesis9_predictions_pipeline.pkl
 
 Files with _test_ in the name are used to run test "prediction" by getting machine learning processes
 to "predict" values for an existing year. This is used to compare with the previous year via a plot
@@ -186,15 +186,15 @@ The other files are used in machine learning to predict the next years values, a
 
 **Methods Used:**
 
-Generative AI tools were mostly used to solve code issues and occasionally for plotting ideas due to my lack of experience with visualisation libraries particularly the first sunburst plot as I was unsure if my approach was the correct one.
+Generative AI tools were mostly used to solve code issues and occasionally for plotting ideas due to my lack of experience with visualisation libraries and complex plots.
 
-Data was a limiting factor, not in terms of detail but sheer volume and breadth. I was stumped with some hypothesis by the fact I was trying to analyse sales data with 45 stores each with 97 departments and was lacking experience to know what plots and strategies are best to use to visualise this type data.
+Data was a limiting factor, not in terms of detail but sheer volume and breadth. I was stumped by one potential hypothesis by the fact I was trying to analyse sales data with one month alone having over 800 unique customers buy something! Lacking experience to know what plots and strategies are best to use to visualise this type data I simplified the approach and summised the invoice amounts and reduced the hypothesis to a more manageable scope.
 
-Adapted with a "best guess Mr Sulu" approach to visualising large data, running plot tests to see what the libraries can handle and go beyond, bar, histogram and scatter plots which worked well, as I could now use more effective plot types but ran out of time to reimagine the plots.
+Adapted with a "best guess Mr Sulu" approach to visualising large data, running plot tests to see what the libraries can handle and go beyond, bar, histogram and scatter plots which worked well, as I could now use more effective plot types and I have a huge attraction to the 3d scatter plot!.
 
 Analysed plots compared to hypothesis, by checking expected values against queries with the raw data. If the dataset to use is corrupt or incorrect the plot will be useless.
 
-Discovered the features data set.csv file has 7 months of date values not in the other csv files, so that needed to be filtered before creating the combined csv file, easily achieved via a left join.
+Use external tools such as Microsoft Access to create queries to validate some of the hypothesis before translating the SQL query into pandas.
 
 Decided to use both linear regression and random forest for the machine learning experiments, nice broad range of models that can be used with the data.
 
@@ -202,10 +202,9 @@ Decided to use both linear regression and random forest for the machine learning
 
 The requirements.txt has the full list, but here is a list taken from the Jupyter notebooks:
 
-charset_normalizer
 joblib  
 matplotlib.pyplot  
-matplotlib.ticker.
+matplotlib.ticker
 nbformat  
 numpy  
 os  
@@ -251,22 +250,26 @@ streamlit
 ### Basic Strategy:
 
 - Get data into DataFrames and perform ETL using my custom library where possible
-- Create cleaned csv files for each of the 3 raw csv files
-- Merge the 3 cleaned csv files into a single csv file for visualisation
-- Perform exploratory EDA to see if there are any correlations between the data and the hypotheses
-- Visualise the data using all of the available plot libraries (where possible) to see which provide the
-  best plot for the hypothesis I am testing. Then if have the time try and expand and develop them further
-- Get data into a machine learning model for at least one hypothesis, choose example that could not achieved _without_ machine learning
-- Choose best plots for each hypothesis (where there is a choice) to use in findings report
-- Populate findings report with plots and analysis for each hypothesis and submit to customer
+- Create a cleaned csv file for the raw csv files
+- Copied the cleaned csv file for to a visualisation file
+- Perform exploratory EDA to see if there are any correlations between the data (and the hypotheses if
+  possible)
+- Visualise the data using available plot libraries and chose bets library for each hypothesis
+- Get data into a machine learning model for at least one hypothesis, choose example that could not
+  achieved _without_ machine learning i.e. sales prediction for next year
+- Put images of the hypothesis plots into the a findings report and construct as though a presentation to
+  the customer (perhaps in concert with the dashboard?)
+- Populate findings report with plots and analysis for each hypothesis a
 
 ### Challenges and Strategies
 
 - VS Code repeatedly has a kernel hang randomly during development requiring restarting VS Code  
-  as kernel restart rarely fixes the issue
-- Had issue with pandas not reading the csv file as it was not in UTF-8 format, chatGPT solved that issue and added new code
-  into my ETL library to auto detect the csv file encoding
-- Markdown markup language is irritating in that need to but two spaces at the end of line just to get it to keeps lines separate and most annoying of all it has no capacity for indenting!
+  as kernel restart rarely restarts. This only oocues when using Jupytper notebooks in a virtual
+  environment, sometimes leading to 14+ restarts of VS Code in a day!
+- Had issue with pandas not reading the csv file as it was not in UTF-8 format, chatGPT solved that issue
+  and added new code into my ETL library to auto detect the csv file encoding
+- Markdown markup language is irritating in that need to but two spaces at the end of line just to get it
+  to keeps lines separate and most annoying of all it has no capacity for indenting!
 
 ## New Skills and Tools
 
@@ -291,14 +294,13 @@ streamlit
 
 ## Who Won The Generative AI Battle?
 
-chatGPT won hands down, I found Copilot in VS Code largely irritating and invasive, and it was not very good at solving code issues a bit of a mixed bag. chatGPT on the other hand was very good at solving code issues and providing code snippets that worked first time. When I went of the rails and without knowing it and was using the wrong approach to visualising one hypothesis. Copilot's suggested plot was cramped, difficult to read and (as I discovered) the wrong plot type for the data.
+chatGPT won hands down, I found Copilot in VS Code largely irritating and invasive, and it was not very good at solving code issues a bit of a mixed bag. chatGPT on the other hand was very good at solving code issues and providing code snippets that worked first time. When I went of the rails and without knowing it and was using the wrong approach to visualising one hypothesis. Copilot's suggested plot was cramped, difficult to read and (as I discovered) the wrong plot type for the data, plus it was hugely convoluted.
 
 Posted the code into chatGPT and over an hour it honed and rehoned the code to a 92% working solution with a better type of plot. Due to the massive size of the data it caused many rendering issues such as a huge gap between the plot title and the first actual plot and missing x axis labels.
 
 Which of course after a good nights sleep I realised _I_ was using the wrong plot _and_ data visualisation concept and looking at the data visualisation backwards!
 
-Did notice as time has gone by CoPilot in VS Code is making a lot more mistakes, might be better off if Microsoft concentrated on making
-an expert system version instead...
+Did notice as time has gone by CoPilot in VS Code is making a lot more mistakes, might be better off if Microsoft concentrated on making an knowledge based system version instead... (bring back the wizards!!)
 
 ## Things To Learn Next
 
@@ -309,17 +311,14 @@ an expert system version instead...
 
 ## Unfixed Bugs and Things To Improve
 
-- Had strange issue with first plot in hypothesis 3, where it puts: 1e9 in the top left corner of the
-  pyplot plot. No idea why. Will have a look if there is a solution if I have time does not affect plot data.
-- Uniformity regardling currency symbols in plots!
+- A slider in the dashboard for hypothesis 1 would have allowed the customer to look at the hypothesis for
+  other years
 - streamlit likes making sure containers cannot fill entire height of the screen, there is a good inch left
   it will not let me use with a single container so put two others in to fill the gap!
 - streamlit likes having narrow scrollbars which can make scrolling difficult
-- 3D scatter chart is too big in streamlit but if I adjust the size it cuts off some X axis values and does not show a scroll bar
-- Would like to see if I can get the ML feature engineering into the pipeline, getting the ML to work took such a long time I didn't
-  get the chance to try it!
-- Need more date data, for some reason while the csv files contain thousands of records, the date range for the first two ends at
-  26/10/2012 (!) and the 3rd in July 2013 (?). Discovered this too late to hunt around for another dataset..
+- Would like to see if I can get the ML feature engineering into the pipeline, getting the ML to work took
+  such a long time I didn't get the chance to try it!
+-
 
 ## Credits
 
