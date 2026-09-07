@@ -1545,6 +1545,12 @@ match radRadioButtons:
         conContainerEthicsMain.write("No machine learning is performed on non local servers")
         conContainerEthicsMain.write(" ")        
         conContainerEthicsMain.write("We handle data provided to us from UK and European customers in line with GDPR and EU regulations")
-        
+        conContainerEthicsMain.write("No machine learning is performed on non local servers")
+        conContainerEthicsMain.write(" ")
+        conContainerEthicsMain.write("GDPR Legislation:")
+        conContainerEthicsMain.write("https://www.gov.uk/data-protection") 
+        conContainerEthicsMain.write("EU AI Act: ")
+        conContainerEthicsMain.write("https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai") 
+                       
 
        
