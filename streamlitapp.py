@@ -10,7 +10,7 @@ from matplotlib.ticker import MultipleLocator
 import numpy as np
 import joblib
 #
-#  Created 05/09/2026 By Roger Williams
+# Created 05/09/2026 By Roger Williams
 #  
 # dashboard for sales analysis project
 #  
@@ -137,6 +137,11 @@ sldSliderFrom1 = None
 sldSliderFrom2 = None
 sldSliderFrom3 = None
 
+#button for resetting sliders to default values
+btnReset1 = None
+btnReset2 = None
+btnReset3 = None
+
 #DataFrames vars for csv files for ML
 dfSales_InvoiceData_GroupByTerritory = pd.DataFrame()
 dfSalesDataML_Temp = pd.DataFrame()
@@ -159,6 +164,36 @@ fig = None
 def funcLoadCSS(fileName):
     with open(fileName) as fileCSS:
         st.markdown(f"<style>{fileCSS.read()}</style>", unsafe_allow_html=True)
+
+
+def funcResetTop20():
+    #Created 07/09/2026 By Roger Williams
+    #
+    #resets the top 20 customers plot to default setting
+    #
+    global sldSliderFrom1
+    sldSliderFrom1 = 20
+    st.session_state.sldSliderFrom1 = 20
+
+def funcResetBottom20():
+    #Created 07/09/2026 By Roger Williams
+    #
+    #resets the bottom 20 customers plot to default setting
+    #
+    global sldSliderFrom2
+    sldSliderFrom2 = 20
+    st.session_state.sldSliderFrom2 = 20
+
+def funcResetCredits():
+    #Created 07/09/2026 By Roger Williams
+    #
+    #resets the credits issued plot to default setting
+    #
+    global sldSliderFrom3
+    sldSliderFrom3 = 1
+    st.session_state.sldSliderFrom3 = 1
+
+
 
 
 #******** main code ********
@@ -303,6 +338,8 @@ match radRadioButtons:
  #******tab 2*******   
         #plotly visualisation for hypothesis 2 - Sales Differences Between holiday and Non Holiday Weeks per Store Over last 12 Months
         #Note: in order for the "ticks" to show on the axes Plotly needs to be version 5.8 or higher
+
+        
         conContainerTab2_Sub = tabTab2.container(border=True, width="stretch", key="conTab2Sub", height=780)
         conContainerTab2_Sub.info("Who Were The Top 20 Customers by Sales for Last Year?")
  
@@ -313,9 +350,12 @@ match radRadioButtons:
         dfSales_DataSet_Filtered = dfSales_DataSet_Filtered[dfSales_DataSet_Filtered["InvoiceAmt"] > 0]
 
         #add slider so user can play with the report
-        sdlSliderFrom1 = conContainerTab2_Sub.slider("Select Amount of Customers", min_value=1, 
+        sldSliderFrom1 = conContainerTab2_Sub.slider("Select Amount of Customers", min_value=1, 
                                                     max_value=dfSales_DataSet_Filtered["CustomerID"].nunique(), value=20, step=1, 
-                                                    key="sdlSliderFrom1")
+                                                    key="sldSliderFrom1")
+
+        btnReset1 = conContainerTab2_Sub.button("Reset Slider", key="btnReset1", on_click=funcResetTop20)
+ 
 
         #group by CustomerID and get sum of InvoiceAmt
         dfSales_DataSet_Filtered = (
@@ -323,7 +363,7 @@ match radRadioButtons:
            .groupby("CustomerID")["InvoiceAmt"]
            .sum()
            .sort_values(ascending=False)
-           .head(sdlSliderFrom1)
+           .head(sldSliderFrom1)
            .reset_index()
         )
 
@@ -331,12 +371,12 @@ match radRadioButtons:
         dfSales_DataSet_Filtered.sort_values("InvoiceAmt", ascending=False)
 
         fig = px.bar(
-           dfSales_DataSet_Filtered.head(sdlSliderFrom1),
+           dfSales_DataSet_Filtered.head(sldSliderFrom1),
            x="CustomerID",
            y="InvoiceAmt",
            color="InvoiceAmt",
            color_continuous_scale="Solar",
-           title=f"Top {sdlSliderFrom1} Customers By Sales For Last 12 Months"
+           title=f"Top {sldSliderFrom1} Customers By Sales For Last 12 Months"
         )
 
         fig.update_layout(
@@ -381,17 +421,18 @@ match radRadioButtons:
         dfSales_DataSet_Filtered = dfSales_DataSet_Filtered[dfSales_DataSet_Filtered["InvoiceAmt"] > 0]
 
         #add slider so user can play with the report
-        sdlSliderFrom2 = conContainerTab3_Sub.slider("Select Amount of Customers", min_value=1, 
+        sldSliderFrom2 = conContainerTab3_Sub.slider("Select Amount of Customers", min_value=1, 
                                                     max_value=dfSales_DataSet_Filtered["CustomerID"].nunique(), value=20, step=1, 
-                                                    key="sdlSliderFrom2")
-    
+                                                    key="sldSliderFrom2")
+        btnReset2 = conContainerTab3_Sub.button("Reset Slider", key="btnReset2", on_click=funcResetBottom20)
+ 
         #group by CustomerID and get sum of InvoiceAmt
         dfSales_DataSet_Filtered = (
            dfSales_DataSet_Filtered
            .groupby("CustomerID")["InvoiceAmt"]
            .sum()
            .sort_values(ascending=False)
-           .tail(sdlSliderFrom2)
+           .tail(sldSliderFrom2)
            .reset_index()
         )
 
@@ -399,12 +440,12 @@ match radRadioButtons:
         dfSales_DataSet_Filtered.sort_values("InvoiceAmt", ascending=False)
 
         fig = px.bar(
-           dfSales_DataSet_Filtered.tail(sdlSliderFrom2),
+           dfSales_DataSet_Filtered.tail(sldSliderFrom2),
            x="CustomerID",
            y="InvoiceAmt",
            color="InvoiceAmt",
            color_continuous_scale="Solar",
-           title=f"Bottom {sdlSliderFrom2} Customers By Sales For Last 12 Months"
+           title=f"Bottom {sldSliderFrom2} Customers By Sales For Last 12 Months"
         )
 
         fig.update_layout(
@@ -444,12 +485,15 @@ match radRadioButtons:
         conContainerTab4_Sub.info("Total Amount of Credits Issued for Last Year By Customer")
 
         #add slider so user can play with the report
-        sdlSliderFrom3 = conContainerTab4_Sub.slider("Select Amount of Years From 2017 Backwards", min_value=0, 
+        sldSliderFrom3 = conContainerTab4_Sub.slider("Select Amount of Years From 2017 Backwards", min_value=0, 
                                                     max_value=dfSales_InvoiceData["Year"].nunique(), value=1, step=1, 
-                                                    key="sdlSliderFrom3")  
+                                                    key="sldSliderFrom3")  
+        
+        btnReset3 = conContainerTab4_Sub.button("Reset Slider", key="btnReset3", on_click=funcResetCredits)
+        
         #first filter
         # by last year (2017)
-        intStartYear = dfSales_InvoiceData["Year"].max() - sdlSliderFrom3
+        intStartYear = dfSales_InvoiceData["Year"].max() - sldSliderFrom3
         dfSales_DataSet_Filtered = dfSales_InvoiceData[dfSales_InvoiceData["Year"] >= intStartYear]
         
         #to stop customer being shown who have NO sales delete all records where InvoiceAmt is 0

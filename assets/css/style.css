@@ -1,3 +1,10 @@
+/*
+  Created 05/09/2026 By Roger Williams
+
+  CSS file for streamlit dashboard
+
+*/
+
 html,
 body,
 .stApp {
@@ -304,9 +311,10 @@ div[data-testid="stAlert"] > div {
   margin-bottom: 0px;
 }
 
-.st-key-sdlSliderFrom1,
-.st-key-sdlSliderFrom2,
-.st-key-sdlSliderFrom3 {
+/* sliders for realtime adjustments to the plots */
+.st-key-sldSliderFrom1,
+.st-key-sldSliderFrom2,
+.st-key-sldSliderFrom3 {
   background-color: rgb(62, 0, 116);
 
   padding-top: 2px;
@@ -314,10 +322,41 @@ div[data-testid="stAlert"] > div {
   margin-top: 4px;
 }
 
-.st-key-sdlSliderFrom1 p,
-.st-key-sdlSliderFrom2 p,
-.st-key-sdlSliderFrom3 p {
+.st-key-sldSliderFrom1 p,
+.st-key-sldSliderFrom2 p,
+.st-key-sldSliderFrom3 p {
   color: rgb(254, 251, 31);
   font-size: 16px;
   padding-left: 4px;
+}
+
+/* buttons for resetting sliders used for realtime adjustments to the plots */
+.st-key-btnReset1,
+.st-key-btnReset2 {
+  padding-top: 2px;
+  padding-bottom: 4px;
+  position: absolute;
+  top: 260px;
+  left: 260px;
+}
+/* this button needs its own left position */
+.st-key-btnReset3 {
+  padding-top: 2px;
+  padding-bottom: 4px;
+  position: absolute;
+  top: 260px;
+  left: 380px;
+}
+
+.st-key-btnReset1 p,
+.st-key-btnReset2 p,
+.st-key-btnReset3 p {
+  color: rgb(248, 147, 15);
+  font-weight: 800;
+}
+
+.st-key-btnReset1:hover,
+.st-key-btnReset2:hover,
+.st-key-btnReset3:hover {
+  background-color: rgb(0, 31, 116);
 }

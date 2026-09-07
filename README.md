@@ -201,8 +201,9 @@ Decided to use both linear regression and random forest for the machine learning
 
 ## Libraries Used
 
-The requirements.txt has the full list, but here is a list taken from the Jupyter notebooks:
+The requirements.txt has the full list, but here is a list taken from the Jupyter notebooks as well as my custom modules:
 
+charset-normalizer
 joblib  
 matplotlib.pyplot  
 matplotlib.ticker
@@ -226,6 +227,7 @@ sklearn.tree
 statsmodels.api  
 statsmodels.formula.api  
 sys
+zipfile
 
 Also included my own libraries:
 

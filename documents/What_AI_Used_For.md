@@ -1,22 +1,20 @@
 # What Generative AI Was Used For
 
-Throughout this project from time to time Generative AI was used to help in certain situations, where no amount of critical
-thinking, pondering or the consumption of thinking biscuits could provide an answer.
+Throughout this project from time to time Generative AI was used to help in certain situations, where no amount of critical thinking, pondering or the consumption of thinking biscuits could provide an answer.
 
-This document highlights the areas where Generative AI was used and what it was used for, by providing a "before" and "after" showing what the issue was and what Generative AI proposed, or the original code and the suggested replacement.
+This document highlights the areas where Generative AI was used and what it was used for, by providing a "before" and "after" showing what the issue was and what Generative AI proposed, or the original code and the suggested replacement (where the suggestion isn't a **huge** amount of code).
 
-Most common use is with CoPilot in VS Code, particularly for changing code when I rename variables, not too reliant on
-the code suggestions as they don't always work and sometimes it will happily suggest properties that do not exist!
-If it suggests something that is accurate in the current code flow will select it such as creating new columns in a DataFrame  
-and it suggests the next line of code. Usually that works fine.
+Most common use is with CoPilot in VS Code, particularly for changing code when I rename variables, not too reliant on the code suggestions as they don't always work and sometimes it will happily suggest properties that do not exist!
+
+If it suggests something that is accurate in the current code flow will select it such as creating new columns in a DataFrame and it suggests the next line of code. Usually that works fine, but it is not consistent so always try and think through the suggestion and check its true relevance to the code flow.
 
 **Scenario One:**
 
-Pandas would not read the csv file as it was not in UTF-8 format!
+Pandas would not read the csv file I have as it was not in UTF-8 format!
 
-Gave chatGPT this instruction:
+Asked chatGPT this:
 
-Pandas error reading fle encoding not utf-8 how can i detect and use correct encoding?
+Pandas error reading fle encoding not utf-8 how can I detect and use correct encoding?
 
 chatGPT responded with:
 
@@ -25,13 +23,13 @@ _from charset_normalizer import from_path_
 _result = from_path("your filename").best()_
 _df = pd.read_csv("your filename", encoding=objEncoding.encoding)_
 
-Adapted code and added to funcReadFileReturnDataFrame in my ETl library
+Adapted code in my custom ETL libraryand added to function: funcReadFileReturnDataFrame
 
 **Scenario Two:**
 
 Was stumped on how to run a Kruskal-Wallis test on the InvoiceAmt column by TerritoryCodes column
 
-Gave chatGPT this instruction:
+Asked chatGPT this:
 
 How do I run a Kruskal-Wallis test on the InvoiceAmt column by TerritoryCodes column in a pandas DataFrame?
 
@@ -78,17 +76,17 @@ This works so used it everywhere!
 
 **Scenario Four:**
 
-Had strange issue with ploty express where the x-axis was not in the correct order, even though the DataFrame was sorted correctly, the last 3 itesm were in the wrong order!
+Had strange issue with ploty express where the x-axis label values were not correctly sorted, even though the DataFrame was sorted correctly, the last 3 itesm were in the wrong order!
 
 Asked chatGPT this question:
 
-pandas created a plot showing one year values against anothers, however even though the x axis values are sorted in the dataframe the plot show 3 in the wrong order e.g: Tiel, Ledrada, Olten, Riva, why is this?
+pandas created a plot showing one year values against anothers, however even though the x axis values are sorted in the dataframe the plot shows last 3 in the wrong order e.g: Tiel, Ledrada, Olten, Riva, why is this?
 
 It replied with:
 
 _The likely issue is Plotly, not pandas._
 
-_Your DataFrame is sorted by Year, but your plot's x-axis is ProductFamily, and you never explicitly tell \_Plotly what order the product families should appear in._
+_Your DataFrame is sorted by Year, but your plot's x-axis is ProductFamily, and you never explicitly tell Plotly what order the product families should appear in._
 
 _Plotly determines the category order from the data it receives. With two years and grouped data, that can_ _produce an order that isn't the same as the order you were expecting._
 _The fix_
@@ -97,9 +95,9 @@ _Explicitly specify the x-axis category order._
 
 _If you want the product families alphabetically:_
 
-_fig.update_xaxes(_
-_ type="category",_
-_ categoryorder="category ascending"_
+_fig.update_xaxes(_  
+ _type="category",_  
+ _categoryorder="category ascending"_  
 _)_
 
 Works!
@@ -115,4 +113,4 @@ Asked chatGPT this question:
 Doing a machine learning project where I need to predict sales per month for 2018 based on data from 2011-2017 this code does not work, can you suggest a better way to do this?
 (posted my original code)
 
-It replied with a lot of modified code which I used and modified to fit my requirements
+It replied with a _lot_ of modified code which I used and changed to fit my requirements and it is the backbone of all the 2018 prediciton models.
