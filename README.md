@@ -77,9 +77,11 @@ It wasn't explained if we needed to move each completed section to "Done" in KAN
 
 The dashboard is available via Heroku at this URL:
 
-zubzub
+https://project3-salesanalysis-59cdd777bf91.herokuapp.com/
 
 **GitHub**
+
+Note: Did notice in Chrome seemed a little slow to load the hypothesis 9 page, bit quicker in FireFox, Safari was much faster.
 
 Project GitHub URL is:
 
